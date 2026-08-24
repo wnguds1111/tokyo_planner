@@ -3,36 +3,53 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>🐻 시드니 여행 플래너</title>
-  <meta name="description" content="시드니 여행을 위한 항공권 비교, 호텔 리스트업, 예약 체크리스트, 일정표 올인원 플래너">
+  <title>🗼 도쿄 여행 플래너 · Tokyo Travel Planner</title>
+  <meta name="description" content="도쿄 여행을 위한 항공권 비교, 호텔 리스트업, 비짓재팬웹 체크리스트, 일정표 및 엔화 지출 올인원 플래너">
   <meta name="theme-color" content="#fffaf0">
-  <link rel="stylesheet" href="styles.css?v=10">
+  <link rel="stylesheet" href="styles.css?v=20">
 </head>
 <body>
 
 <!-- ================================================================ HERO ================================================================ -->
 <div class="hero">
-  <button id="btnQuokkaToggle" class="btn-quokka-toggle" onclick="toggleQuokkas()">쿼둥이 ON 🐻</button>
+  <button id="btnQuokkaToggle" class="btn-quokka-toggle" onclick="toggleTokyoTheme()">도쿄 감성 ON 🌸</button>
   <div class="star-field" id="starField"></div>
-  <svg class="opera-silhouette" viewBox="0 0 800 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M100 180 Q180 60 240 100 Q260 110 280 100 Q340 40 390 90 Q410 105 430 90 Q500 20 560 80 Q580 95 600 80 Q640 50 670 110 L700 180 Z" fill="white"/>
-    <path d="M50 180 Q90 120 120 140 Q140 150 160 140 Q200 100 240 130 L260 180 Z" fill="white" opacity="0.7"/>
-    <path d="M0 180 L0 140 Q50 80 100 140 L100 180 Z" fill="white" opacity="0.5"/>
-    <path d="M0 140 Q40 100 80 130 Q90 140 100 140" stroke="white" stroke-width="3" fill="none" opacity="0.6"/>
-    <path d="M0 185 Q200 175 400 185 Q600 195 800 185 L800 200 L0 200 Z" fill="white" opacity="0.05"/>
-    <path d="M660 160 L680 100 L700 160 Z" fill="white" opacity="0.4"/>
-    <path d="M660 155 L700 155 L700 165 L660 165 Z" fill="white" opacity="0.3"/>
+  
+  <!-- 도쿄 타워 & 후지산 실루엣 SVG -->
+  <svg class="opera-silhouette tokyo-silhouette" viewBox="0 0 1000 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- 후지산 배경 실루엣 -->
+    <path d="M120 220 L280 90 Q300 80 320 90 L480 220 Z" fill="white" opacity="0.4"/>
+    <path d="M260 105 L280 90 Q300 80 320 90 L340 105 Q300 115 260 105 Z" fill="white" opacity="0.8"/>
+    
+    <!-- 도쿄 도심 빌딩 스카이라인 -->
+    <rect x="50" y="160" width="40" height="60" fill="white" opacity="0.25" rx="2"/>
+    <rect x="100" y="140" width="30" height="80" fill="white" opacity="0.3" rx="2"/>
+    <rect x="420" y="150" width="50" height="70" fill="white" opacity="0.25" rx="2"/>
+    <rect x="480" y="130" width="35" height="90" fill="white" opacity="0.3" rx="2"/>
+    <rect x="760" y="150" width="45" height="70" fill="white" opacity="0.25" rx="2"/>
+    <rect x="820" y="135" width="40" height="85" fill="white" opacity="0.3" rx="2"/>
+    <rect x="870" y="160" width="60" height="60" fill="white" opacity="0.2" rx="2"/>
+
+    <!-- 도쿄 타워 메인 실루엣 -->
+    <path d="M640 220 L660 70 L668 70 L672 20 L674 20 L678 70 L686 70 L706 220 L688 220 L682 170 L664 170 L658 220 Z" fill="white" opacity="0.75"/>
+    <rect x="655" y="125" width="36" height="12" fill="white" opacity="0.9" rx="2"/>
+    <rect x="662" y="65" width="22" height="8" fill="white" opacity="0.9" rx="1"/>
+    <line x1="673" y1="20" x2="673" y2="5" stroke="white" stroke-width="2" opacity="0.9"/>
   </svg>
+
   <div class="hero-waves">
     <svg viewBox="0 0 1440 100" preserveAspectRatio="none">
-      <path d="M0,40 C360,80 720,0 1080,40 C1260,60 1350,20 1440,40 L1440,100 L0,100 Z" fill="rgba(14,165,233,0.08)"/>
-      <path d="M0,60 C480,20 960,80 1440,60 L1440,100 L0,100 Z" fill="rgba(14,165,233,0.05)"/>
+      <path d="M0,40 C360,80 720,0 1080,40 C1260,60 1350,20 1440,40 L1440,100 L0,100 Z" fill="rgba(255,182,193,0.12)"/>
+      <path d="M0,60 C480,20 960,80 1440,60 L1440,100 L0,100 Z" fill="rgba(255,182,193,0.08)"/>
     </svg>
   </div>
+
   <div class="hero-content">
-    <div class="hero-badge">🇦🇺 Australia · Sydney · 2026 ✨</div>
-    <h1 class="hero-title"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="1em" height="1em" style="vertical-align: -0.125em;"><path d="M 15 50 C 15 10, 85 10, 85 50 C 85 85, 65 95, 50 95 C 35 95, 15 85, 15 50 Z" fill="#8d6e63"/><path d="M 25 60 C 25 40, 75 40, 75 60 C 75 80, 60 90, 50 90 C 40 90, 25 80, 25 60 Z" fill="#d7ccc8"/><circle cx="20" cy="25" r="12" fill="#8d6e63"/><circle cx="80" cy="25" r="12" fill="#8d6e63"/><circle cx="20" cy="27" r="7" fill="#d7ccc8"/><circle cx="80" cy="27" r="7" fill="#d7ccc8"/><circle cx="30" cy="65" r="7" fill="#ffcdd2" opacity="0.8"/><circle cx="70" cy="65" r="7" fill="#ffcdd2" opacity="0.8"/><circle cx="35" cy="50" r="5" fill="#3e2723"/><circle cx="65" cy="50" r="5" fill="#3e2723"/><circle cx="33" cy="48" r="2" fill="#fff"/><circle cx="63" cy="48" r="2" fill="#fff"/><ellipse cx="50" cy="62" rx="7" ry="5" fill="#4e342e"/><path d="M 38 72 Q 50 85 62 72" fill="none" stroke="#4e342e" stroke-width="3" stroke-linecap="round"/><path d="M 50 67 L 50 78" fill="none" stroke="#4e342e" stroke-width="3"/></svg> 시드니 여행 플래너</h1>
-    <p class="hero-sub">쇠돌이와 미녀의 호주 여행 계획표 🤍</p>
+    <div class="hero-badge">🇯🇵 Japan · Tokyo · 2026 🗼</div>
+    <h1 class="hero-title">
+      <span style="font-size:1.05em; vertical-align:middle;">🗼</span> 도쿄 여행 플래너
+    </h1>
+    <p class="hero-sub">도쿄의 설렘을 담은 우리만의 스마트 여행 계획표 🌸</p>
     <div class="hero-countdown">
       <div class="countdown-item"><div class="countdown-num" id="cdDays">--</div><div class="countdown-lbl">Days</div></div>
       <div class="countdown-sep">:</div>
@@ -47,9 +64,9 @@
 
 <!-- ================================================================ TAB BAR ================================================================ -->
 <div class="tabs-bar">
-  <button class="tab-btn active" onclick="switchTab('flight', this)"><span class="tab-icon">🎟️</span> 예약 리스트</button>
-  <button class="tab-btn" onclick="switchTab('hotel', this)"><span class="tab-icon">🏨</span> 호텔 비교</button>
-  <button class="tab-btn" onclick="switchTab('tour', this)"><span class="tab-icon">🎢</span> 투어 비교</button>
+  <button class="tab-btn active" onclick="switchTab('flight', this)"><span class="tab-icon">🎟️</span> 나의 예약</button>
+  <button class="tab-btn" onclick="switchTab('hotel', this)"><span class="tab-icon">🏨</span> 숙소 비교</button>
+  <button class="tab-btn" onclick="switchTab('tour', this)"><span class="tab-icon">🎢</span> 투어 / 티켓</button>
   <button class="tab-btn" onclick="switchTab('checklist', this)"><span class="tab-icon">📋</span> 체크리스트</button>
   <button class="tab-btn" onclick="switchTab('itinerary', this)"><span class="tab-icon">🗺️</span> 여행 일정표</button>
   <button class="tab-btn" onclick="switchTab('expense', this)"><span class="tab-icon">💸</span> 지출 정리</button>
@@ -58,98 +75,107 @@
 <!-- ================================================================ MAIN ================================================================ -->
 <div class="main-container">
 
-  <!-- ═══ TAB 1: 예약 리스트 ═══ -->
+  <!-- ═══ TAB 1: 나의 예약 리스트 ═══ -->
   <div class="tab-panel active" id="panel-flight">
-
     <div class="section-heading" style="margin-bottom: 12px;">
       <div>
-        <div class="section-title"><span class="section-title-icon">🎟️</span> 나의 예약 리스트</div>
-        <div class="section-sub">항공권 / 호텔 / 투어 중 선택된 현황을 한눈에 확인하세요! ✨</div>
+        <div class="section-title"><span class="section-title-icon">🎟️</span> 나의 예약 대시보드</div>
+        <div class="section-sub">선택된 항공권, 호텔, 투어 티켓 현황을 한눈에 확인하세요! ✨</div>
       </div>
+      <button class="btn-add-entry" onclick="openFlightModal()">+ 항공권 추가</button>
     </div>
 
     <!-- 예약 현황 대시보드 컨테이너 -->
     <div id="bookingSummaryContainer"></div>
+
+    <!-- 전체 항공권 후보 리스트 -->
+    <div style="margin-top: 36px;">
+      <div class="section-heading" style="margin-bottom: 16px;">
+        <div>
+          <div class="section-title" style="font-size: 18px;"><span class="section-title-icon">✈️</span> 항공권 후보 목록</div>
+          <div class="section-sub">비교 후 '선택' 버튼을 누르면 예약 현황 및 지출에 자동 반영됩니다.</div>
+        </div>
+      </div>
+
+      <div class="filter-bar" id="flightFilterBar">
+        <button class="filter-chip active" onclick="sortFlights('depdate_asc', this)">🗓️ 출발일순</button>
+        <button class="filter-chip" onclick="sortFlights('price', this)">💰 가격순</button>
+        <button class="filter-chip" id="annualBtn_1" onclick="filterByAnnual('1', this)">🏖️ 연차 1일</button>
+        <button class="filter-chip" id="annualBtn_2" onclick="filterByAnnual('2', this)">🏖️ 연차 2일</button>
+        <button class="filter-chip" id="annualBtn_3" onclick="filterByAnnual('3', this)">🏖️ 연차 3일</button>
+      </div>
+
+      <div id="flightTableWrap">
+        <div id="flightEmptyState" class="empty-state" style="display:none;">
+          <div class="empty-icon">✈️</div>
+          <div class="empty-title">등록된 항공권이 없어요</div>
+          <div class="empty-sub">우측 상단 "+ 항공권 추가" 버튼으로 스케줄과 가격을 등록해보세요!</div>
+          <button class="btn-add-entry" onclick="openFlightModal()">+ 첫 항공권 추가하기</button>
+        </div>
+        <div class="flight-grid-responsive" id="flightGrid"></div>
+      </div>
+    </div>
   </div>
 
   <!-- ═══ TAB 2: 호텔 비교 ═══ -->
   <div class="tab-panel" id="panel-hotel">
-
     <div class="section-heading">
       <div>
-        <div class="section-title"><span class="section-title-icon">🐨</span> 호텔 비교</div>
-        <div class="section-sub">코알라처럼 편안한 숙소 골라보세요 🌿</div>
+        <div class="section-title"><span class="section-title-icon">🏨</span> 도쿄 숙소 비교</div>
+        <div class="section-sub">접근성 좋고 안락한 도쿄 숙소를 비교해보세요 🗼</div>
       </div>
-      <button class="btn-add-entry" onclick="openHotelModal()">+ 호텔 추가</button>
+      <button class="btn-add-entry" onclick="openHotelModal()">+ 숙소 추가</button>
     </div>
 
-    <!-- 비교 요약 배너 -->
-    <div id="hotelSummaryBanner" style="display:none;" class="summary-banner">
-      <div class="summary-item"><div class="summary-lbl">등록된 숙소</div><div class="summary-val" id="summaryHotelCount">0개</div></div>
-      <div class="summary-divider"></div>
-      <div class="summary-item"><div class="summary-lbl">최저 1박</div><div class="summary-val accent" id="summaryHotelMin">-</div></div>
-      <div class="summary-divider"></div>
-      <div class="summary-item"><div class="summary-lbl">평균 1박</div><div class="summary-val" id="summaryHotelAvg">-</div></div>
-    </div>
-
+    <!-- 지역 / 정렬 필터 -->
     <div class="filter-bar" id="hotelFilterBar">
-      <button class="filter-chip active" onclick="sortHotels('default', this)">✨ 기본 정렬</button>
+      <button class="filter-chip active" onclick="filterHotels('all', this)">전체 지역</button>
+      <button class="filter-chip" onclick="filterHotels('shinjuku', this)">🗼 신주쿠</button>
+      <button class="filter-chip" onclick="filterHotels('shibuya', this)">🛍️ 시부야/하라주쿠</button>
+      <button class="filter-chip" onclick="filterHotels('ginza', this)">✨ 긴자/도쿄역</button>
+      <button class="filter-chip" onclick="filterHotels('asakusa', this)">⛩️ 아사쿠사/우에노</button>
+      <button class="filter-chip" onclick="filterHotels('etc', this)">📦 기타 지역</button>
       <button class="filter-chip" onclick="sortHotels('price_asc', this)">💰 가격 낮은 순</button>
-      <button class="filter-chip" onclick="sortHotels('price_desc', this)">💰 가격 높은 순</button>
     </div>
 
     <div id="hotelTableWrap">
-      <div id="hotelEmptyState" class="empty-state">
+      <div id="hotelEmptyState" class="empty-state" style="display:none;">
         <div class="empty-icon">🏨</div>
-        <div class="empty-title">아직 등록된 호텔이 없어요</div>
-        <div class="empty-sub">오른쪽 상단 "호텔 추가" 버튼으로 직접 조사한 숙소를 입력하고 가격·링크를 비교해보세요!</div>
-        <button class="btn-add-entry" onclick="openHotelModal()">+ 첫 호텔 추가하기</button>
+        <div class="empty-title">아직 등록된 숙소가 없어요</div>
+        <div class="empty-sub">우측 상단 "+ 숙소 추가" 버튼으로 도쿄 호텔 후보를 등록하고 비교해보세요!</div>
+        <button class="btn-add-entry" onclick="openHotelModal()">+ 첫 숙소 추가하기</button>
       </div>
-      <div id="hotelWrap" style="display:none; flex-direction:column; gap:40px;">
-        <div id="sydneySection">
-          <div style="font-size:18px; font-weight:600; color:var(--brand-teal); margin-bottom:16px; display:flex; align-items:center; gap:8px;">
-            🇦🇺 시드니 숙소
-          </div>
-          <div class="hotel-compare-grid" id="hotelGridSydney"></div>
-        </div>
-        <div id="perthSection">
-          <div style="font-size:18px; font-weight:600; color:var(--brand-ochre); margin-bottom:16px; display:flex; align-items:center; gap:8px;">
-            🦘 퍼스 숙소
-          </div>
-          <div class="hotel-compare-grid" id="hotelGridPerth"></div>
-        </div>
-      </div>
+      <div class="hotel-compare-grid" id="hotelGrid"></div>
     </div>
   </div>
 
-  <!-- ═══ TAB 3: 투어 비교 ═══ -->
+  <!-- ═══ TAB 3: 투어 / 티켓 비교 ═══ -->
   <div class="tab-panel" id="panel-tour">
     <div class="section-heading">
       <div>
-        <div class="section-title"><span class="section-title-icon">🎡</span> 투어 비교</div>
-        <div class="section-sub">🦘 시드니의 설렘을 가득 채울 투어를 골라보세요 🎡</div>
+        <div class="section-title"><span class="section-title-icon">🎡</span> 투어 &amp; 입장권 비교</div>
+        <div class="section-sub">디즈니랜드, 시부야 스카이, 메트로 패스 등 필수 티켓을 준비하세요 🎟️</div>
       </div>
-      <button class="btn-add-entry" onclick="openTourModal()">+ 투어 추가</button>
+      <button class="btn-add-entry" onclick="openTourModal()">+ 투어/티켓 추가</button>
     </div>
 
     <div class="filter-bar" id="tourFilterBar">
       <button class="filter-chip active" id="tourCat_all" onclick="filterTours('all',this)">전체</button>
-      <button class="filter-chip" id="tourCat_sight" onclick="filterTours('관광',this)">🏛 관광</button>
-      <button class="filter-chip" id="tourCat_activity" onclick="filterTours('액티비티',this)">🏄 액티비티</button>
-      <button class="filter-chip" id="tourCat_food" onclick="filterTours('식사',this)">🦞 식사/크루즈</button>
+      <button class="filter-chip" id="tourCat_sight" onclick="filterTours('관광',this)">🏛 관광 / 전망대</button>
+      <button class="filter-chip" id="tourCat_activity" onclick="filterTours('액티비티',this)">🎢 테마파크 / 체험</button>
+      <button class="filter-chip" id="tourCat_pass" onclick="filterTours('교통/패스',this)">🚇 교통 / 패스</button>
+      <button class="filter-chip" id="tourCat_food" onclick="filterTours('식사',this)">🍣 식사 / 미식</button>
       <button class="filter-chip" id="tourCat_etc" onclick="filterTours('기타',this)">📦 기타</button>
     </div>
 
     <div id="tourTableWrap">
       <div id="tourEmptyState" class="empty-state" style="display:none;">
         <div class="empty-icon">🎡</div>
-        <div class="empty-title">아직 투어가 없어요</div>
-        <div class="empty-sub">오른쪽 상단 "투어 추가" 버튼으로 투어를 등록해보세요!</div>
+        <div class="empty-title">아직 등록된 투어/티켓이 없어요</div>
+        <div class="empty-sub">우측 상단 "+ 투어/티켓 추가" 버튼으로 티켓을 등록해보세요!</div>
         <button class="btn-add-entry" onclick="openTourModal()">+ 첫 투어 추가하기</button>
       </div>
-      <div class="hotel-compare-grid" id="tourGrid">
-        <!-- JS 렌더 -->
-      </div>
+      <div class="hotel-compare-grid" id="tourGrid"></div>
     </div>
   </div>
 
@@ -157,8 +183,8 @@
   <div class="tab-panel" id="panel-checklist">
     <div class="section-heading">
       <div>
-        <div class="section-title"><span class="section-title-icon">📋</span> 예약 체크리스트</div>
-        <div class="section-sub">시드니 여행 전 반드시 확인해야 할 항목들을 체크해보세요 ✅</div>
+        <div class="section-title"><span class="section-title-icon">📋</span> 일본 여행 체크리스트</div>
+        <div class="section-sub">비짓재팬웹(VJW), 110V 돼지코, eSIM 등 출국 전 필수 준비물을 체크하세요 ✅</div>
       </div>
       <button class="btn-add-entry" onclick="showAddGroupForm()">+ 섹션 추가</button>
     </div>
@@ -172,13 +198,12 @@
     <div class="checklist-layout" id="checklistLayout"></div>
   </div>
 
-  <!-- ═══ TAB 4: 여행 일정표 ═══ -->
+  <!-- ═══ TAB 5: 여행 일정표 ═══ -->
   <div class="tab-panel" id="panel-itinerary">
     <div class="section-heading">
       <div>
-        <div class="section-title"><span class="section-title-icon">🗺️</span> 시드니 여행 일정표</div>
-        <div class="section-sub">날짜별 동선 &amp; 장소 기록</div>
-
+        <div class="section-title"><span class="section-title-icon">🗺️</span> 도쿄 여행 일정표</div>
+        <div class="section-sub">일자별 동선과 방문 장소를 기록하고 지도에서 확인하세요 🗼</div>
       </div>
       <button class="btn-add-entry" onclick="openAddModal()">+ 일정 추가</button>
     </div>
@@ -187,10 +212,10 @@
         <div id="mapArea">
           <div class="map-placeholder" id="mapPlaceholder">
             <div class="map-placeholder-icon">🗺️</div>
-            <div class="map-placeholder-title">Google Maps 연동 대기 중</div>
-            <div class="map-placeholder-sub">API 키를 입력하면 시드니 지도가 표시됩니다.<br>Google Cloud Console → Maps JS API + Places API 활성화</div>
-            <div class="map-api-input-row">
-              <input class="map-api-input" id="apiKeyInput" type="text" placeholder="Google Maps API Key 붙여넣기">
+            <div class="map-placeholder-title">도쿄 지도 로딩 중...</div>
+            <div class="map-placeholder-sub">Google Maps 연동 시 인터랙티브 지도가 활성화됩니다.<br>장소 번호를 클릭하면 실시간 길찾기로 연결됩니다.</div>
+            <div class="map-api-input-row" style="display:none;">
+              <input class="map-api-input" id="apiKeyInput" type="text" placeholder="Google Maps API Key">
               <button class="btn-map-activate" onclick="activateMap()">지도 열기</button>
             </div>
           </div>
@@ -214,26 +239,26 @@
     </div>
   </div>
 
-  <!-- ═══ TAB 5: 지출 정리 ═══ -->
+  <!-- ═══ TAB 6: 지출 정리 ═══ -->
   <div class="tab-panel" id="panel-expense">
     <div class="section-heading">
       <div>
-        <div class="section-title"><span class="section-title-icon">💸</span> 지출 정리</div>
-        <div class="section-sub">시드니 여행 중 발생한 모든 지출을 한눈에 관리하세요! 💳</div>
+        <div class="section-title"><span class="section-title-icon">💸</span> 엔화 &amp; 지출 정리</div>
+        <div class="section-sub">사전 결제(원화 ₩)와 현지 지출(엔화 ¥)을 스마트하게 자동 계산하세요! 💳</div>
       </div>
       <div style="display:flex; flex-direction:column; gap:10px; align-items:flex-end;">
-        <div class="hero-badge" id="exchangeRateBadge" style="margin: 0; font-size:12px; font-weight: 600; cursor: pointer;" onclick="fetchExchangeRate()">💰 실시간 환율 로딩 중...</div>
+        <div class="hero-badge" id="exchangeRateBadge" style="margin: 0; font-size:12px; font-weight: 600; cursor: pointer;" onclick="fetchExchangeRate()">💰 실시간 엔화 환율 로딩 중...</div>
         <button class="btn-add-entry" onclick="openExpenseModal()">+ 지출 추가</button>
       </div>
     </div>
 
     <!-- 지출 요약 배너 -->
     <div id="expenseSummaryBanner" class="summary-banner" style="margin-bottom:24px;">
-      <div class="summary-item"><div class="summary-lbl">총 지출 (AUD)</div><div class="summary-val accent" id="summaryTotalAud">A$ 0</div></div>
+      <div class="summary-item"><div class="summary-lbl">총 지출 (KRW 환산)</div><div class="summary-val accent" id="summaryTotalKrw">₩ 0</div></div>
       <div class="summary-divider"></div>
-      <div class="summary-item"><div class="summary-lbl">사전 지출 (KRW 환산)</div><div class="summary-val" id="summaryPreKrw" style="color:var(--brand-ochre);">₩ 0</div></div>
+      <div class="summary-item"><div class="summary-lbl">사전 결제 지출</div><div class="summary-val" id="summaryPreKrw" style="color:var(--brand-ochre);">₩ 0</div></div>
       <div class="summary-divider"></div>
-      <div class="summary-item"><div class="summary-lbl">여행 중 지출 (KRW 환산)</div><div class="summary-val" id="summaryTripKrw" style="color:var(--brand-lavender);">₩ 0</div></div>
+      <div class="summary-item"><div class="summary-lbl">현지 사용 지출 (JPY)</div><div class="summary-val" id="summaryTripJpy" style="color:var(--brand-pink);">¥ 0</div></div>
     </div>
 
     <!-- 지출 리스트 -->
@@ -241,20 +266,20 @@
       <div id="expenseEmptyState" class="empty-state">
         <div class="empty-icon">🧾</div>
         <div class="empty-title">아직 지출 내역이 없어요</div>
-        <div class="empty-sub">우측 상단의 "지출 추가" 버튼으로 소비 금액을 길록해보세요!</div>
+        <div class="empty-sub">우측 상단의 "+ 지출 추가" 버튼으로 사용한 금액을 등록해보세요!</div>
         <button class="btn-add-entry" onclick="openExpenseModal()">+ 첫 지출 등록하기</button>
       </div>
       
       <div id="expenseWrap" class="expense-split-layout" style="display:none;">
         <div>
           <div style="font-size:16px; font-weight:600; margin-bottom:12px; display:flex; align-items:center; gap:8px;">
-            <span style="color:var(--brand-ochre);">🛫 사전 지출</span>
+            <span style="color:var(--brand-ochre);">🛫 사전 지출 (원화 ₩)</span>
           </div>
           <div class="flight-compare-table" id="expensePreGrid" style="display:flex; flex-direction:column; gap:12px;"></div>
         </div>
         <div>
           <div style="font-size:16px; font-weight:600; margin-bottom:12px; display:flex; align-items:center; gap:8px;">
-            <span style="color:var(--brand-lavender);">🐨 여행 중 지출</span>
+            <span style="color:var(--brand-pink);">🗼 현지 지출 (엔화 ¥)</span>
           </div>
           <div class="flight-compare-table" id="expenseTripGrid" style="display:flex; flex-direction:column; gap:12px;"></div>
         </div>
@@ -276,8 +301,8 @@
       <div class="form-group" style="margin-bottom: 20px;">
         <label class="form-label">지출 시기</label>
         <div style="display:flex; gap:16px;">
-          <label style="color:var(--ink); font-size:13px; font-weight:600; cursor:pointer;"><input type="radio" name="expenseTiming" value="pre" checked onchange="updateExpenseTimingUI()"> 🛫 사전 지출</label>
-          <label style="color:var(--ink); font-size:13px; font-weight:600; cursor:pointer;"><input type="radio" name="expenseTiming" value="trip" onchange="updateExpenseTimingUI()"> 🐨 여행 중 지출</label>
+          <label style="color:var(--ink); font-size:13px; font-weight:600; cursor:pointer;"><input type="radio" name="expenseTiming" value="pre" checked onchange="updateExpenseTimingUI()"> 🛫 사전 지출 (원화 ₩)</label>
+          <label style="color:var(--ink); font-size:13px; font-weight:600; cursor:pointer;"><input type="radio" name="expenseTiming" value="trip" onchange="updateExpenseTimingUI()"> 🗼 현지 지출 (엔화 ¥)</label>
         </div>
       </div>
       <div class="form-group">
@@ -285,18 +310,18 @@
         <select class="form-input" id="expenseCategory">
           <option value="항공/교통">✈️ 항공/교통</option>
           <option value="숙박">🏨 숙박</option>
-          <option value="식비">🍔 식비</option>
-          <option value="관광/투어">🎡 관광/투어</option>
-          <option value="쇼핑">🛍️ 쇼핑</option>
+          <option value="식비">🍣 식비/이자카야</option>
+          <option value="관광/투어">🎡 관광/입장권</option>
+          <option value="쇼핑">🛍️ 쇼핑/돈키호테</option>
           <option value="기타">기타</option>
         </select>
       </div>
       <div class="form-group">
         <label class="form-label">내역/품목 이름</label>
-        <input class="form-input" type="text" id="expenseTitle" placeholder="예: 오페라 하우스 투어, 햄버거 세트...">
+        <input class="form-input" type="text" id="expenseTitle" placeholder="예: 이치란 라멘, 디즈니랜드 티켓, 돈키호테 쇼핑...">
       </div>
       <div class="form-group">
-        <label class="form-label" id="expenseAmountLabel">결제 금액 (AUD)</label>
+        <label class="form-label" id="expenseAmountLabel">결제 금액 (원화 ₩)</label>
         <input class="form-input" type="number" id="expenseAmount" placeholder="숫자만 입력" step="1" oninput="updateExpensePreview()">
         <div id="expenseConvertPreview" style="margin-top:8px; font-size:13px; font-weight:700; color:var(--text-muted); min-height:18px;"></div>
       </div>
@@ -313,45 +338,47 @@
 <div class="modal-overlay" id="tourModal">
   <div class="modal-box" style="max-width:560px;">
     <div class="modal-header">
-      <div class="modal-title" id="tourModalTitle">🎡 투어 추가</div>
+      <div class="modal-title" id="tourModalTitle">🎡 투어 / 티켓 추가</div>
       <button class="btn-close-modal" onclick="closeTourModal()">✕</button>
     </div>
     <div class="modal-body">
       <input type="hidden" id="tourEditId">
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
         <div class="form-group" style="grid-column:1/-1;">
-          <label class="form-label">투어명 *</label>
-          <input class="form-input" id="tm_name" placeholder="예: 블루마운틴 당일 투어">
+          <label class="form-label">투어/티켓명 *</label>
+          <input class="form-input" id="tm_name" placeholder="예: 시부야 스카이 전망대 입장권">
         </div>
         <div class="form-group">
-          <label class="form-label">플랫폼</label>
+          <label class="form-label">예약처/플랫폼</label>
           <select class="form-input" id="tm_platform" style="font-family:inherit;">
             <option value="KKday">KKday</option>
             <option value="마이리얼트립">마이리얼트립</option>
+            <option value="클룩">클룩(Klook)</option>
             <option value="트리플">트리플</option>
-            <option value="직접예약">직접예약</option>
+            <option value="공식홈페이지">공식홈페이지/직접예약</option>
           </select>
         </div>
         <div class="form-group">
           <label class="form-label">카테고리</label>
           <select class="form-input" id="tm_cat" style="font-family:inherit;">
-            <option value="관광">🏛 관광</option>
-            <option value="액티비티">🏄 액티비티</option>
-            <option value="식사">🦞 식사/크루즈</option>
+            <option value="관광">🏛 관광 / 전망대</option>
+            <option value="액티비티">🎢 테마파크 / 체험</option>
+            <option value="교통/패스">🚇 교통 / 패스</option>
+            <option value="식사">🍣 식사 / 미식</option>
             <option value="기타">📦 기타</option>
           </select>
         </div>
         <div class="form-group">
           <label class="form-label">가격 (원/인)</label>
-          <input class="form-input" id="tm_price" type="number" placeholder="예: 89000">
+          <input class="form-input" id="tm_price" type="number" placeholder="예: 21000">
         </div>
         <div class="form-group">
           <label class="form-label">소요 시간</label>
-          <input class="form-input" id="tm_dur" placeholder="예: 10시간, 2시간 30분">
+          <input class="form-input" id="tm_dur" placeholder="예: 2시간, 종일">
         </div>
         <div class="form-group" style="grid-column:1/-1;">
           <label class="form-label">한줄 설명</label>
-          <input class="form-input" id="tm_desc" placeholder="포함 내용, 특징 등...">
+          <input class="form-input" id="tm_desc" placeholder="포함 내용, 일몰 시간대 예약 필수 등...">
         </div>
         <div class="form-group" style="grid-column:1/-1;">
           <label class="form-label">🔗 예약 링크</label>
@@ -359,7 +386,7 @@
         </div>
         <div class="form-group" style="grid-column:1/-1;">
           <label class="form-label">메모</label>
-          <textarea class="form-input" id="tm_memo" rows="2" placeholder="픽업 장소, 준비물 등..."></textarea>
+          <textarea class="form-input" id="tm_memo" rows="2" placeholder="준비물, 바우처 확인 방식 등..."></textarea>
         </div>
       </div>
       <button class="btn-primary" onclick="saveTour()">💾 저장하기</button>
@@ -377,24 +404,28 @@
     <div class="modal-body">
       <input type="hidden" id="flightEditId">
 
-      <!-- 심플 항공권 정보 폼 -->
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:4px;">
-        
-        <!-- 연차 선택을 제일 위로 -->
+        <!-- 항공사 -->
+        <div class="form-group" style="grid-column:1/-1;">
+          <label class="form-label">항공사 / 노선</label>
+          <input class="form-input" id="fm_airline" placeholder="예: 대한항공 (인천-나리타 왕복)">
+        </div>
+
+        <!-- 연차 선택 -->
         <div class="form-group" style="grid-column:1/-1;">
           <label class="form-label">🏖️ 연차 사용 일수</label>
           <div style="display:flex;gap:10px;margin-top:6px;">
             <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-sub);">
-              <input type="radio" name="fm_annual" id="fm_annual_none" value="" style="accent-color:var(--accent);"> 선택 안함
+              <input type="radio" name="fm_annual" id="fm_annual_none" value="" style="accent-color:var(--brand-pink);"> 선택 안함
             </label>
             <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-sub);">
-              <input type="radio" name="fm_annual" id="fm_annual_5" value="5"> 5일
+              <input type="radio" name="fm_annual" id="fm_annual_1" value="1"> 1일
             </label>
             <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-sub);">
-              <input type="radio" name="fm_annual" id="fm_annual_6" value="6"> 6일
+              <input type="radio" name="fm_annual" id="fm_annual_2" value="2"> 2일
             </label>
             <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-sub);">
-              <input type="radio" name="fm_annual" id="fm_annual_7" value="7"> 7일
+              <input type="radio" name="fm_annual" id="fm_annual_3" value="3"> 3일
             </label>
           </div>
         </div>
@@ -402,7 +433,7 @@
         <div class="form-group" style="grid-column:1/-1;">
           <label class="form-label">📸 캡쳐 이미지 첨부</label>
           <input type="file" id="fm_image_file" accept="image/*" style="display:none;" onchange="handleImageUpload(event)">
-          <div id="imagePreviewArea" tabindex="0" onclick="document.getElementById('fm_image_file').click()" ondragover="event.preventDefault(); this.style.borderColor='var(--brand-teal)';" ondragleave="this.style.borderColor='var(--hairline)';" ondrop="event.preventDefault(); this.style.borderColor='var(--hairline)'; document.getElementById('fm_image_file').files = event.dataTransfer.files; handleImageUpload({target: document.getElementById('fm_image_file')});" onpaste="handleImagePaste(event)" style="width:100%; height:250px; background:var(--surface-soft); border:2px dashed var(--hairline); border-radius:12px; display:flex; align-items:center; justify-content:center; cursor:pointer; overflow:hidden; transition:border 0.2s; outline:none;">
+          <div id="imagePreviewArea" tabindex="0" onclick="document.getElementById('fm_image_file').click()" ondragover="event.preventDefault(); this.style.borderColor='var(--brand-pink)';" ondragleave="this.style.borderColor='var(--hairline)';" ondrop="event.preventDefault(); this.style.borderColor='var(--hairline)'; document.getElementById('fm_image_file').files = event.dataTransfer.files; handleImageUpload({target: document.getElementById('fm_image_file')});" onpaste="handleImagePaste(event)" style="width:100%; height:200px; background:var(--surface-soft); border:2px dashed var(--hairline); border-radius:12px; display:flex; align-items:center; justify-content:center; cursor:pointer; overflow:hidden; transition:border 0.2s; outline:none;">
             <span style="color:var(--muted); pointer-events:none; font-weight:600; text-align:center;">+ 클릭, 드래그 또는<br>영역 선택 후 Ctrl+V (붙여넣기)</span>
           </div>
           <input type="hidden" id="fm_image_base64">
@@ -410,7 +441,7 @@
 
         <div class="form-group" style="grid-column:1/-1;">
           <label class="form-label">왕복 총 가격 (원)</label>
-          <input class="form-input" id="fm_price" type="number" placeholder="예: 1560000">
+          <input class="form-input" id="fm_price" type="number" placeholder="예: 380000">
         </div>
         <div class="form-group" style="grid-column:1/-1; display:flex; gap:12px;">
           <div style="flex:1;">
@@ -423,20 +454,12 @@
           </div>
         </div>
         <div class="form-group">
-          <label class="form-label">시드니 체류 (일)</label>
-          <input class="form-input" id="fm_sydney_days" type="number" placeholder="예: 4">
-        </div>
-        <div class="form-group">
-          <label class="form-label">퍼스 체류 (일)</label>
-          <input class="form-input" id="fm_perth_days" type="number" placeholder="예: 3">
-        </div>
-        <div class="form-group">
           <label class="form-label">총 여행기간 (박)</label>
-          <input class="form-input" id="fm_total_nights" type="number" placeholder="예: 7">
+          <input class="form-input" id="fm_total_nights" type="number" placeholder="예: 3">
         </div>
         <div class="form-group">
           <label class="form-label">총 여행기간 (일)</label>
-          <input class="form-input" id="fm_total_days" type="number" placeholder="예: 8">
+          <input class="form-input" id="fm_total_days" type="number" placeholder="예: 4">
         </div>
         <div class="form-group" style="grid-column:1/-1;">
           <label class="form-label">🔗 예약 링크</label>
@@ -444,7 +467,7 @@
         </div>
         <div class="form-group" style="grid-column:1/-1;">
           <label class="form-label">메모 / 특이사항</label>
-          <textarea class="form-input" id="fm_memo" rows="2" placeholder="메모 입력..."></textarea>
+          <textarea class="form-input" id="fm_memo" rows="2" placeholder="수하물 포함 여부, 출발/도착 공항 등..."></textarea>
         </div>
       </div>
       <button class="btn-primary" onclick="saveFlight()">💾 저장하기</button>
@@ -456,7 +479,7 @@
 <div class="modal-overlay" id="hotelModal">
   <div class="modal-box" style="max-width:580px;">
     <div class="modal-header">
-      <div class="modal-title" id="hotelModalTitle">🏨 호텔 추가</div>
+      <div class="modal-title" id="hotelModalTitle">🏨 숙소 추가</div>
       <button class="btn-close-modal" onclick="closeHotelModal()">✕</button>
     </div>
     <div class="modal-body">
@@ -464,15 +487,18 @@
 
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
         <div class="form-group" style="grid-column:1/-1;">
-          <label class="form-label">도시 구분</label>
-          <div style="display:flex; gap:16px;">
-            <label style="display:flex; align-items:center; gap:6px; cursor:pointer;"><input type="radio" name="hm_city" value="sydney" checked>🇦🇺 시드니</label>
-            <label style="display:flex; align-items:center; gap:6px; cursor:pointer;"><input type="radio" name="hm_city" value="perth">🦘 퍼스</label>
-          </div>
+          <label class="form-label">도쿄 지역 구분</label>
+          <select class="form-input" id="hm_area" style="font-family:inherit;">
+            <option value="shinjuku">🗼 신주쿠 (Shinjuku)</option>
+            <option value="shibuya">🛍️ 시부야 / 하라주쿠 (Shibuya)</option>
+            <option value="ginza">✨ 긴자 / 도쿄역 (Ginza / Tokyo)</option>
+            <option value="asakusa">⛩️ 아사쿠사 / 우에노 (Asakusa / Ueno)</option>
+            <option value="etc">📦 기타 도쿄 지역</option>
+          </select>
         </div>
         <div class="form-group" style="grid-column:1/-1;">
           <label class="form-label">호텔명 *</label>
-          <input class="form-input" id="hm_name" placeholder="예: Park Hyatt Sydney">
+          <input class="form-input" id="hm_name" placeholder="예: 호텔 그레이서리 신주쿠">
         </div>
         <div class="form-group">
           <label class="form-label">체크인</label>
@@ -484,7 +510,7 @@
         </div>
         <div class="form-group">
           <label class="form-label">1박 가격 (원) *</label>
-          <input class="form-input" id="hm_price" type="number" placeholder="예: 350000">
+          <input class="form-input" id="hm_price" type="number" placeholder="예: 220000">
         </div>
         <div class="form-group">
           <label class="form-label">태그</label>
@@ -497,7 +523,7 @@
         </div>
         <div class="form-group" style="grid-column:1/-1;">
           <label class="form-label">한줄 설명</label>
-          <input class="form-input" id="hm_desc" placeholder="위치, 특징, 장단점 등...">
+          <input class="form-input" id="hm_desc" placeholder="위치, 역 도보 거리, 특징 등...">
         </div>
         <div class="form-group" style="grid-column:1/-1;">
           <label class="form-label">🔗 예약 링크</label>
@@ -505,7 +531,7 @@
         </div>
         <div class="form-group" style="grid-column:1/-1;">
           <label class="form-label">메모 / 특이사항</label>
-          <textarea class="form-input" id="hm_memo" rows="2" placeholder="조식 포함, 주차장, 관광지 거리 등..."></textarea>
+          <textarea class="form-input" id="hm_memo" rows="2" placeholder="조식 포함 여부, 대욕장 유무 등..."></textarea>
         </div>
       </div>
 
@@ -526,13 +552,13 @@
       <div class="form-group"><label class="form-label">날짜 선택</label><select class="form-input" id="modalDay" style="font-family:inherit;"></select></div>
       <div class="form-group"><label class="form-label">방문 시간</label><input class="form-input" type="time" id="modalTime"></div>
       <div class="form-group">
-        <label class="form-label">📍 장소 검색 <span style="font-size:11px;color:var(--text-muted);font-weight:500;">(Google Maps 연동 시 자동완성)</span></label>
-        <input class="form-input" type="text" id="modalName" placeholder="예: Sydney Opera House, Bondi Beach..." autocomplete="off">
+        <label class="form-label">📍 장소명 <span style="font-size:11px;color:var(--text-muted);font-weight:500;">(Google Maps 검색 연동)</span></label>
+        <input class="form-input" type="text" id="modalName" placeholder="예: 시부야 스카이, 센소지, 도쿄타워..." autocomplete="off">
         <div id="coordStatus" style="margin-top:6px;font-size:11px;font-weight:600;color:var(--text-muted);"></div>
       </div>
       <input type="hidden" id="modalLat">
       <input type="hidden" id="modalLng">
-      <div class="form-group"><label class="form-label">메모</label><textarea class="form-input" id="modalMemo" rows="2" placeholder="이곳에서 할 일이나 특징..."></textarea></div>
+      <div class="form-group"><label class="form-label">메모</label><textarea class="form-input" id="modalMemo" rows="2" placeholder="이곳에서 할 일이나 추천 메뉴 등..."></textarea></div>
       <button class="btn-primary" onclick="savePlace()">💾 일정 저장</button>
     </div>
   </div>
@@ -546,7 +572,7 @@
   <div class="glass-card memo-card-popup" id="memoCardPopup">
     <div class="memo-popup-header">
       <div style="font-weight: 600; font-size: 17px; color: var(--ink); display: flex; align-items: center; gap: 8px; font-family: 'Noto Sans KR', sans-serif;">
-        <span>📝</span> 우리의 메모장
+        <span>📝</span> 도쿄 여행 메모장
       </div>
       <button class="btn-close-memo" onclick="toggleMemoWidget()">✕</button>
     </div>
@@ -563,10 +589,14 @@
   </div>
 </div>
 
-<footer>🐨 Sydney Travel Planner &nbsp;·&nbsp; 쇠돌이 &amp; 미녀의 여행 계획표 🦘 &nbsp;·&nbsp; Firebase Synced 🤍</footer>
+<!-- 저장 완료 토스트 알림 -->
+<div id="saveToast" class="save-toast">💾 저장 완료!</div>
+
+<footer>🗼 Tokyo Travel Planner &nbsp;·&nbsp; 설레는 도쿄 여행 계획표 🌸 &nbsp;·&nbsp; Live Cloud &amp; Local Synced ✨</footer>
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-<script src="app.js?v=9"></script>
+<script src="app.js?v=20"></script>
+<script src="coachmarks.js?v=20"></script>
 </body>
 </html>

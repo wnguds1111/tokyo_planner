@@ -1,6 +1,7 @@
 node_modules/
 package-lock.json
 package.json
+scratch/
 remove_bg.js
 split.js
 animals.png

@@ -2874,3 +2874,96 @@ footer {
     overscroll-behavior-x: contain;
   }
 }
+
+/* ================================================================
+   TOKYO PLANNER — Sakura & Toast & Tokyo Visuals
+   ================================================================ */
+
+/* ── 도쿄 타워 실루엣 ── */
+.tokyo-silhouette {
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(850px, 96vw);
+  opacity: 0.18;
+  pointer-events: none;
+}
+.tokyo-silhouette path,
+.tokyo-silhouette rect,
+.tokyo-silhouette line {
+  fill: var(--brand-pink) !important;
+  stroke: var(--brand-pink) !important;
+}
+
+/* ── 벚꽃잎 낙하 파티클 ── */
+.floating-sakura-wrap {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+  overflow: hidden;
+  transition: opacity 0.4s ease;
+}
+.floating-sakura-wrap.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+.floating-sakura {
+  position: absolute;
+  top: -40px;
+  user-select: none;
+  animation: sakuraFall linear infinite;
+  filter: drop-shadow(0 2px 4px rgba(255, 117, 143, 0.3));
+}
+@keyframes sakuraFall {
+  0% {
+    transform: translateY(0) rotate(0deg) translateX(0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.8;
+  }
+  85% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(105vh) rotate(480deg) translateX(80px);
+    opacity: 0;
+  }
+}
+
+/* ── 저장 완료 토스트 알림 ── */
+.save-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--brand-teal);
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.save-toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (max-width: 768px) {
+  .save-toast {
+    bottom: 80px;
+    right: 16px;
+    font-size: 12px;
+    padding: 8px 14px;
+  }
+}
+

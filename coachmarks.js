@@ -1,54 +1,53 @@
 // ================================================================
-//  COACH MARKS — 탭별 가이드 팝업
+//  COACH MARKS — 도쿄 플래너 가이드 팝업
 // ================================================================
 const COACH_DATA = {
   flight: {
     icon: "✈️", title: "항공권 비교 가이드",
     steps: [
       { target: "#panel-flight .btn-add-entry", emoji:"📸", text:"<b>항공권 추가</b> 버튼을 누르고 캡쳐한 이미지를 <b>'복사/붙여넣기(Ctrl+V)'</b>해서 쉽게 일정을 등록해보세요!" },
-      { target: "#flightFilterBar", emoji:"🗓", text:"<b>출발일순 정렬</b>과 <b>연차 5, 6, 7일 필터</b>로 내 휴가에 맞는 최적의 일정을 찾아보세요." },
-      { target: "#flightGrid", pulse: ".btn-select", emoji:"✅", text:"카드에서 전체 여정과 예약 링크 등 <b>요약 정보</b>를 한눈에 비교하고 <b>선택</b>하세요." }
+      { target: "#flightFilterBar", emoji:"🗓", text:"<b>출발일순 정렬</b>과 <b>연차 필터</b>로 휴가에 맞는 최적의 일정을 찾아보세요." },
+      { target: "#flightGrid", pulse: ".btn-select", emoji:"✅", text:"카드에서 전체 여정과 예약 링크를 확인하고 <b>선택</b>하면 상단 대시보드와 지출에 자동 반영됩니다." }
     ]
   },
   hotel: {
-    icon: "🏨", title: "호텔 비교 가이드",
+    icon: "🏨", title: "도쿄 숙소 비교 가이드",
     steps: [
-      { target: "#panel-hotel .btn-add-entry", emoji:"➕", text:"<b>호텔 추가</b> 버튼으로 후보 숙소를 등록하세요." },
-      { target: "#hotelFilterBar", emoji:"⭐", text:"<b>지역/정렬 필터</b>로 최적의 숙소를 별점순, 가격순으로 찾으세요." },
-      { target: "#hotelGrid", emoji:"🔗", text:"각 카드에서 <b>Agoda · Booking · 야놀자 · 구글맵</b> 링크를 확인하세요." }
+      { target: "#panel-hotel .btn-add-entry", emoji:"➕", text:"<b>숙소 추가</b> 버튼으로 신주쿠, 시부야, 긴자 등 후보 숙소를 등록하세요." },
+      { target: "#hotelFilterBar", emoji:"🗼", text:"<b>도쿄 지역별 필터</b>(신주쿠, 시부야, 긴자, 아사쿠사)로 원하는 위치의 숙소를 빠르게 모아보세요." },
+      { target: "#hotelGrid", emoji:"🔗", text:"각 숙소 카드에서 <b>총 숙박비와 예약 링크</b>를 확인하세요." }
     ]
   },
   tour: {
-    icon: "🎡", title: "투어 비교 가이드",
+    icon: "🎡", title: "도쿄 투어/티켓 가이드",
     steps: [
-      { target: "#tourFilterBar", emoji:"🏷", text:"<b>카테고리 필터</b>로 관광, 액티비티, 식사 투어를 골라보세요." },
-      { target: "#tourGrid", emoji:"📊", text:"<b>KKday · 마이리얼트립 · 트리플</b> 등 플랫폼별 가격을 비교하세요." },
-      { target: "#panel-tour .btn-add-entry", emoji:"✏️", text:"<b>투어 추가</b> 버튼으로 직접 찾은 투어 정보를 넣을 수 있어요." }
+      { target: "#tourFilterBar", emoji:"🎟️", text:"<b>카테고리 필터</b>로 디즈니랜드, 시부야 스카이, 메트로 패스를 골라보세요." },
+      { target: "#tourGrid", emoji:"📊", text:"<b>KKday · 마이리얼트립 · 클룩 · 트리플</b> 등 플랫폼별 가격을 비교하세요." },
+      { target: "#panel-tour .btn-add-entry", emoji:"✏️", text:"<b>투어 추가</b> 버튼으로 직접 찾은 티켓 정보를 넣을 수 있어요." }
     ]
   },
   checklist: {
-    icon: "📋", title: "체크리스트 가이드",
+    icon: "📋", title: "일본 여행 체크리스트 가이드",
     steps: [
-      { target: "#checklistLayout", emoji:"✅", text:"이곳에 제공되는 카테고리별 <b>준비물을 체크</b>해보세요." },
+      { target: "#checklistLayout", emoji:"✅", text:"비짓재팬웹(VJW), 110V 돼지코, eSIM 등 <b>일본 필수 준비물을 체크</b>해보세요." },
       { target: ".checklist-progress", emoji:"📊", text:"진행률 바에서 전체 준비 <b>진행 상황</b>을 한눈에 확인할 수 있어요." },
-      { target: "#panel-checklist .btn-add-entry", emoji:"➕", text:"<b>섹션 추가</b> 버튼으로 나만의 카테고리도 만들 수 있습니다." }
+      { target: "#panel-checklist .btn-add-entry", emoji:"➕", text:"<b>섹션 추가</b> 버튼으로 나만의 준비물 카테고리도 만들 수 있습니다." }
     ]
   },
   itinerary: {
-    icon: "🗺️", title: "여행 일정표 가이드",
+    icon: "🗺️", title: "도쿄 여행 일정표 가이드",
     steps: [
-      { target: "#dayTabsMini", emoji:"📅", text:"<b>Day별 탭</b>에서 각 날짜를 전환하고, 편집 모드에서 날짜를 지워요." },
+      { target: "#dayTabsMini", emoji:"📅", text:"<b>Day별 탭</b>에서 일자별 동선을 확인하고 날짜를 추가/편집하세요." },
       { target: ".btn-add-place", emoji:"📍", text:"장소 검색은 Google Maps 자동완성으로 <b>위치 정보가 바로 연동</b>돼요." },
-      { target: "#timelineList", emoji:"🔵", text:"타임라인 동그란 <b>번호</b>를 클릭하면 해당 위치로 길찾기가 시작돼요." },
-      { target: "#googleMap", emoji:"🗺️", text:"장소를 등록하면 <b>지도와 동선</b>이 실시간으로 예쁘게 그려집니다!" }
+      { target: "#timelineList", emoji:"🔵", text:"타임라인 동그란 <b>번호</b>를 클릭하면 Google 지도 실시간 길찾기로 연결됩니다." }
     ]
   },
   expense: {
-    icon: "💸", title: "지출 정리 가이드",
+    icon: "💸", title: "엔화 & 지출 정리 가이드",
     steps: [
-      { target: "#panel-expense .btn-add-entry", emoji:"➕", text:"<b>지출 내역 추가</b> 버튼으로 쓴 돈을 기록하세요." },
-      { target: "#expenseSummaryBanner", emoji:"📊", text:"호주 달러(AUD)와 <b>실시간 환율</b>이 적용된 원화 총액을 확인하세요." },
-      { target: "#exchangeRateBadge", emoji:"💰", text:"이 영역을 누르면 <b>최신 환율 정보를 다시</b> 불러옵니다." }
+      { target: "#panel-expense .btn-add-entry", emoji:"➕", text:"<b>지출 추가</b> 버튼으로 원화(사전결제) 또는 엔화(현지사용)를 기록하세요." },
+      { target: "#expenseSummaryBanner", emoji:"📊", text:"엔화(JPY)와 <b>실시간 환율</b>이 적용된 원화 총액을 한눈에 확인하세요." },
+      { target: "#exchangeRateBadge", emoji:"💰", text:"이 영역을 누르면 <b>최신 실시간 엔화 환율</b>을 다시 불러옵니다." }
     ]
   }
 };
@@ -128,20 +127,19 @@ function updateSpotlight(targetSelector) {
   const targetEl = document.querySelector(targetSelector);
   if (targetEl && targetEl.offsetParent !== null) {
     const rect = targetEl.getBoundingClientRect();
-    const pad = 12; // padding around the element
+    const pad = 12;
     spotlight.style.opacity = '1';
     spotlight.style.top = (rect.top - pad) + 'px';
     spotlight.style.left = (rect.left - pad) + 'px';
     spotlight.style.width = (rect.width + pad*2) + 'px';
     spotlight.style.height = (rect.height + pad*2) + 'px';
     
-    // Position card relatively near spotlight
     card.style.position = 'absolute';
     let cardTop = rect.bottom + pad + 20;
     if (cardTop + card.offsetHeight > window.innerHeight) {
-      cardTop = rect.top - pad - card.offsetHeight - 20; // place above if clipping
+      cardTop = rect.top - pad - card.offsetHeight - 20;
     }
-    if (cardTop < 20) cardTop = 30; // fallback
+    if (cardTop < 20) cardTop = 30;
 
     let cardLeft = rect.left + (rect.width / 2) - (card.offsetWidth / 2);
     if (cardLeft < 20) cardLeft = 20;
@@ -151,15 +149,12 @@ function updateSpotlight(targetSelector) {
     card.style.left = cardLeft + 'px';
     card.style.margin = '0';
 
-    // Pulse effects
     document.querySelectorAll(".coach-pulse").forEach(function(el) { el.classList.remove("coach-pulse"); });
     const stepData = COACH_DATA[coachTab].steps[coachStep];
     if (stepData.pulse) {
       targetEl.querySelectorAll(stepData.pulse).forEach(function(el) { el.classList.add("coach-pulse"); });
     }
-
   } else {
-    // Center fallback
     spotlight.style.opacity = '0';
     spotlight.style.top = '50%';
     spotlight.style.left = '50%';
@@ -173,7 +168,6 @@ function updateSpotlight(targetSelector) {
   }
 }
 
-
 function coachNext() { coachStep++; renderCoachMark(); }
 function coachPrev() { coachStep--; renderCoachMark(); }
 function closeCoachMark() {
@@ -182,5 +176,4 @@ function closeCoachMark() {
   document.querySelectorAll(".coach-pulse").forEach(function(el) { el.classList.remove("coach-pulse"); });
 }
 
-// 페이지 로드 시 첫 탭 코치마크 자동 표시
 setTimeout(function() { showCoachMark("flight"); }, 1000);
