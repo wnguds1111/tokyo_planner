@@ -505,9 +505,6 @@ function switchTab(tab, btn) {
   const panel = document.getElementById("panel-" + tab);
   if (panel) panel.classList.add("active");
   if (btn) btn.classList.add("active");
-  if (typeof showCoachMark === "function") {
-    showCoachMark(tab);
-  }
 }
 
 // ================================================================
