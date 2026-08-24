@@ -85,7 +85,7 @@ const defaultChecklistGroups = [
 
 // ─── Default Tokyo Data (Sample Data) ───
 const defaultTokyoData = {
-  departDate: "2026-10-21T00:00:00",
+  departDate: "2026-10-07T00:00:00",
   flights: [
     {
       id: "f_tokyo_1",
@@ -94,13 +94,13 @@ const defaultTokyoData = {
       price: 450000,
       cls: "이코노미",
       imageUrl: "",
-      depdate: "2026-10-21",
+      depdate: "2026-10-07",
       outFlightNo: "KE703",
       outDepAirport: "인천 (ICN) T2",
       outDepTime: "09:00",
       outArrAirport: "도쿄 나리타 (NRT) T1",
       outArrTime: "11:35",
-      rdate: "2026-10-24",
+      rdate: "2026-10-10",
       inFlightNo: "KE704",
       inDepAirport: "도쿄 나리타 (NRT) T1",
       inDepTime: "17:20",
@@ -110,7 +110,7 @@ const defaultTokyoData = {
       totalDays: "4",
       annualLeave: "2",
       link: "https://www.koreanair.com",
-      memo: "수하물 23kg 포함 · 사전 좌석 배정 완료 (28A, 28B) · 모바일 체크인 가능",
+      memo: "주혐이 & 미녀 500일 기념 도쿄 여행 💖 · 수하물 23kg 포함 · 사전 좌석 배정 완료 (28A, 28B)",
       selected: true
     },
     {
@@ -120,13 +120,13 @@ const defaultTokyoData = {
       price: 520000,
       cls: "이코노미",
       imageUrl: "",
-      depdate: "2026-10-21",
+      depdate: "2026-10-07",
       outFlightNo: "OZ102",
       outDepAirport: "김포 (GMP)",
       outDepTime: "08:40",
       outArrAirport: "도쿄 하네다 (HND) T3",
       outArrTime: "10:55",
-      rdate: "2026-10-25",
+      rdate: "2026-10-11",
       inFlightNo: "OZ101",
       inDepAirport: "도쿄 하네다 (HND) T3",
       inDepTime: "16:30",
@@ -146,13 +146,13 @@ const defaultTokyoData = {
       price: 290000,
       cls: "이코노미",
       imageUrl: "",
-      depdate: "2026-10-22",
+      depdate: "2026-10-07",
       outFlightNo: "7C1102",
       outDepAirport: "인천 (ICN) T1",
       outDepTime: "07:30",
       outArrAirport: "도쿄 나리타 (NRT) T3",
       outArrTime: "10:05",
-      rdate: "2026-10-25",
+      rdate: "2026-10-10",
       inFlightNo: "7C1105",
       inDepAirport: "도쿄 나리타 (NRT) T3",
       inDepTime: "18:40",
@@ -171,8 +171,8 @@ const defaultTokyoData = {
       id: "h_tokyo_1",
       name: "호텔 그레이서리 신주쿠 (Hotel Gracery Shinjuku)",
       area: "shinjuku",
-      checkin: "2026-10-21",
-      checkout: "2026-10-24",
+      checkin: "2026-10-07",
+      checkout: "2026-10-10",
       price: 220000,
       tag: "best",
       desc: "신주쿠 가부키초 중심 랜드마크 고질라 호텔, 신주쿠역 도보 5분",
@@ -184,8 +184,8 @@ const defaultTokyoData = {
       id: "h_tokyo_2",
       name: "시부야 스트림 엑셀 호텔 도큐 (Shibuya Stream Excel Hotel Tokyu)",
       area: "shibuya",
-      checkin: "2026-10-21",
-      checkout: "2026-10-24",
+      checkin: "2026-10-07",
+      checkout: "2026-10-10",
       price: 320000,
       tag: "pick",
       desc: "시부야역 직결 초역세권, 감각적이고 트렌디한 도쿄 감성 룸",
@@ -197,8 +197,8 @@ const defaultTokyoData = {
       id: "h_tokyo_3",
       name: "긴자 그랜드 호텔 (Ginza Grand Hotel)",
       area: "ginza",
-      checkin: "2026-10-21",
-      checkout: "2026-10-24",
+      checkin: "2026-10-07",
+      checkout: "2026-10-10",
       price: 185000,
       tag: "value",
       desc: "신바시역·긴자역 도보 3분, 쇼핑과 교통이 편리한 가성비 호텔",
@@ -210,8 +210,8 @@ const defaultTokyoData = {
       id: "h_tokyo_4",
       name: "아사쿠사 뷰 호텔 (Asakusa View Hotel)",
       area: "asakusa",
-      checkin: "2026-10-21",
-      checkout: "2026-10-24",
+      checkin: "2026-10-07",
+      checkout: "2026-10-10",
       price: 210000,
       tag: "best",
       desc: "도쿄 스카이트리와 센소지가 한눈에 내려다보이는 환상적인 뷰",
@@ -408,7 +408,7 @@ function toggleTokyoTheme() {
 // ─── Countdown ───
 function startCountdown() {
   const update = () => {
-    const targetDateStr = planData?.departDate || "2026-10-21T00:00:00";
+    const targetDateStr = planData?.departDate || "2026-10-07T00:00:00";
     const target = new Date(targetDateStr).getTime();
     const diff = target - Date.now();
     if (diff <= 0) {
@@ -475,6 +475,7 @@ async function loadData() {
     const localCached = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (localCached) {
       planData = JSON.parse(localCached);
+      planData.departDate = "2026-10-07T00:00:00";
       isDataLoaded = true;
       console.log("⚡ 로컬 캐시에서 도쿄 플래너 즉시 로드 완료");
     }
@@ -488,6 +489,7 @@ async function loadData() {
     if (snap.exists) {
       const dbData = snap.data();
       planData = dbData;
+      planData.departDate = "2026-10-07T00:00:00";
       
       // 누락 필드 방어
       if (!planData.checklistGroups) planData.checklistGroups = JSON.parse(JSON.stringify(defaultChecklistGroups));
@@ -506,11 +508,22 @@ async function loadData() {
           if (!f.inArrAirport) f.inArrAirport = def.inArrAirport || "인천 (ICN) T2";
           if (!f.inFlightNo) f.inFlightNo = def.inFlightNo || "KE704";
           if (!f.bookingRef) f.bookingRef = def.bookingRef || "KE-9821389";
+          if (f.depdate === "2026-10-21") f.depdate = "2026-10-07";
+          if (f.rdate === "2026-10-24" || f.rdate === "2026-10-25") f.rdate = "2026-10-10";
+          if (f.id === "f_tokyo_1" && (!f.memo || f.memo.includes("마일리지") || f.memo.includes("23kg"))) {
+            f.memo = "주혐이 & 미녀 500일 기념 도쿄 여행 💖 · 수하물 23kg 포함 · 사전 좌석 배정 완료 (28A, 28B)";
+          }
         });
       } else {
         planData.flights = JSON.parse(JSON.stringify(defaultTokyoData.flights));
       }
       if (!planData.hotels)  planData.hotels  = [];
+      if (planData.hotels.length > 0) {
+        planData.hotels.forEach(h => {
+          if (h.checkin === "2026-10-21") h.checkin = "2026-10-07";
+          if (h.checkout === "2026-10-24") h.checkout = "2026-10-10";
+        });
+      }
       if (!planData.memos)   planData.memos   = [];
       if (!planData.expenses) planData.expenses = [];
       if (!planData.days)    planData.days = JSON.parse(JSON.stringify(defaultTokyoData.days));
@@ -1361,7 +1374,7 @@ function toggleDayEditMode() {
 }
 
 function getDayLabel(d) {
-  const startDateStr = planData?.departDate ? planData.departDate.substring(0,10) : "2026-10-21";
+  const startDateStr = planData?.departDate ? planData.departDate.substring(0,10) : "2026-10-07";
   const startDate = new Date(startDateStr);
   const targetDate = new Date(startDate);
   targetDate.setDate(startDate.getDate() + (d - 1));
