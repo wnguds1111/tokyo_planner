@@ -89,27 +89,49 @@ const defaultTokyoData = {
   flights: [
     {
       id: "f_tokyo_1",
-      airline: "대한항공 (인천 ↔ 나리타)",
+      airline: "대한항공",
+      bookingRef: "KE-9821389",
       price: 450000,
       cls: "이코노미",
       imageUrl: "",
       depdate: "2026-10-21",
+      outFlightNo: "KE703",
+      outDepAirport: "인천 (ICN) T2",
+      outDepTime: "09:00",
+      outArrAirport: "도쿄 나리타 (NRT) T1",
+      outArrTime: "11:35",
       rdate: "2026-10-24",
+      inFlightNo: "KE704",
+      inDepAirport: "도쿄 나리타 (NRT) T1",
+      inDepTime: "17:20",
+      inArrAirport: "인천 (ICN) T2",
+      inArrTime: "20:00",
       totalNights: "3",
       totalDays: "4",
       annualLeave: "2",
       link: "https://www.koreanair.com",
-      memo: "오전 09:00 출발편 / 수하물 23kg 포함 / 마일리지 적립 가능",
+      memo: "수하물 23kg 포함 · 사전 좌석 배정 완료 (28A, 28B) · 모바일 체크인 가능",
       selected: true
     },
     {
       id: "f_tokyo_2",
-      airline: "아시아나항공 (김포 ↔ 하네다)",
+      airline: "아시아나항공",
+      bookingRef: "OZ-7729104",
       price: 520000,
       cls: "이코노미",
       imageUrl: "",
       depdate: "2026-10-21",
+      outFlightNo: "OZ102",
+      outDepAirport: "김포 (GMP)",
+      outDepTime: "08:40",
+      outArrAirport: "도쿄 하네다 (HND) T3",
+      outArrTime: "10:55",
       rdate: "2026-10-25",
+      inFlightNo: "OZ101",
+      inDepAirport: "도쿄 하네다 (HND) T3",
+      inDepTime: "16:30",
+      inArrAirport: "김포 (GMP)",
+      inArrTime: "19:00",
       totalNights: "4",
       totalDays: "5",
       annualLeave: "3",
@@ -119,17 +141,28 @@ const defaultTokyoData = {
     },
     {
       id: "f_tokyo_3",
-      airline: "제주항공 (인천 ↔ 나리타)",
+      airline: "제주항공",
+      bookingRef: "7C-3381902",
       price: 290000,
       cls: "이코노미",
       imageUrl: "",
       depdate: "2026-10-22",
+      outFlightNo: "7C1102",
+      outDepAirport: "인천 (ICN) T1",
+      outDepTime: "07:30",
+      outArrAirport: "도쿄 나리타 (NRT) T3",
+      outArrTime: "10:05",
       rdate: "2026-10-25",
+      inFlightNo: "7C1105",
+      inDepAirport: "도쿄 나리타 (NRT) T3",
+      inDepTime: "18:40",
+      inArrAirport: "인천 (ICN) T1",
+      inArrTime: "21:20",
       totalNights: "3",
       totalDays: "4",
       annualLeave: "2",
       link: "https://www.jejuair.net",
-      memo: "가성비 특가 운임 / 수하물 15kg 포함",
+      memo: "가성비 특가 운임 · 수하물 15kg 포함",
       selected: false
     }
   ],
@@ -458,7 +491,25 @@ async function loadData() {
       
       // 누락 필드 방어
       if (!planData.checklistGroups) planData.checklistGroups = JSON.parse(JSON.stringify(defaultChecklistGroups));
-      if (!planData.flights) planData.flights = [];
+      // 항공권 상세 스케줄 스마트 보강
+      if (planData.flights && planData.flights.length > 0) {
+        planData.flights.forEach((f, idx) => {
+          const def = defaultTokyoData.flights[idx] || defaultTokyoData.flights[0];
+          if (!f.outDepTime) f.outDepTime = def.outDepTime || "09:00";
+          if (!f.outArrTime) f.outArrTime = def.outArrTime || "11:35";
+          if (!f.outDepAirport) f.outDepAirport = def.outDepAirport || "인천 (ICN) T2";
+          if (!f.outArrAirport) f.outArrAirport = def.outArrAirport || "도쿄 나리타 (NRT) T1";
+          if (!f.outFlightNo) f.outFlightNo = def.outFlightNo || "KE703";
+          if (!f.inDepTime) f.inDepTime = def.inDepTime || "17:20";
+          if (!f.inArrTime) f.inArrTime = def.inArrTime || "20:00";
+          if (!f.inDepAirport) f.inDepAirport = def.inDepAirport || "도쿄 나리타 (NRT) T1";
+          if (!f.inArrAirport) f.inArrAirport = def.inArrAirport || "인천 (ICN) T2";
+          if (!f.inFlightNo) f.inFlightNo = def.inFlightNo || "KE704";
+          if (!f.bookingRef) f.bookingRef = def.bookingRef || "KE-9821389";
+        });
+      } else {
+        planData.flights = JSON.parse(JSON.stringify(defaultTokyoData.flights));
+      }
       if (!planData.hotels)  planData.hotels  = [];
       if (!planData.memos)   planData.memos   = [];
       if (!planData.expenses) planData.expenses = [];
@@ -560,8 +611,30 @@ function openFlightModal(id) {
   const f = planData.flights.find(x => x.id === id);
   document.getElementById("flightEditId").value = id || "";
   document.getElementById("flightModalTitle").textContent = id ? "✈️ 항공 일정 수정" : "✈️ 항공 일정 추가";
-  document.getElementById("fm_airline").value = f?.airline || "";
-  document.getElementById("fm_price").value   = f?.price || "";
+  document.getElementById("fm_airline").value     = f?.airline || "";
+  document.getElementById("fm_booking_ref").value = f?.bookingRef || "";
+  document.getElementById("fm_price").value       = f?.price || "";
+  
+  // 가는 편
+  document.getElementById("fm_depdate").value        = f?.depdate || "";
+  document.getElementById("fm_out_flight_no").value   = f?.outFlightNo || "";
+  document.getElementById("fm_out_dep_airport").value = f?.outDepAirport || "";
+  document.getElementById("fm_out_dep_time").value    = f?.outDepTime || "";
+  document.getElementById("fm_out_arr_airport").value = f?.outArrAirport || "";
+  document.getElementById("fm_out_arr_time").value    = f?.outArrTime || "";
+
+  // 오는 편
+  document.getElementById("fm_rdate").value         = f?.rdate || "";
+  document.getElementById("fm_in_flight_no").value   = f?.inFlightNo || "";
+  document.getElementById("fm_in_dep_airport").value = f?.inDepAirport || "";
+  document.getElementById("fm_in_dep_time").value    = f?.inDepTime || "";
+  document.getElementById("fm_in_arr_airport").value = f?.inArrAirport || "";
+  document.getElementById("fm_in_arr_time").value    = f?.inArrTime || "";
+
+  document.getElementById("fm_total_nights").value = f?.totalNights || "";
+  document.getElementById("fm_total_days").value   = f?.totalDays || "";
+  document.getElementById("fm_link").value         = f?.link || "";
+  document.getElementById("fm_memo").value         = f?.memo || "";
   
   const imageUrl = f?.imageUrl || "";
   document.getElementById("fm_image_base64").value = imageUrl;
@@ -576,13 +649,6 @@ function openFlightModal(id) {
     }
   }
 
-  document.getElementById("fm_total_nights").value = f?.totalNights || "";
-  document.getElementById("fm_total_days").value   = f?.totalDays || "";
-  document.getElementById("fm_link").value         = f?.link || "";
-  document.getElementById("fm_depdate").value      = f?.depdate || "";
-  document.getElementById("fm_rdate").value        = f?.rdate || "";
-  document.getElementById("fm_memo").value         = f?.memo || "";
-  
   const annualVal = f?.annualLeave || "";
   document.querySelectorAll('input[name="fm_annual"]').forEach(r => r.checked = (r.value === annualVal));
   if (!annualVal) document.getElementById("fm_annual_none").checked = true;
@@ -599,19 +665,30 @@ function saveFlight() {
   const existing   = planData.flights.find(x => x.id === existingId);
 
   const entry = {
-    id:          existingId || ("f_" + Date.now()),
-    airline:     document.getElementById("fm_airline").value.trim(),
+    id:             existingId || ("f_" + Date.now()),
+    airline:        document.getElementById("fm_airline").value.trim(),
+    bookingRef:     document.getElementById("fm_booking_ref").value.trim(),
     price,
-    cls:         "이코노미",
-    imageUrl:    document.getElementById("fm_image_base64").value.trim(),
-    depdate:     document.getElementById("fm_depdate").value,
-    rdate:       document.getElementById("fm_rdate").value,
-    totalNights: document.getElementById("fm_total_nights").value.trim(),
-    totalDays:   document.getElementById("fm_total_days").value.trim(),
-    link:        document.getElementById("fm_link").value.trim(),
-    annualLeave: document.querySelector('input[name="fm_annual"]:checked')?.value || "",
-    memo:        document.getElementById("fm_memo").value.trim(),
-    selected:    existing?.selected || false
+    cls:            "이코노미",
+    imageUrl:       document.getElementById("fm_image_base64").value.trim(),
+    depdate:        document.getElementById("fm_depdate").value,
+    outFlightNo:    document.getElementById("fm_out_flight_no").value.trim(),
+    outDepAirport:  document.getElementById("fm_out_dep_airport").value.trim(),
+    outDepTime:     document.getElementById("fm_out_dep_time").value,
+    outArrAirport:  document.getElementById("fm_out_arr_airport").value.trim(),
+    outArrTime:     document.getElementById("fm_out_arr_time").value,
+    rdate:          document.getElementById("fm_rdate").value,
+    inFlightNo:     document.getElementById("fm_in_flight_no").value.trim(),
+    inDepAirport:   document.getElementById("fm_in_dep_airport").value.trim(),
+    inDepTime:      document.getElementById("fm_in_dep_time").value,
+    inArrAirport:   document.getElementById("fm_in_arr_airport").value.trim(),
+    inArrTime:      document.getElementById("fm_in_arr_time").value,
+    totalNights:    document.getElementById("fm_total_nights").value.trim(),
+    totalDays:      document.getElementById("fm_total_days").value.trim(),
+    link:           document.getElementById("fm_link").value.trim(),
+    annualLeave:    document.querySelector('input[name="fm_annual"]:checked')?.value || "",
+    memo:           document.getElementById("fm_memo").value.trim(),
+    selected:       existing ? existing.selected : (planData.flights.length === 0)
   };
 
   const idx = planData.flights.findIndex(x => x.id === entry.id);
@@ -700,6 +777,7 @@ function renderFlights() {
 
     const badges = [];
     if (f.airline) badges.push(`<span class="badge-pill" style="background:rgba(255,117,143,0.1);border:1px solid rgba(255,117,143,0.3);color:var(--brand-pink);">✈️ ${f.airline}</span>`);
+    if (f.bookingRef) badges.push(`<span class="badge-pill" style="background:rgba(124,77,255,0.08);border:1px solid rgba(124,77,255,0.25);color:var(--brand-lavender);">🎫 ${f.bookingRef}</span>`);
     if (f.annualLeave) badges.push(`<span class="badge-pill" style="background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);color:var(--success);">🏖️ 연차 ${f.annualLeave}일</span>`);
 
     function formatDateForFlight(dateStr) {
@@ -711,21 +789,47 @@ function renderFlights() {
       const wk = ["일","월","화","수","목","금","토"][d.getDay()];
       return `${m}.${day} (${wk})`;
     }
-    
-    let dateRangeHtml = "";
-    if (f.depdate || f.rdate) {
-      const depStr = formatDateForFlight(f.depdate) || "?";
-      const retStr = formatDateForFlight(f.rdate) || "?";
-      dateRangeHtml = `<div style="font-size:13px; font-weight:700; color:var(--brand-pink); margin-bottom:4px;">🗓️ ${depStr} ~ ${retStr}</div>`;
-    }
+
+    const outDepDateStr = formatDateForFlight(f.depdate) || "출발일 미정";
+    const inDepDateStr  = formatDateForFlight(f.rdate) || "도착일 미정";
+
+    // 가는 편 스케줄 박스
+    const outScheduleHtml = `
+      <div style="background:var(--surface-soft); padding:10px 14px; border-radius:10px; border:1px solid var(--hairline); margin-top:8px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+          <span style="font-size:12px; font-weight:800; color:var(--brand-pink);">🛫 가는 편 · ${outDepDateStr}</span>
+          ${f.outFlightNo ? `<span style="font-size:11px; font-weight:700; background:rgba(255,117,143,0.12); color:var(--brand-pink); padding:2px 8px; border-radius:6px;">${f.outFlightNo}</span>` : ""}
+        </div>
+        <div style="display:flex; align-items:center; justify-content:space-between; font-size:13px; font-weight:700;">
+          <div>${f.outDepAirport || "인천 (ICN)"} <span style="font-size:15px; font-weight:900; color:var(--ink);">${f.outDepTime || "--:--"}</span></div>
+          <div style="font-size:12px; color:var(--muted); padding:0 8px;">── ✈️ ──▶</div>
+          <div>${f.outArrAirport || "나리타 (NRT)"} <span style="font-size:15px; font-weight:900; color:var(--ink);">${f.outArrTime || "--:--"}</span></div>
+        </div>
+      </div>
+    `;
+
+    // 오는 편 스케줄 박스
+    const inScheduleHtml = `
+      <div style="background:var(--surface-soft); padding:10px 14px; border-radius:10px; border:1px solid var(--hairline); margin-top:8px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+          <span style="font-size:12px; font-weight:800; color:var(--brand-lavender);">🛬 오는 편 · ${inDepDateStr}</span>
+          ${f.inFlightNo ? `<span style="font-size:11px; font-weight:700; background:rgba(124,77,255,0.12); color:var(--brand-lavender); padding:2px 8px; border-radius:6px;">${f.inFlightNo}</span>` : ""}
+        </div>
+        <div style="display:flex; align-items:center; justify-content:space-between; font-size:13px; font-weight:700;">
+          <div>${f.inDepAirport || "나리타 (NRT)"} <span style="font-size:15px; font-weight:900; color:var(--ink);">${f.inDepTime || "--:--"}</span></div>
+          <div style="font-size:12px; color:var(--muted); padding:0 8px;">── ✈️ ──▶</div>
+          <div>${f.inArrAirport || "인천 (ICN)"} <span style="font-size:15px; font-weight:900; color:var(--ink);">${f.inArrTime || "--:--"}</span></div>
+        </div>
+      </div>
+    `;
 
     return `
     <div class="glass-card fc-card-wrap ${isSelected ? 'selected' : ''}" id="fc-${f.id}">
       <div class="fc-top-row">
         <div class="fc-top-left">
-          ${dateRangeHtml}
-          <div class="fc-summary-text" style="font-size:15px; font-weight:800;">
-            ${f.totalNights ? `${f.totalNights}박 ${f.totalDays||Number(f.totalNights)+1}일 일정` : (f.airline || "항공권 정보")}
+          <div class="fc-summary-text" style="font-size:16px; font-weight:800; display:flex; align-items:center; gap:8px;">
+            <span>${f.airline || "항공권"}</span>
+            <span style="font-size:13px; font-weight:600; color:var(--text-muted);">(${f.totalNights ? `${f.totalNights}박 ${f.totalDays||Number(f.totalNights)+1}일` : "일정"})</span>
           </div>
           <div class="fc-badges" style="margin-top:6px;">${badges.join("")}</div>
         </div>
@@ -741,9 +845,11 @@ function renderFlights() {
         </div>
       </div>
       <div class="fc-body">
+        ${outScheduleHtml}
+        ${inScheduleHtml}
         ${imageHtml}
         ${linkHtml}
-        ${f.memo ? `<div class="fc-memo">💬 ${f.memo}</div>` : ""}
+        ${f.memo ? `<div class="fc-memo" style="margin-top:8px;">💬 ${f.memo}</div>` : ""}
       </div>
     </div>`;
   }).join("");
@@ -1800,23 +1906,92 @@ function renderBookingSummary() {
   const selFlight = planData.flights.find(f => f.selected);
   let flightHtml = "";
   if (selFlight) {
-    const depStr = selFlight.depdate ? selFlight.depdate.substring(5).replace("-", "/") : "?";
-    const retStr = selFlight.rdate ? selFlight.rdate.substring(5).replace("-", "/") : "?";
-    const dateRange = (selFlight.depdate || selFlight.rdate) ? `🗓️ ${depStr} ~ ${retStr}` : "날짜 미정";
-    const linkBtn = selFlight.link ? `<a href="${selFlight.link}" target="_blank" class="summary-link-btn">🔗 항공권 예약 이동</a>` : "";
+    function formatFlightDateBadge(dateStr) {
+      if (!dateStr) return "";
+      const d = new Date(dateStr);
+      if (isNaN(d)) return "";
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      const wk = ["일","월","화","수","목","금","토"][d.getDay()];
+      return `${m}.${day} (${wk})`;
+    }
+    const outDateBadge = formatFlightDateBadge(selFlight.depdate) || "날짜 미정";
+    const inDateBadge  = formatFlightDateBadge(selFlight.rdate) || "날짜 미정";
+    const linkBtn = selFlight.link ? `<a href="${selFlight.link}" target="_blank" class="summary-link-btn" style="margin-top:12px;">🔗 항공권 예약 관리 이동</a>` : "";
 
     flightHtml = `
       <div class="booking-section">
         <div class="booking-section-header">
           <span class="booking-section-icon">✈️</span>
-          <span class="booking-section-title">항공권 예약 내역</span>
+          <span class="booking-section-title">항공권 예약 내역 (확정 스케줄)</span>
         </div>
-        <div class="summary-card-content flight-section-card">
+        <div class="summary-card-content flight-section-card" style="padding:20px;">
           <div class="flight-text-details">
-            <div class="summary-card-main-val">${selFlight.price ? fmtPrice(selFlight.price) + '원' : '-'}</div>
-            <div class="summary-card-info-large">${dateRange} · ${selFlight.totalNights ? `${selFlight.totalNights}박 ${selFlight.totalDays||Number(selFlight.totalNights)+1}일` : ''}</div>
-            ${selFlight.airline ? `<div class="summary-card-info-large" style="margin-top: 6px;">항공사: <strong>${selFlight.airline}</strong></div>` : ""}
-            ${selFlight.memo ? `<div class="summary-card-memo" style="margin-top: 10px;">💬 ${selFlight.memo}</div>` : ""}
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px; margin-bottom:14px;">
+              <div>
+                <div style="font-size:18px; font-weight:900; color:var(--ink); display:flex; align-items:center; gap:8px;">
+                  <span>✈️ ${selFlight.airline || "항공권"}</span>
+                  ${selFlight.bookingRef ? `<span style="font-size:12px; font-weight:700; background:rgba(124,77,255,0.1); color:var(--brand-lavender); padding:3px 10px; border-radius:12px;">예약번호: ${selFlight.bookingRef}</span>` : ""}
+                </div>
+                <div style="font-size:13px; color:var(--text-muted); font-weight:600; margin-top:3px;">
+                  총 ${selFlight.totalNights ? `${selFlight.totalNights}박 ${selFlight.totalDays||Number(selFlight.totalNights)+1}일` : ""} ${selFlight.annualLeave ? `· 연차 ${selFlight.annualLeave}일` : ""}
+                </div>
+              </div>
+              <div class="summary-card-main-val" style="font-size:22px; color:var(--brand-pink);">${selFlight.price ? fmtPrice(selFlight.price) + '원' : '-'}</div>
+            </div>
+
+            <!-- 가는 편 / 오는 편 스케줄 대시보드 카드 -->
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:12px;">
+              <!-- 가는 편 -->
+              <div style="background:var(--surface-card); padding:14px 16px; border-radius:12px; border:1px solid var(--hairline);">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                  <span style="font-size:12px; font-weight:800; color:var(--brand-pink);">🛫 가는 편 (출국) · ${outDateBadge}</span>
+                  ${selFlight.outFlightNo ? `<span style="font-size:11px; font-weight:700; background:rgba(255,117,143,0.12); color:var(--brand-pink); padding:2px 8px; border-radius:6px;">${selFlight.outFlightNo}</span>` : ""}
+                </div>
+                <div style="display:flex; align-items:center; justify-content:space-between;">
+                  <div style="text-align:left;">
+                    <div style="font-size:11px; color:var(--text-muted); font-weight:600;">출발</div>
+                    <div style="font-size:18px; font-weight:900; color:var(--ink);">${selFlight.outDepTime || "09:00"}</div>
+                    <div style="font-size:12px; font-weight:700; color:var(--body);">${selFlight.outDepAirport || "인천(ICN)"}</div>
+                  </div>
+                  <div style="text-align:center; padding:0 8px;">
+                    <div style="font-size:11px; color:var(--muted); font-weight:600;">직항</div>
+                    <div style="font-size:14px; color:var(--brand-pink);">──────✈️─────▶</div>
+                  </div>
+                  <div style="text-align:right;">
+                    <div style="font-size:11px; color:var(--text-muted); font-weight:600;">도착</div>
+                    <div style="font-size:18px; font-weight:900; color:var(--ink);">${selFlight.outArrTime || "11:35"}</div>
+                    <div style="font-size:12px; font-weight:700; color:var(--body);">${selFlight.outArrAirport || "나리타(NRT)"}</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 오는 편 -->
+              <div style="background:var(--surface-card); padding:14px 16px; border-radius:12px; border:1px solid var(--hairline);">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                  <span style="font-size:12px; font-weight:800; color:var(--brand-lavender);">🛬 오는 편 (귀국) · ${inDateBadge}</span>
+                  ${selFlight.inFlightNo ? `<span style="font-size:11px; font-weight:700; background:rgba(124,77,255,0.12); color:var(--brand-lavender); padding:2px 8px; border-radius:6px;">${selFlight.inFlightNo}</span>` : ""}
+                </div>
+                <div style="display:flex; align-items:center; justify-content:space-between;">
+                  <div style="text-align:left;">
+                    <div style="font-size:11px; color:var(--text-muted); font-weight:600;">출발</div>
+                    <div style="font-size:18px; font-weight:900; color:var(--ink);">${selFlight.inDepTime || "17:20"}</div>
+                    <div style="font-size:12px; font-weight:700; color:var(--body);">${selFlight.inDepAirport || "나리타(NRT)"}</div>
+                  </div>
+                  <div style="text-align:center; padding:0 8px;">
+                    <div style="font-size:11px; color:var(--muted); font-weight:600;">직항</div>
+                    <div style="font-size:14px; color:var(--brand-lavender);">──────✈️─────▶</div>
+                  </div>
+                  <div style="text-align:right;">
+                    <div style="font-size:11px; color:var(--text-muted); font-weight:600;">도착</div>
+                    <div style="font-size:18px; font-weight:900; color:var(--ink);">${selFlight.inArrTime || "20:00"}</div>
+                    <div style="font-size:12px; font-weight:700; color:var(--body);">${selFlight.inArrAirport || "인천(ICN)"}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            ${selFlight.memo ? `<div class="summary-card-memo" style="margin-top:12px;">💬 ${selFlight.memo}</div>` : ""}
             ${linkBtn}
           </div>
         </div>

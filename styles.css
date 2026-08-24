@@ -1610,118 +1610,13 @@ footer {
 .glass-card::before { display: none; }
 
 /* ================================================================
-   COACH MARKS
+   COACH MARKS (DISABLED)
    ================================================================ */
-#coachOverlay {
-  position: fixed;
-  top: 0; left: 0; width: 100vw; height: 100vh;
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0; pointer-events: none;
-  transition: opacity 0.3s ease;
-}
-#coachOverlay.active { opacity: 1; pointer-events: auto; }
-.coach-backdrop { position: absolute; inset: 0; }
-.coach-spotlight {
-  position: absolute;
-  border-radius: var(--radius-md);
-  box-shadow: 0 0 0 9999px rgba(0,0,0,0.5);
-  pointer-events: none;
-  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-  z-index: -1;
-  opacity: 0;
-}
-.coach-card {
-  position: relative;
-  background: var(--on-primary);
-  border: 1px solid var(--hairline);
-  border-radius: var(--radius-xl);
-  width: 90%; max-width: 420px;
-  box-shadow: 0 25px 60px rgba(0,0,0,0.2);
-  overflow: hidden;
-  animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-@keyframes slideUpFade {
-  from { opacity: 0; transform: translateY(30px) scale(0.95); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
-}
-.coach-header {
-  padding: 20px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--hairline-soft);
-}
-.coach-title {
-  font-size: 16px; font-weight: 600; color: var(--ink);
-  display: flex; align-items: center; gap: 8px;
-}
-.coach-close {
-  background: none; border: none;
-  color: var(--muted); font-size: 18px; cursor: pointer;
-  transition: color 0.2s;
-}
-.coach-close:hover { color: var(--ink); }
-.coach-body {
-  padding: 30px 24px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  min-height: 120px;
-}
-.coach-step-emoji {
-  font-size: 36px;
-  background: var(--surface-soft);
-  width: 60px; height: 60px;
-  display: flex; align-items: center; justify-content: center;
-  border-radius: var(--radius-lg);
-  flex-shrink: 0;
-}
-.coach-step-text { font-size: 15px; line-height: 1.6; color: var(--body); }
-.coach-step-text b { color: var(--ink); font-weight: 600; }
-.coach-footer {
-  padding: 16px 24px;
-  background: var(--surface-soft);
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-.coach-dots { display: flex; gap: 6px; justify-content: center; }
-.coach-dot {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: var(--hairline);
-  transition: all 0.3s;
-}
-.coach-dot.active { width: 20px; border-radius: 4px; background: var(--brand-teal); }
-.coach-actions { display: flex; justify-content: space-between; align-items: center; }
-.coach-btn-dismiss {
-  background: none; border: none;
-  color: var(--muted-soft); font-size: 12px; cursor: pointer;
-  text-decoration: underline; text-underline-offset: 4px;
-}
-.coach-btn-dismiss:hover { color: var(--muted); }
-.coach-btn-nav, .coach-btn-next {
-  padding: 8px 16px; border-radius: var(--radius-sm);
-  font-size: 13px; font-weight: 600; cursor: pointer;
-  border: none; transition: all 0.2s;
-}
-.coach-btn-nav { background: var(--surface-card); color: var(--ink); }
-.coach-btn-nav:hover { background: var(--surface-strong); }
-.coach-btn-next { background: var(--primary); color: var(--on-primary); }
-.coach-btn-next:hover { background: var(--primary-active); }
-
-.coach-pulse {
-  animation: coachPulseAnim 1.2s infinite alternate !important;
-  box-shadow: 0 0 15px rgba(26,58,58,0.5) !important;
-  border-color: var(--brand-teal) !important;
-  z-index: 10000;
-  position: relative;
-}
-@keyframes coachPulseAnim {
-  0% { transform: scale(1); box-shadow: 0 0 10px rgba(26,58,58,0.2); }
-  100% { transform: scale(1.05); box-shadow: 0 0 20px rgba(26,58,58,0.5); }
+#coachOverlay, .coach-card, .coach-backdrop, .coach-spotlight {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
 }
 
 /* ================================================================
