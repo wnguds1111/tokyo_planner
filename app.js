@@ -14,8 +14,8 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
-const TOKYO_DOC = "tokyo_main";
-const LOCAL_STORAGE_KEY = "tokyo_planner_data_v2";
+const TOKYO_DOC = "tokyo_main_v4";
+const LOCAL_STORAGE_KEY = "tokyo_planner_data_v4";
 
 // ─── State ───
 let planData = null;
@@ -54,7 +54,7 @@ const defaultChecklistGroups = [
     title: "🏨 숙소 & 이동 준비",
     items: [
       { id:"c5",  text:"호텔 예약 확인서 & 바우처 저장", desc:"체크인 시 제시할 모바일/인쇄본",                 done:false, important:false },
-      { id:"c6",  text:"공항 ↔ 시내 교통편 확인",      desc:"스카이라이너 / N'EX / 리무진 버스 사전 예매",      done:false, important:true  },
+      { id:"c6",  text:"공항 ↔ 시내 교통편 확인",      desc:"스카이라이너 / N'EX / 액세스특급 사전 확인",      done:false, important:true  },
       { id:"c7",  text:"체크인 전후 짐보관 서비스 확인",  desc:"호텔 프론트 또는 역 코인락커 위치 파악",          done:false, important:false }
     ]
   },
@@ -89,135 +89,44 @@ const defaultTokyoData = {
   flights: [
     {
       id: "f_tokyo_1",
-      airline: "대한항공",
-      bookingRef: "KE-9821389",
-      price: 450000,
-      cls: "이코노미",
-      imageUrl: "",
-      depdate: "2026-10-07",
-      outFlightNo: "KE703",
-      outDepAirport: "인천 (ICN) T2",
-      outDepTime: "09:00",
-      outArrAirport: "도쿄 나리타 (NRT) T1",
-      outArrTime: "11:35",
-      rdate: "2026-10-10",
-      inFlightNo: "KE704",
-      inDepAirport: "도쿄 나리타 (NRT) T1",
-      inDepTime: "17:20",
-      inArrAirport: "인천 (ICN) T2",
-      inArrTime: "20:00",
-      totalNights: "3",
-      totalDays: "4",
-      annualLeave: "2",
-      link: "https://www.koreanair.com",
-      memo: "주혐이 & 미녀 500일 기념 도쿄 여행 💖 · 수하물 23kg 포함 · 사전 좌석 배정 완료 (28A, 28B)",
-      selected: true
-    },
-    {
-      id: "f_tokyo_2",
-      airline: "아시아나항공",
-      bookingRef: "OZ-7729104",
-      price: 520000,
-      cls: "이코노미",
-      imageUrl: "",
-      depdate: "2026-10-07",
-      outFlightNo: "OZ102",
-      outDepAirport: "김포 (GMP)",
-      outDepTime: "08:40",
-      outArrAirport: "도쿄 하네다 (HND) T3",
-      outArrTime: "10:55",
-      rdate: "2026-10-11",
-      inFlightNo: "OZ101",
-      inDepAirport: "도쿄 하네다 (HND) T3",
-      inDepTime: "16:30",
-      inArrAirport: "김포 (GMP)",
-      inArrTime: "19:00",
-      totalNights: "4",
-      totalDays: "5",
-      annualLeave: "3",
-      link: "https://flyasiana.com",
-      memo: "도심 접근성 최강 김포-하네다 황금 노선 ✈️",
-      selected: false
-    },
-    {
-      id: "f_tokyo_3",
       airline: "제주항공",
-      bookingRef: "7C-3381902",
-      price: 290000,
-      cls: "이코노미",
+      bookingRef: "7C1107",
+      price: 320000,
+      cls: "STANDARD (이코노미)",
       imageUrl: "",
       depdate: "2026-10-07",
-      outFlightNo: "7C1102",
-      outDepAirport: "인천 (ICN) T1",
-      outDepTime: "07:30",
-      outArrAirport: "도쿄 나리타 (NRT) T3",
-      outArrTime: "10:05",
+      outFlightNo: "7C1107",
+      outDepAirport: "서울(인천) (ICN) 1 터미널",
+      outDepTime: "15:00",
+      outArrAirport: "도쿄(나리타) (NRT) 3 터미널",
+      outArrTime: "17:30",
       rdate: "2026-10-10",
-      inFlightNo: "7C1105",
-      inDepAirport: "도쿄 나리타 (NRT) T3",
-      inDepTime: "18:40",
-      inArrAirport: "인천 (ICN) T1",
-      inArrTime: "21:20",
+      inFlightNo: "7C1106",
+      inDepAirport: "도쿄(나리타) (NRT) 3 터미널",
+      inDepTime: "16:50",
+      inArrAirport: "서울(인천) (ICN) 1 터미널",
+      inArrTime: "19:40",
       totalNights: "3",
       totalDays: "4",
       annualLeave: "2",
       link: "https://www.jejuair.net",
-      memo: "가성비 특가 운임 · 수하물 15kg 포함",
-      selected: false
+      memo: "주발놈 & 미녀 500일 기념 도쿄 여행 💖 · 위탁 수하물 (기본 15Kg) 포함 · STANDARD 운임",
+      selected: true
     }
   ],
   hotels: [
     {
       id: "h_tokyo_1",
-      name: "호텔 그레이서리 신주쿠 (Hotel Gracery Shinjuku)",
-      area: "shinjuku",
-      checkin: "2026-10-07",
-      checkout: "2026-10-10",
-      price: 220000,
-      tag: "best",
-      desc: "신주쿠 가부키초 중심 랜드마크 고질라 호텔, 신주쿠역 도보 5분",
-      link: "https://www.agoda.com",
-      memo: "주변 맛집/이자카야/쇼핑몰 인접, 편의점 1층 직결",
-      selected: true
-    },
-    {
-      id: "h_tokyo_2",
-      name: "시부야 스트림 엑셀 호텔 도큐 (Shibuya Stream Excel Hotel Tokyu)",
-      area: "shibuya",
-      checkin: "2026-10-07",
-      checkout: "2026-10-10",
-      price: 320000,
-      tag: "pick",
-      desc: "시부야역 직결 초역세권, 감각적이고 트렌디한 도쿄 감성 룸",
-      link: "https://www.agoda.com",
-      memo: "시부야 스카이 및 스크램블 교차로 도보 3분",
-      selected: false
-    },
-    {
-      id: "h_tokyo_3",
-      name: "긴자 그랜드 호텔 (Ginza Grand Hotel)",
+      name: "밀레니엄 미츠이 가든 호텔 도쿄 / 긴자 (Millennium Mitsui Garden Hotel Tokyo / Ginza)",
       area: "ginza",
       checkin: "2026-10-07",
       checkout: "2026-10-10",
-      price: 185000,
-      tag: "value",
-      desc: "신바시역·긴자역 도보 3분, 쇼핑과 교통이 편리한 가성비 호텔",
-      link: "https://www.agoda.com",
-      memo: "도쿄역 및 하네다 공항 이동 최적의 위치",
-      selected: false
-    },
-    {
-      id: "h_tokyo_4",
-      name: "아사쿠사 뷰 호텔 (Asakusa View Hotel)",
-      area: "asakusa",
-      checkin: "2026-10-07",
-      checkout: "2026-10-10",
-      price: 210000,
+      price: 280000,
       tag: "best",
-      desc: "도쿄 스카이트리와 센소지가 한눈에 내려다보이는 환상적인 뷰",
-      link: "https://www.agoda.com",
-      memo: "전통 거리 분위기와 스카이트리 야경을 동시에 즐기는 숙소",
-      selected: false
+      desc: "히가시긴자역 바로 앞, 긴자 쇼핑가 중심 럭셔리 & 모던 호텔 (체크인 15:00 ~ 체크아웃 12:00)",
+      link: "https://www.gardenhotels.co.jp/millennium-tokyo/",
+      memo: "10월 7일 15:00 체크인 – 10월 10일 12:00 체크아웃 · 도쿄/동경 긴자 중심가 도보 1분 🏨",
+      selected: true
     }
   ],
   tours: [
@@ -296,11 +205,9 @@ const defaultTokyoData = {
   ],
   days: {
     1: [
-      { id:1001, time:"11:30", name:"나리타/하네다 공항 도착", lat:35.7720, lng:140.3929, memo:"스카이라이너 or N'EX 탑승하여 도쿄 시내로 이동 🚊" },
-      { id:1002, time:"14:00", name:"호텔 그레이서리 신주쿠 체크인", lat:35.6953, lng:139.7022, memo:"체크인 및 짐 보관 후 가벼운 옷차림으로 출발 🏨" },
-      { id:1003, time:"15:30", name:"시부야 스크램블 교차로 & 하치코 동상", lat:35.6595, lng:139.7004, memo:"도쿄 대표 랜드마크 인증샷 촬영 📸" },
-      { id:1004, time:"17:00", name:"시부야 스카이 (SHIBUYA SKY)", lat:35.6585, lng:139.7022, memo:"환상적인 도쿄 일몰 & 도심 야경 감상 🌇" },
-      { id:1005, time:"19:30", name:"신주쿠 오모이데요코초 (추억의 골목)", lat:35.6932, lng:139.6997, memo:"숯불 꼬치구이와 시원한 나마비루(생맥주) 한잔 🍻" }
+      { id:1001, time:"17:30", name:"도쿄 나리타 공항 (T3) 도착 & 입국 수속", lat:35.7720, lng:140.3929, memo:"제주항공 7C1107편 도착, 입국 심사 및 게이세이 액세스특급/스카이라이너 탑승 🚊" },
+      { id:1002, time:"19:30", name:"밀레니엄 미츠이 가든 호텔 긴자 체크인", lat:35.6698, lng:139.7656, memo:"체크인 및 짐 정리 후 가벼운 옷차림으로 긴자 번화가 산책 🏨" },
+      { id:1003, time:"20:30", name:"긴자 / 신바시 이자카야 & 저녁 식사", lat:35.6668, lng:139.7583, memo:"야키토리 꼬치구이와 시원한 나마비루(생맥주)로 1일차 축하 🍻" }
     ],
     2: [
       { id:2001, time:"09:30", name:"아사쿠사 센소지 & 나카미세도리", lat:35.7148, lng:139.7967, memo:"도쿄에서 가장 오래된 사찰 산책과 메론빵·녹차 당고 🍵" },
@@ -309,15 +216,15 @@ const defaultTokyoData = {
       { id:2004, time:"18:30", name:"긴자 명품 거리 & 식당가", lat:35.6719, lng:139.7640, memo:"긴자 식스 및 백화점 쇼핑 후 고급 돈카츠/스시 저녁 식사 🍣" }
     ],
     3: [
-      { id:3001, time:"08:30", name:"도쿄 디즈니랜드 / 디즈니씨", lat:35.6329, lng:139.8804, memo:"꿈과 마법의 왕국! 인기 어트랙션 공략 및 퍼레이드 감상 🏰" },
-      { id:3002, time:"17:30", name:"오다이바 레인보우 브릿지 & 자유의 여신상", lat:35.6277, lng:139.7708, memo:"도쿄만 바다와 건담 조형물, 황홀한 레인보우 브릿지 야경 🌉" },
-      { id:3003, time:"20:00", name:"롯폰기 힐즈 도쿄 시티뷰", lat:35.6605, lng:139.7292, memo:"붉게 빛나는 도쿄타워를 가장 아름답게 조망할 수 있는 뷰포인트 🗼" }
+      { id:3001, time:"09:00", name:"메이지 신궁 & 하라주쿠 다케시타도리", lat:35.6764, lng:139.6993, memo:"울창한 도심 숲길 산책 및 하라주쿠 트렌디 카페/크레페 ☕" },
+      { id:3002, time:"14:00", name:"시부야 스크램블 교차로 & 시부야 스카이", lat:35.6585, lng:139.7022, memo:"하치코 동상 인증샷 & 환상적인 360도 도쿄 파노라마 일몰 감상 🌇" },
+      { id:3003, time:"19:30", name:"롯폰기 힐즈 도쿄 시티뷰 (도쿄타워)", lat:35.6605, lng:139.7292, memo:"붉게 빛나는 도쿄타워를 가장 아름답게 조망하는 로맨틱 야경 🗼💖" }
     ],
     4: [
-      { id:4001, time:"10:00", name:"메이지 신궁 숲길", lat:35.6764, lng:139.6993, memo:"도심 속 울창한 녹음 산책과 힐링 ⛩️" },
-      { id:4002, time:"11:30", name:"하라주쿠 다케시타도리 & 오모테산도", lat:35.6682, lng:139.7083, memo:"트렌디한 감성 카페 거리, 크레페 및 브런치 ☕" },
-      { id:4003, time:"14:30", name:"도쿄역 도쿄 바나나 & 캐릭터 스트리트", lat:35.6812, lng:139.7671, memo:"기념품 쇼핑 및 선물 구매 (도쿄 바나나, 시로이코이비토) 🛍️" },
-      { id:4004, time:"17:00", name:"공항 이동 및 출국 수속", lat:35.7720, lng:140.3929, memo:"공항 면세점 쇼핑 및 귀국 항공편 탑승 ✈️" }
+      { id:4001, time:"10:00", name:"호텔 체크아웃 & 긴자 식스 산책", lat:35.6698, lng:139.7656, memo:"호텔 프론트에 짐 보관 후 긴자 주변 여유로운 모닝 커피 ☕" },
+      { id:4002, time:"11:30", name:"도쿄역 캐릭터 스트리트 & 기념품 쇼핑", lat:35.6812, lng:139.7671, memo:"도쿄 바나나, 시로이코이비토, 라멘 스트리트 점심 식사 🍜🛍️" },
+      { id:4003, time:"14:00", name:"나리타 공항 제3터미널 이동", lat:35.7720, lng:140.3929, memo:"공항 도착, 출국 수속 및 면세점 선물 구매 🛍️" },
+      { id:4004, time:"16:50", name:"제주항공 7C1106편 탑승 & 귀국", lat:35.7720, lng:140.3929, memo:"16:50 도쿄(나리타 T3) 출발 ➔ 19:40 서울(인천 T1) 도착 ✈️" }
     ]
   },
   memos: [
@@ -493,36 +400,29 @@ async function loadData() {
       
       // 누락 필드 방어
       if (!planData.checklistGroups) planData.checklistGroups = JSON.parse(JSON.stringify(defaultChecklistGroups));
-      // 항공권 상세 스케줄 스마트 보강
-      if (planData.flights && planData.flights.length > 0) {
+      if (!planData.flights || planData.flights.length === 0) {
+        planData.flights = JSON.parse(JSON.stringify(defaultTokyoData.flights));
+      } else {
         planData.flights.forEach((f, idx) => {
           const def = defaultTokyoData.flights[idx] || defaultTokyoData.flights[0];
-          if (!f.outDepTime) f.outDepTime = def.outDepTime || "09:00";
-          if (!f.outArrTime) f.outArrTime = def.outArrTime || "11:35";
-          if (!f.outDepAirport) f.outDepAirport = def.outDepAirport || "인천 (ICN) T2";
-          if (!f.outArrAirport) f.outArrAirport = def.outArrAirport || "도쿄 나리타 (NRT) T1";
-          if (!f.outFlightNo) f.outFlightNo = def.outFlightNo || "KE703";
-          if (!f.inDepTime) f.inDepTime = def.inDepTime || "17:20";
-          if (!f.inArrTime) f.inArrTime = def.inArrTime || "20:00";
-          if (!f.inDepAirport) f.inDepAirport = def.inDepAirport || "도쿄 나리타 (NRT) T1";
-          if (!f.inArrAirport) f.inArrAirport = def.inArrAirport || "인천 (ICN) T2";
-          if (!f.inFlightNo) f.inFlightNo = def.inFlightNo || "KE704";
-          if (!f.bookingRef) f.bookingRef = def.bookingRef || "KE-9821389";
-          if (f.depdate === "2026-10-21") f.depdate = "2026-10-07";
-          if (f.rdate === "2026-10-24" || f.rdate === "2026-10-25") f.rdate = "2026-10-10";
-          if (f.id === "f_tokyo_1" && (!f.memo || f.memo.includes("마일리지") || f.memo.includes("23kg"))) {
-            f.memo = "주혐이 & 미녀 500일 기념 도쿄 여행 💖 · 수하물 23kg 포함 · 사전 좌석 배정 완료 (28A, 28B)";
+          if (!f.outDepTime) f.outDepTime = def.outDepTime || "15:00";
+          if (!f.outArrTime) f.outArrTime = def.outArrTime || "17:30";
+          if (!f.outDepAirport) f.outDepAirport = def.outDepAirport || "서울(인천) (ICN) 1 터미널";
+          if (!f.outArrAirport) f.outArrAirport = def.outArrAirport || "도쿄(나리타) (NRT) 3 터미널";
+          if (!f.outFlightNo) f.outFlightNo = def.outFlightNo || "7C1107";
+          if (!f.inDepTime) f.inDepTime = def.inDepTime || "16:50";
+          if (!f.inArrTime) f.inArrTime = def.inArrTime || "19:40";
+          if (!f.inDepAirport) f.inDepAirport = def.inDepAirport || "도쿄(나리타) (NRT) 3 터미널";
+          if (!f.inArrAirport) f.inArrAirport = def.inArrAirport || "서울(인천) (ICN) 1 터미널";
+          if (!f.inFlightNo) f.inFlightNo = def.inFlightNo || "7C1106";
+          if (!f.bookingRef) f.bookingRef = def.bookingRef || "7C1107";
+          if (f.memo && f.memo.includes("주혐이")) {
+            f.memo = f.memo.replace("주혐이", "주발놈");
           }
         });
-      } else {
-        planData.flights = JSON.parse(JSON.stringify(defaultTokyoData.flights));
       }
-      if (!planData.hotels)  planData.hotels  = [];
-      if (planData.hotels.length > 0) {
-        planData.hotels.forEach(h => {
-          if (h.checkin === "2026-10-21") h.checkin = "2026-10-07";
-          if (h.checkout === "2026-10-24") h.checkout = "2026-10-10";
-        });
+      if (!planData.hotels || planData.hotels.length === 0) {
+        planData.hotels = JSON.parse(JSON.stringify(defaultTokyoData.hotels));
       }
       if (!planData.memos)   planData.memos   = [];
       if (!planData.expenses) planData.expenses = [];
