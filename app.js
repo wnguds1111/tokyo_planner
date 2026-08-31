@@ -1318,7 +1318,14 @@ function renderTimeline() {
     return;
   }
   const sorted = [...items].sort((a,b) => (a.time||"").localeCompare(b.time||""));
-  container.innerHTML = sorted.map((item, idx) => `
+  container.innerHTML = sorted.map((item, idx) => {
+    const rawMemo = item.memo || "";
+    const safeMemo = rawMemo
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+
+    return `
     <div class="timeline-item">
       <div class="timeline-dot-wrap">
         <div class="timeline-dot" style="cursor:pointer;" onclick="window.open('https://www.google.com/maps/dir/?api=1&destination=${item.lat},${item.lng}', '_blank')" title="Google Maps 길찾기">${idx+1}</div>
@@ -1327,7 +1334,7 @@ function renderTimeline() {
       <div class="timeline-content">
         <div class="timeline-time">⏰ ${item.time||"--:--"}</div>
         <div class="timeline-name">${item.name}</div>
-        <div class="timeline-desc">${item.memo||""}</div>
+        <div class="timeline-desc" style="white-space: pre-wrap !important; word-break: break-word !important; line-height: 1.6; font-size: 12.5px; color: var(--muted); margin-top: 4px;">${safeMemo}</div>
       </div>
       ${dayEditMode ? `
         <div style="display:flex;gap:4px;flex-shrink:0;align-items:center;">
@@ -1336,7 +1343,8 @@ function renderTimeline() {
         </div>
       ` : ""}
     </div>
-  `).join("");
+    `;
+  }).join("");
 }
 
 let placeAutocomplete = null;
