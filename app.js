@@ -1913,27 +1913,37 @@ function renderBookingSummary() {
         if (!isNaN(d1) && !isNaN(d2)) nights = Math.max(1, Math.round((d2 - d1) / 86400000));
       }
       const totalPrice = h.price * nights;
-      const ciStr = h.checkin ? h.checkin.substring(5).replace("-", "/") : "?";
-      const coStr = h.checkout ? h.checkout.substring(5).replace("-", "/") : "?";
-      const linkBtn = h.link ? `<a href="${h.link}" target="_blank" class="summary-link-btn" style="margin-top: 10px; width: 100%;">🔗 숙소 예약 링크</a>` : "";
+      const ciStr = h.checkin ? h.checkin.substring(5).replace("-", "/") : "10/07";
+      const coStr = h.checkout ? h.checkout.substring(5).replace("-", "/") : "10/10";
+      const linkBtn = h.link ? `<a href="${h.link}" target="_blank" class="summary-link-btn" style="margin-top: 14px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 13px; font-weight: 700; font-size: 14px;">🔗 숙소 예약 링크 이동</a>` : "";
       return `
-        <div class="summary-item-card hotel">
-          <div class="summary-item-card-top">
-            <div style="font-size: 11px; font-weight: 700; color: var(--brand-pink); text-transform: uppercase; margin-bottom: 4px;">
-              🗼 ${AREA_LABELS[h.area] || '도쿄 숙소'}
+        <div class="summary-card-content flight-section-card" style="padding:22px; width:100%; border-left: 5px solid var(--brand-pink);">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px; margin-bottom:14px;">
+            <div>
+              <div style="display:inline-block; font-size:12px; font-weight:800; color:var(--brand-pink); background:rgba(255,117,143,0.12); padding:3px 10px; border-radius:8px; margin-bottom:6px;">
+                🗼 ${AREA_LABELS[h.area] || '긴자 / 도쿄역 (GINZA / TOKYO)'}
+              </div>
+              <div style="font-size:19px; font-weight:900; color:var(--ink); line-height:1.35;">
+                ${h.name}
+              </div>
+              <div style="font-size:13px; color:var(--body); font-weight:700; margin-top:6px;">
+                🗓️ ${ciStr} (체크인 15:00) ~ ${coStr} (체크아웃 12:00) · 총 ${nights}박
+              </div>
             </div>
-            <div class="summary-item-card-name">${h.name}</div>
-            <div class="summary-item-card-dates">🗓️ ${ciStr} ~ ${coStr} (${nights}박)</div>
+            ${totalPrice > 0 ? `<div style="font-size:22px; font-weight:900; color:var(--brand-pink);">${fmtPrice(totalPrice)}원</div>` : ""}
           </div>
-          <div class="summary-item-card-bottom">
-            ${totalPrice > 0 ? `
-            <div class="summary-item-card-price">
-              <span class="price-num">${fmtPrice(totalPrice)}원</span>
-              <span class="price-lbl">${nights > 1 ? '(' + nights + '박 총액)' : '(1박)'}</span>
-            </div>` : ""}
-            ${h.memo ? `<div class="summary-card-memo">💬 ${h.memo}</div>` : ""}
-            ${linkBtn}
-          </div>
+
+          ${h.desc ? `
+          <div style="background:var(--surface-card); padding:12px 16px; border-radius:10px; border:1px solid var(--hairline); font-size:13px; color:var(--body); font-weight:600; line-height:1.5; margin-bottom:10px;">
+            🏢 ${h.desc}
+          </div>` : ""}
+
+          ${h.memo ? `
+          <div class="summary-card-memo" style="margin-top:8px;">
+            💬 ${h.memo}
+          </div>` : ""}
+
+          ${linkBtn}
         </div>
       `;
     }).join("");
@@ -1942,9 +1952,9 @@ function renderBookingSummary() {
       <div class="booking-section">
         <div class="booking-section-header">
           <span class="booking-section-icon">🏨</span>
-          <span class="booking-section-title">숙소 예약 내역</span>
+          <span class="booking-section-title">숙소 예약 내역 (확정 숙소)</span>
         </div>
-        <div class="booking-items-grid">${hotelCards}</div>
+        <div style="display:flex; flex-direction:column; gap:16px; width:100%;">${hotelCards}</div>
       </div>
     `;
   } else {
