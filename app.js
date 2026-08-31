@@ -1831,7 +1831,6 @@ function renderBookingSummary() {
     }
     const outDateBadge = formatFlightDateBadge(selFlight.depdate) || "날짜 미정";
     const inDateBadge  = formatFlightDateBadge(selFlight.rdate) || "날짜 미정";
-    const linkBtn = selFlight.link ? `<a href="${selFlight.link}" target="_blank" class="summary-link-btn" style="margin-top:12px;">🔗 항공권 예약 관리 이동</a>` : "";
 
     flightHtml = `
       <div class="booking-section">
@@ -1906,7 +1905,6 @@ function renderBookingSummary() {
             </div>
 
             ${selFlight.memo ? `<div class="summary-card-memo" style="margin-top:12px;">💬 ${selFlight.memo}</div>` : ""}
-            ${linkBtn}
           </div>
         </div>
       </div>
