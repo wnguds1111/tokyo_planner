@@ -124,7 +124,7 @@ const defaultTokyoData = {
       price: 0,
       tag: "best",
       desc: "히가시긴자역 바로 앞, 긴자 쇼핑가 중심 럭셔리 & 모던 호텔 (체크인 15:00 ~ 체크아웃 12:00)",
-      link: "https://www.gardenhotels.co.jp/millennium-tokyo/",
+      link: "https://www.google.com/maps/search/?api=1&query=Millennium+Mitsui+Garden+Hotel+Tokyo",
       memo: "10월 7일 15:00 체크인 – 10월 10일 12:00 체크아웃 · 도쿄/동경 긴자 중심가 도보 1분 🏨",
       selected: true
     }
@@ -341,8 +341,13 @@ function ensureDefaultReservations(data) {
   }
   if (!Array.isArray(data.hotels) || data.hotels.length === 0) {
     data.hotels = JSON.parse(JSON.stringify(defaultTokyoData.hotels));
-  } else if (!data.hotels.some(h => h.selected)) {
-    data.hotels[0].selected = true;
+  } else {
+    if (!data.hotels.some(h => h.selected)) data.hotels[0].selected = true;
+    data.hotels.forEach(h => {
+      if (!h.link || !h.link.includes("maps")) {
+        h.link = "https://www.google.com/maps/search/?api=1&query=Millennium+Mitsui+Garden+Hotel+Tokyo";
+      }
+    });
   }
   if (!Array.isArray(data.tours)) data.tours = [];
   if (!Array.isArray(data.memos)) data.memos = [];
@@ -1915,7 +1920,8 @@ function renderBookingSummary() {
       const totalPrice = h.price * nights;
       const ciStr = h.checkin ? h.checkin.substring(5).replace("-", "/") : "10/07";
       const coStr = h.checkout ? h.checkout.substring(5).replace("-", "/") : "10/10";
-      const linkBtn = h.link ? `<a href="${h.link}" target="_blank" class="summary-link-btn" style="margin-top: 14px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 13px; font-weight: 700; font-size: 14px;">🔗 숙소 예약 링크 이동</a>` : "";
+      const googleMapUrl = (h.link && h.link.includes("maps")) ? h.link : "https://www.google.com/maps/search/?api=1&query=Millennium+Mitsui+Garden+Hotel+Tokyo";
+      const linkBtn = `<div style="margin-top: 14px;"><a href="${googleMapUrl}" target="_blank" rel="noopener noreferrer" class="summary-link-btn" style="display: inline-flex; align-items: center; justify-content: center; gap: 6px; width: auto; padding: 9px 18px; font-weight: 700; font-size: 13.5px; border-radius: 8px; text-decoration: none;">📍 구글맵에서 위치 보기</a></div>`;
       return `
         <div class="summary-card-content flight-section-card" style="padding:22px; width:100%; border-left: 5px solid var(--brand-pink);">
           <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px; margin-bottom:14px;">
