@@ -14,8 +14,8 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
-const TOKYO_DOC = "tokyo_main_v6";
-const LOCAL_STORAGE_KEY = "tokyo_planner_data_v6";
+const TOKYO_DOC = "tokyo_main_v7";
+const LOCAL_STORAGE_KEY = "tokyo_planner_data_v7";
 
 // ─── State ───
 let planData = null;
@@ -303,13 +303,33 @@ function scheduleSave() {
   }, 300);
 }
 
+function ensureDefaultReservations(data) {
+  if (!data) return;
+  if (!data.departDate) data.departDate = "2026-10-07T00:00:00";
+  if (!Array.isArray(data.flights) || data.flights.length === 0) {
+    data.flights = JSON.parse(JSON.stringify(defaultTokyoData.flights));
+  } else if (!data.flights.some(f => f.selected)) {
+    data.flights[0].selected = true;
+  }
+  if (!Array.isArray(data.hotels) || data.hotels.length === 0) {
+    data.hotels = JSON.parse(JSON.stringify(defaultTokyoData.hotels));
+  } else if (!data.hotels.some(h => h.selected)) {
+    data.hotels[0].selected = true;
+  }
+  if (!Array.isArray(data.tours)) data.tours = [];
+  if (!Array.isArray(data.memos)) data.memos = [];
+  if (!Array.isArray(data.expenses)) data.expenses = [];
+  if (!data.checklistGroups) data.checklistGroups = JSON.parse(JSON.stringify(defaultChecklistGroups));
+  if (!data.days) data.days = JSON.parse(JSON.stringify(defaultTokyoData.days));
+}
+
 async function loadData() {
   // Step 1: 빠른 로컬 캐시 확인 및 즉시 렌더링 준비
   try {
     const localCached = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (localCached) {
       planData = JSON.parse(localCached);
-      planData.departDate = "2026-10-07T00:00:00";
+      ensureDefaultReservations(planData);
       isDataLoaded = true;
       console.log("⚡ 로컬 캐시에서 도쿄 플래너 즉시 로드 완료");
     }
@@ -323,27 +343,7 @@ async function loadData() {
     if (snap.exists) {
       const dbData = snap.data();
       planData = dbData;
-      planData.departDate = "2026-10-07T00:00:00";
-      // 누락 필드 방어 (사용자가 삭제한 빈 배열은 그대로 유지)
-      if (!planData.checklistGroups) planData.checklistGroups = JSON.parse(JSON.stringify(defaultChecklistGroups));
-      if (!Array.isArray(planData.flights)) {
-        planData.flights = JSON.parse(JSON.stringify(defaultTokyoData.flights));
-      }
-      if (!Array.isArray(planData.hotels)) {
-        planData.hotels = JSON.parse(JSON.stringify(defaultTokyoData.hotels));
-      }
-      if (!Array.isArray(planData.tours)) {
-        planData.tours = [];
-      }
-      if (!Array.isArray(planData.memos)) {
-        planData.memos = [];
-      }
-      if (!Array.isArray(planData.expenses)) {
-        planData.expenses = [];
-      }
-      if (!planData.days) {
-        planData.days = JSON.parse(JSON.stringify(defaultTokyoData.days));
-      }
+      ensureDefaultReservations(planData);
 
       isDataLoaded = true;
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(planData));
@@ -352,7 +352,7 @@ async function loadData() {
       // 신규 도쿄 데이터 초기 생성
       console.log("📝 신규 도쿄 플래너 기본 데이터 생성 및 초기화");
       planData = JSON.parse(JSON.stringify(defaultTokyoData));
-      planData.checklistGroups = JSON.parse(JSON.stringify(defaultChecklistGroups));
+      ensureDefaultReservations(planData);
       isDataLoaded = true;
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(planData));
       
@@ -367,7 +367,7 @@ async function loadData() {
     // Firestore 로드 실패 시에도 로컬 캐시가 없으면 기본값으로 활성화
     if (!planData) {
       planData = JSON.parse(JSON.stringify(defaultTokyoData));
-      planData.checklistGroups = JSON.parse(JSON.stringify(defaultChecklistGroups));
+      ensureDefaultReservations(planData);
     }
     isDataLoaded = true;
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(planData));
@@ -1729,7 +1729,7 @@ function renderBookingSummary() {
   if (!container || !planData) return;
 
   // 1. Flight Section
-  const selFlight = planData.flights.find(f => f.selected);
+  const selFlight = planData.flights?.find(f => f.selected) || planData.flights?.[0] || defaultTokyoData.flights[0];
   let flightHtml = "";
   if (selFlight) {
     function formatFlightDateBadge(dateStr) {
@@ -1837,7 +1837,12 @@ function renderBookingSummary() {
   }
 
   // 2. Hotel Section
-  const selHotels = planData.hotels.filter(h => h.selected);
+  let selHotels = (planData.hotels || []).filter(h => h.selected);
+  if (!selHotels.length && planData.hotels?.length) {
+    selHotels = [planData.hotels[0]];
+  } else if (!selHotels.length) {
+    selHotels = defaultTokyoData.hotels;
+  }
   let hotelHtml = "";
   if (selHotels.length > 0) {
     let hotelCards = selHotels.map(h => {
