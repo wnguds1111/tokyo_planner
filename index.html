@@ -65,11 +65,9 @@
 <!-- ================================================================ TAB BAR ================================================================ -->
 <div class="tabs-bar">
   <button class="tab-btn active" onclick="switchTab('flight', this)"><span class="tab-icon">🎟️</span> 나의 예약</button>
-  <button class="tab-btn" onclick="switchTab('hotel', this)"><span class="tab-icon">🏨</span> 숙소 비교</button>
   <button class="tab-btn" onclick="switchTab('tour', this)"><span class="tab-icon">🎢</span> 투어 / 티켓</button>
   <button class="tab-btn" onclick="switchTab('checklist', this)"><span class="tab-icon">📋</span> 체크리스트</button>
   <button class="tab-btn" onclick="switchTab('itinerary', this)"><span class="tab-icon">🗺️</span> 여행 일정표</button>
-  <button class="tab-btn" onclick="switchTab('expense', this)"><span class="tab-icon">💸</span> 지출 정리</button>
 </div>
 
 <!-- ================================================================ MAIN ================================================================ -->
@@ -88,37 +86,7 @@
     <div id="bookingSummaryContainer"></div>
   </div>
 
-  <!-- ═══ TAB 2: 호텔 비교 ═══ -->
-  <div class="tab-panel" id="panel-hotel">
-    <div class="section-heading">
-      <div>
-        <div class="section-title"><span class="section-title-icon">🏨</span> 도쿄 숙소 비교</div>
-        <div class="section-sub">접근성 좋고 안락한 도쿄 숙소를 비교해보세요 🗼</div>
-      </div>
-      <button class="btn-add-entry" onclick="openHotelModal()">+ 숙소 추가</button>
-    </div>
 
-    <!-- 지역 / 정렬 필터 -->
-    <div class="filter-bar" id="hotelFilterBar">
-      <button class="filter-chip active" onclick="filterHotels('all', this)">전체 지역</button>
-      <button class="filter-chip" onclick="filterHotels('shinjuku', this)">🗼 신주쿠</button>
-      <button class="filter-chip" onclick="filterHotels('shibuya', this)">🛍️ 시부야/하라주쿠</button>
-      <button class="filter-chip" onclick="filterHotels('ginza', this)">✨ 긴자/도쿄역</button>
-      <button class="filter-chip" onclick="filterHotels('asakusa', this)">⛩️ 아사쿠사/우에노</button>
-      <button class="filter-chip" onclick="filterHotels('etc', this)">📦 기타 지역</button>
-      <button class="filter-chip" onclick="sortHotels('price_asc', this)">💰 가격 낮은 순</button>
-    </div>
-
-    <div id="hotelTableWrap">
-      <div id="hotelEmptyState" class="empty-state" style="display:none;">
-        <div class="empty-icon">🏨</div>
-        <div class="empty-title">아직 등록된 숙소가 없어요</div>
-        <div class="empty-sub">우측 상단 "+ 숙소 추가" 버튼으로 도쿄 호텔 후보를 등록하고 비교해보세요!</div>
-        <button class="btn-add-entry" onclick="openHotelModal()">+ 첫 숙소 추가하기</button>
-      </div>
-      <div class="hotel-compare-grid" id="hotelGrid"></div>
-    </div>
-  </div>
 
   <!-- ═══ TAB 3: 투어 / 티켓 비교 ═══ -->
   <div class="tab-panel" id="panel-tour">
@@ -210,53 +178,7 @@
     </div>
   </div>
 
-  <!-- ═══ TAB 6: 지출 정리 ═══ -->
-  <div class="tab-panel" id="panel-expense">
-    <div class="section-heading">
-      <div>
-        <div class="section-title"><span class="section-title-icon">💸</span> 엔화 &amp; 지출 정리</div>
-        <div class="section-sub">사전 결제(원화 ₩)와 현지 지출(엔화 ¥)을 스마트하게 자동 계산하세요! 💳</div>
-      </div>
-      <div style="display:flex; flex-direction:column; gap:10px; align-items:flex-end;">
-        <div class="hero-badge" id="exchangeRateBadge" style="margin: 0; font-size:12px; font-weight: 600; cursor: pointer;" onclick="fetchExchangeRate()">💰 실시간 엔화 환율 로딩 중...</div>
-        <button class="btn-add-entry" onclick="openExpenseModal()">+ 지출 추가</button>
-      </div>
-    </div>
 
-    <!-- 지출 요약 배너 -->
-    <div id="expenseSummaryBanner" class="summary-banner" style="margin-bottom:24px;">
-      <div class="summary-item"><div class="summary-lbl">총 지출 (KRW 환산)</div><div class="summary-val accent" id="summaryTotalKrw">₩ 0</div></div>
-      <div class="summary-divider"></div>
-      <div class="summary-item"><div class="summary-lbl">사전 결제 지출</div><div class="summary-val" id="summaryPreKrw" style="color:var(--brand-ochre);">₩ 0</div></div>
-      <div class="summary-divider"></div>
-      <div class="summary-item"><div class="summary-lbl">현지 사용 지출 (JPY)</div><div class="summary-val" id="summaryTripJpy" style="color:var(--brand-pink);">¥ 0</div></div>
-    </div>
-
-    <!-- 지출 리스트 -->
-    <div id="expenseTableWrap">
-      <div id="expenseEmptyState" class="empty-state">
-        <div class="empty-icon">🧾</div>
-        <div class="empty-title">아직 지출 내역이 없어요</div>
-        <div class="empty-sub">우측 상단의 "+ 지출 추가" 버튼으로 사용한 금액을 등록해보세요!</div>
-        <button class="btn-add-entry" onclick="openExpenseModal()">+ 첫 지출 등록하기</button>
-      </div>
-      
-      <div id="expenseWrap" class="expense-split-layout" style="display:none;">
-        <div>
-          <div style="font-size:16px; font-weight:600; margin-bottom:12px; display:flex; align-items:center; gap:8px;">
-            <span style="color:var(--brand-ochre);">🛫 사전 지출 (원화 ₩)</span>
-          </div>
-          <div class="flight-compare-table" id="expensePreGrid" style="display:flex; flex-direction:column; gap:12px;"></div>
-        </div>
-        <div>
-          <div style="font-size:16px; font-weight:600; margin-bottom:12px; display:flex; align-items:center; gap:8px;">
-            <span style="color:var(--brand-pink);">🗼 현지 지출 (엔화 ¥)</span>
-          </div>
-          <div class="flight-compare-table" id="expenseTripGrid" style="display:flex; flex-direction:column; gap:12px;"></div>
-        </div>
-      </div>
-    </div>
-  </div>
 
 </div><!-- /main-container -->
 
@@ -625,6 +547,6 @@
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-<script src="app.js?v=27"></script>
+<script src="app.js?v=28"></script>
 </body>
 </html>
