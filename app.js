@@ -381,6 +381,16 @@ function switchTab(tab, btn) {
   const panel = document.getElementById("panel-" + tab);
   if (panel) panel.classList.add("active");
   if (btn) btn.classList.add("active");
+
+  if (tab === "itinerary") {
+    setTimeout(() => {
+      activateMap();
+      if (googleMapInstance && window.google?.maps) {
+        google.maps.event.trigger(googleMapInstance, "resize");
+        updateGoogleMapMarkers();
+      }
+    }, 100);
+  }
 }
 
 // ================================================================
@@ -1393,7 +1403,9 @@ function activateMap() {
     initGoogleMap();
     return;
   }
+  if (document.getElementById("gmap-script")) return;
   const script = document.createElement("script");
+  script.id = "gmap-script";
   script.src = `https://maps.googleapis.com/maps/api/js?key=${GMAP_API_KEY}&libraries=places&callback=initGoogleMap`;
   script.async = true;
   document.head.appendChild(script);
@@ -1403,12 +1415,17 @@ window.initGoogleMap = function() {
   const placeholder = document.getElementById("mapPlaceholder");
   if (placeholder) placeholder.style.display = "none";
   const mapDiv = document.getElementById("googleMap");
+  if (!mapDiv) return;
   mapDiv.style.display = "block";
-  googleMapInstance = new google.maps.Map(mapDiv, {
-    center: { lat: 35.6895, lng: 139.6917 }, // 도쿄 중심
-    zoom: 13,
-    streetViewControl: false
-  });
+  if (!googleMapInstance && window.google?.maps) {
+    googleMapInstance = new google.maps.Map(mapDiv, {
+      center: { lat: 35.6895, lng: 139.6917 }, // 도쿄 중심
+      zoom: 13,
+      streetViewControl: false
+    });
+  } else if (googleMapInstance && window.google?.maps) {
+    google.maps.event.trigger(googleMapInstance, "resize");
+  }
   updateGoogleMapMarkers();
 };
 
