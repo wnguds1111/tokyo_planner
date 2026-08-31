@@ -1325,6 +1325,10 @@ function renderTimeline() {
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;");
 
+    const linkBtn = item.link ? `
+      <a href="${item.link}" target="_blank" rel="noopener noreferrer" style="display:inline-flex; align-items:center; gap:4px; background:rgba(255,117,143,0.12); border:1px solid rgba(255,117,143,0.3); color:var(--brand-pink); text-decoration:none; font-size:11px; font-weight:700; padding:3px 8px; border-radius:6px; transition:all 0.15s; flex-shrink:0;" title="관련 링크 열기">🔗 링크</a>
+    ` : "";
+
     return `
     <div class="timeline-item">
       <div class="timeline-dot-wrap">
@@ -1332,7 +1336,10 @@ function renderTimeline() {
         ${idx < sorted.length-1 ? '<div class="timeline-line"></div>' : ""}
       </div>
       <div class="timeline-content">
-        <div class="timeline-time">⏰ ${item.time||"--:--"}</div>
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
+          <div class="timeline-time">⏰ ${item.time||"--:--"}</div>
+          ${linkBtn}
+        </div>
         <div class="timeline-name">${item.name}</div>
         <div class="timeline-desc" style="white-space: pre-wrap !important; word-break: break-word !important; line-height: 1.6; font-size: 12.5px; color: var(--muted); margin-top: 4px;">${safeMemo}</div>
       </div>
@@ -1394,9 +1401,14 @@ function openAddModal(itemId) {
       document.getElementById("modalLat").value  = item.lat||"";
       document.getElementById("modalLng").value  = item.lng||"";
       document.getElementById("modalMemo").value = item.memo||"";
+      const linkEl = document.getElementById("modalLink");
+      if (linkEl) linkEl.value = item.link || "";
     }
   } else {
-    ["modalTime","modalName","modalLat","modalLng","modalMemo"].forEach(id => document.getElementById(id).value = "");
+    ["modalTime","modalName","modalLat","modalLng","modalMemo","modalLink"].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.value = "";
+    });
   }
   updateCoordStatus();
   document.getElementById("addModal").classList.add("active");
@@ -1414,14 +1426,16 @@ function savePlace() {
   const lat  = parseFloat(document.getElementById("modalLat").value)||35.6895;
   const lng  = parseFloat(document.getElementById("modalLng").value)||139.6917;
   const memo = document.getElementById("modalMemo").value.trim();
+  const linkEl = document.getElementById("modalLink");
+  const link = linkEl ? linkEl.value.trim() : "";
   const editId = document.getElementById("editItemId").value;
   if (!name) { alert("장소명을 입력해 주세요."); return; }
   if (!planData.days[day]) planData.days[day] = [];
   if (editId) {
     const idx = planData.days[day].findIndex(i=>String(i.id)===editId);
-    if (idx >= 0) planData.days[day][idx] = { id:parseInt(editId), time, name, lat, lng, memo };
+    if (idx >= 0) planData.days[day][idx] = { id:parseInt(editId), time, name, lat, lng, memo, link };
   } else {
-    planData.days[day].push({ id:Date.now(), time, name, lat, lng, memo });
+    planData.days[day].push({ id:Date.now(), time, name, lat, lng, memo, link });
   }
   currentDay = day;
   closeModal();
