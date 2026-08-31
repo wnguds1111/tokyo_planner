@@ -14,8 +14,8 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
-const TOKYO_DOC = "tokyo_main_v4";
-const LOCAL_STORAGE_KEY = "tokyo_planner_data_v4";
+const TOKYO_DOC = "tokyo_main_v5";
+const LOCAL_STORAGE_KEY = "tokyo_planner_data_v5";
 
 // ─── State ───
 let planData = null;
@@ -91,7 +91,7 @@ const defaultTokyoData = {
       id: "f_tokyo_1",
       airline: "제주항공",
       bookingRef: "7C1107",
-      price: 320000,
+      price: 0,
       cls: "STANDARD (이코노미)",
       imageUrl: "",
       depdate: "2026-10-07",
@@ -121,7 +121,7 @@ const defaultTokyoData = {
       area: "ginza",
       checkin: "2026-10-07",
       checkout: "2026-10-10",
-      price: 280000,
+      price: 0,
       tag: "best",
       desc: "히가시긴자역 바로 앞, 긴자 쇼핑가 중심 럭셔리 & 모던 호텔 (체크인 15:00 ~ 체크아웃 12:00)",
       link: "https://www.gardenhotels.co.jp/millennium-tokyo/",
@@ -928,10 +928,11 @@ function renderHotels() {
             <button class="btn-action del" onclick="deleteHotel('${h.id}')" title="삭제">🗑</button>
           </div>
         </div>
+        ${totalPrice > 0 ? `
         <div class="hc-card-price" style="margin-top:12px;">
-          <div class="hc-price-num">${h.price ? fmtPrice(totalPrice) : "-"}</div>
+          <div class="hc-price-num">${fmtPrice(totalPrice)}</div>
           <div class="hc-price-unit">${priceUnit}</div>
-        </div>
+        </div>` : ""}
         ${descHtml}
         ${memoHtml}
       </div>
@@ -1850,7 +1851,7 @@ function renderBookingSummary() {
                   총 ${selFlight.totalNights ? `${selFlight.totalNights}박 ${selFlight.totalDays||Number(selFlight.totalNights)+1}일` : ""} ${selFlight.annualLeave ? `· 연차 ${selFlight.annualLeave}일` : ""}
                 </div>
               </div>
-              <div class="summary-card-main-val" style="font-size:22px; color:var(--brand-pink);">${selFlight.price ? fmtPrice(selFlight.price) + '원' : '-'}</div>
+              ${selFlight.price ? `<div class="summary-card-main-val" style="font-size:22px; color:var(--brand-pink);">${fmtPrice(selFlight.price)}원</div>` : ""}
             </div>
 
             <!-- 가는 편 / 오는 편 스케줄 대시보드 카드 -->
@@ -1950,10 +1951,11 @@ function renderBookingSummary() {
             <div class="summary-item-card-dates">🗓️ ${ciStr} ~ ${coStr} (${nights}박)</div>
           </div>
           <div class="summary-item-card-bottom">
+            ${totalPrice > 0 ? `
             <div class="summary-item-card-price">
               <span class="price-num">${fmtPrice(totalPrice)}원</span>
               <span class="price-lbl">${nights > 1 ? '(' + nights + '박 총액)' : '(1박)'}</span>
-            </div>
+            </div>` : ""}
             ${h.memo ? `<div class="summary-card-memo">💬 ${h.memo}</div>` : ""}
             ${linkBtn}
           </div>
