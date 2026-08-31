@@ -14,8 +14,8 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
-const TOKYO_DOC = "tokyo_main_v7";
-const LOCAL_STORAGE_KEY = "tokyo_planner_data_v7";
+const TOKYO_DOC = "tokyo_planner_live_data";
+const LOCAL_STORAGE_KEY = "tokyo_planner_live_data";
 
 // ─── State ───
 let planData = null;
@@ -166,9 +166,17 @@ const defaultTokyoData = {
 document.addEventListener("DOMContentLoaded", async () => {
   generateStars();
   generateCherryBlossoms();
-  await loadData();
   startCountdown();
   fetchExchangeRate();
+
+  await loadData();
+  renderAll();
+
+  // Google Maps 자동 로드
+  activateMap();
+});
+
+function renderAll() {
   renderFlights();
   renderHotels();
   renderTours();
@@ -176,12 +184,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   renderDayTabs();
   renderTimeline();
   renderMemos();
-  renderExpenses();
   renderBookingSummary();
-
-  // Google Maps 자동 로드
-  activateMap();
-});
+}
 
 // ─── Particle Effects ───
 function generateStars() {
@@ -303,6 +307,30 @@ function scheduleSave() {
   }, 300);
 }
 
+function migrateOldData() {
+  const oldKeys = [
+    "tokyo_planner_data_v7",
+    "tokyo_planner_data_v6",
+    "tokyo_planner_data_v5",
+    "tokyo_planner_data_v4",
+    "tokyo_planner_data_v3",
+    "tokyo_planner_data_v2",
+    "tokyo_planner_data"
+  ];
+  for (const k of oldKeys) {
+    try {
+      const raw = localStorage.getItem(k);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed && typeof parsed === "object") {
+          return parsed;
+        }
+      }
+    } catch (e) {}
+  }
+  return null;
+}
+
 function ensureDefaultReservations(data) {
   if (!data) return;
   if (!data.departDate) data.departDate = "2026-10-07T00:00:00";
@@ -319,15 +347,28 @@ function ensureDefaultReservations(data) {
   if (!Array.isArray(data.tours)) data.tours = [];
   if (!Array.isArray(data.memos)) data.memos = [];
   if (!Array.isArray(data.expenses)) data.expenses = [];
-  if (!data.checklistGroups) data.checklistGroups = JSON.parse(JSON.stringify(defaultChecklistGroups));
-  if (!data.days) data.days = JSON.parse(JSON.stringify(defaultTokyoData.days));
+  if (!Array.isArray(data.checklistGroups) || data.checklistGroups.length === 0) {
+    data.checklistGroups = JSON.parse(JSON.stringify(defaultChecklistGroups));
+  }
+  if (!data.days || Object.keys(data.days).length === 0) {
+    data.days = JSON.parse(JSON.stringify(defaultTokyoData.days));
+  }
 }
 
 async function loadData() {
-  // Step 1: 빠른 로컬 캐시 확인 및 즉시 렌더링 준비
+  // Step 1: 빠른 로컬 캐시 확인 (신규 키 또는 구 버전 마이그레이션)
   try {
-    const localCached = localStorage.getItem(LOCAL_STORAGE_KEY);
-    if (localCached) {
+    let localCached = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (!localCached) {
+      const oldData = migrateOldData();
+      if (oldData) {
+        planData = oldData;
+        ensureDefaultReservations(planData);
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(planData));
+        isDataLoaded = true;
+        console.log("⚡ 구 버전 데이터 마이그레이션 완료");
+      }
+    } else {
       planData = JSON.parse(localCached);
       ensureDefaultReservations(planData);
       isDataLoaded = true;
@@ -351,7 +392,9 @@ async function loadData() {
     } else {
       // 신규 도쿄 데이터 초기 생성
       console.log("📝 신규 도쿄 플래너 기본 데이터 생성 및 초기화");
-      planData = JSON.parse(JSON.stringify(defaultTokyoData));
+      if (!planData) {
+        planData = JSON.parse(JSON.stringify(defaultTokyoData));
+      }
       ensureDefaultReservations(planData);
       isDataLoaded = true;
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(planData));
