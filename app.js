@@ -1497,10 +1497,11 @@ function updateGoogleMapMarkers() {
       icon: { path:google.maps.SymbolPath.CIRCLE, scale:14, fillColor:c.marker, fillOpacity:1, strokeColor:c.border, strokeWeight:2.5 },
       zIndex: idx+1
     });
+    const memoDisplay = (item.memo||"").replace(/\n/g, "<br>");
     const iw = new google.maps.InfoWindow({
-      content: `<div style="font-family:'Pretendard',sans-serif;padding:4px;">
+      content: `<div style="font-family:'Pretendard',sans-serif;padding:4px;line-height:1.4;">
         <strong style="font-size:14px;">${item.name}</strong>
-        <br><span style="font-size:12px;color:#64748b;">${item.memo||""}</span>
+        <br><span style="font-size:12px;color:#64748b;">${memoDisplay}</span>
         <br><span style="font-size:11px;color:#94a3b8;">⏰ ${item.time||"--:--"}</span>
       </div>`
     });
