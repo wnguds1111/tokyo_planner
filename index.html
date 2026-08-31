@@ -6,7 +6,7 @@
   <title>🗼 도쿄 여행 플래너 · Tokyo Travel Planner</title>
   <meta name="description" content="도쿄 여행을 위한 항공권 비교, 호텔 리스트업, 비짓재팬웹 체크리스트, 일정표 및 엔화 지출 올인원 플래너">
   <meta name="theme-color" content="#fffaf0">
-  <link rel="stylesheet" href="styles.css?v=35">
+  <link rel="stylesheet" href="styles.css?v=37">
 </head>
 <body>
 
@@ -504,7 +504,7 @@
       <div class="form-group"><label class="form-label">방문 시간</label><input class="form-input" type="time" id="modalTime"></div>
       <div class="form-group">
         <label class="form-label">📍 장소명 <span style="font-size:11px;color:var(--text-muted);font-weight:500;">(Google Maps 검색 연동)</span></label>
-        <input class="form-input" type="text" id="modalName" placeholder="예: 시부야 스카이, 센소지, 도쿄타워..." autocomplete="off">
+        <input class="form-input" type="text" id="modalName" placeholder="예: 시부야 스카이, 센소지, 도쿄타워..." autocomplete="off" oninput="onModalNameInput()">
         <div id="coordStatus" style="margin-top:6px;font-size:11px;font-weight:600;color:var(--text-muted);"></div>
       </div>
       <input type="hidden" id="modalLat">
@@ -548,6 +548,6 @@
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-<script src="app.js?v=36"></script>
+<script src="app.js?v=37"></script>
 </body>
 </html>

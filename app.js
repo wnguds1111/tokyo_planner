@@ -1355,16 +1355,82 @@ function renderTimeline() {
 }
 
 let placeAutocomplete = null;
+let geocoderInstance = null;
+let nameSearchTimer = null;
 
-function updateCoordStatus() {
+function geocodePlaceName(name) {
+  return new Promise((resolve) => {
+    if (!window.google?.maps) { resolve(null); return; }
+    if (!geocoderInstance) geocoderInstance = new google.maps.Geocoder();
+
+    // 1차: 일본/도쿄 지역 내 우선 검색
+    geocoderInstance.geocode(
+      { 
+        address: name,
+        componentRestrictions: { country: "JP" }
+      },
+      (results, status) => {
+        if (status === "OK" && results && results[0]) {
+          const loc = results[0].geometry.location;
+          resolve({
+            lat: loc.lat(),
+            lng: loc.lng(),
+            address: results[0].formatted_address
+          });
+        } else {
+          // 2차: 제한 없이 글로벌 검색
+          geocoderInstance.geocode({ address: name }, (res2, stat2) => {
+            if (stat2 === "OK" && res2 && res2[0]) {
+              const loc2 = res2[0].geometry.location;
+              resolve({
+                lat: loc2.lat(),
+                lng: loc2.lng(),
+                address: res2[0].formatted_address
+              });
+            } else {
+              resolve(null);
+            }
+          });
+        }
+      }
+    );
+  });
+}
+
+function onModalNameInput() {
+  const name = document.getElementById("modalName").value.trim();
+  const statusEl = document.getElementById("coordStatus");
+  if (!name) {
+    document.getElementById("modalLat").value = "";
+    document.getElementById("modalLng").value = "";
+    updateCoordStatus();
+    return;
+  }
+
+  if (statusEl) statusEl.innerHTML = `<span style="color:var(--brand-pink);">🔍 장소 좌표 찾는 중...</span>`;
+
+  if (nameSearchTimer) clearTimeout(nameSearchTimer);
+  nameSearchTimer = setTimeout(async () => {
+    const res = await geocodePlaceName(name);
+    if (res) {
+      document.getElementById("modalLat").value = res.lat;
+      document.getElementById("modalLng").value = res.lng;
+      updateCoordStatus(res.address);
+    } else {
+      updateCoordStatus();
+    }
+  }, 500);
+}
+
+function updateCoordStatus(extraInfo) {
   const lat = document.getElementById("modalLat").value;
   const lng = document.getElementById("modalLng").value;
   const el  = document.getElementById("coordStatus");
   if (!el) return;
   if (lat && lng) {
-    el.innerHTML = `<span style="color:#34d399;">✅ 좌표 설정됨</span> <span style="color:var(--text-muted);">(${parseFloat(lat).toFixed(4)}, ${parseFloat(lng).toFixed(4)})</span>`;
+    el.innerHTML = `<span style="color:#34d399;">✅ 좌표 설정됨</span> <span style="color:var(--text-muted);">(${parseFloat(lat).toFixed(4)}, ${parseFloat(lng).toFixed(4)}) ${extraInfo ? `· ${extraInfo}` : ''}</span>`;
   } else {
-    el.innerHTML = `<span style="color:#f59e0b;">⚠️ 좌표 없음</span> <span style="color:var(--text-muted);">— Google Maps 연동 시 자동 입력됩니다</span>`;
+    el.innerHTML = `<span style="color:#f59e0b;">⚠️ 좌표 없음</span> <span style="color:var(--text-muted);">— 장소명을 입력하면 구글 지도에서 자동으로 좌표를 찾습니다</span>`;
   }
 }
 
@@ -1382,7 +1448,7 @@ function initPlaceAutocomplete() {
       document.getElementById("modalLat").value = place.geometry.location.lat();
       document.getElementById("modalLng").value = place.geometry.location.lng();
       document.getElementById("modalName").value = place.name || input.value;
-      updateCoordStatus();
+      updateCoordStatus(place.formatted_address);
     }
   });
 }
@@ -1419,17 +1485,30 @@ function closeModal() {
   document.getElementById("addModal").classList.remove("active");
 }
 
-function savePlace() {
+async function savePlace() {
   const day  = parseInt(document.getElementById("modalDay").value);
   const time = document.getElementById("modalTime").value;
   const name = document.getElementById("modalName").value.trim();
-  const lat  = parseFloat(document.getElementById("modalLat").value)||35.6895;
-  const lng  = parseFloat(document.getElementById("modalLng").value)||139.6917;
+  let lat  = parseFloat(document.getElementById("modalLat").value);
+  let lng  = parseFloat(document.getElementById("modalLng").value);
   const memo = document.getElementById("modalMemo").value.trim();
   const linkEl = document.getElementById("modalLink");
   const link = linkEl ? linkEl.value.trim() : "";
   const editId = document.getElementById("editItemId").value;
   if (!name) { alert("장소명을 입력해 주세요."); return; }
+
+  // 좌표가 없거나 기본값이면 저장 직전 자동 지오코딩으로 좌표 조회
+  if (isNaN(lat) || isNaN(lng) || (lat === 35.6895 && lng === 139.6917)) {
+    const geo = await geocodePlaceName(name);
+    if (geo) {
+      lat = geo.lat;
+      lng = geo.lng;
+    } else {
+      lat = 35.6895;
+      lng = 139.6917;
+    }
+  }
+
   if (!planData.days[day]) planData.days[day] = [];
   if (editId) {
     const idx = planData.days[day].findIndex(i=>String(i.id)===editId);

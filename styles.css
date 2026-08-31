@@ -1065,6 +1065,24 @@ a { text-decoration: none; color: inherit; }
   border-radius: var(--radius-xl);
   border: 1px solid var(--hairline);
 }
+
+/* Google Places Autocomplete 드롭다운 모달 위 표시 */
+.pac-container {
+  z-index: 99999 !important;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--hairline);
+  font-family: inherit;
+  margin-top: 4px;
+}
+.pac-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 13px;
+}
+.pac-item:hover {
+  background-color: var(--surface-soft);
+}
 .map-placeholder-icon { font-size: 56px; opacity: 0.6; }
 .map-placeholder-title {
   font-size: 18px;
