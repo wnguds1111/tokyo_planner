@@ -14,8 +14,8 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
-const TOKYO_DOC = "tokyo_main_v5";
-const LOCAL_STORAGE_KEY = "tokyo_planner_data_v5";
+const TOKYO_DOC = "tokyo_main_v6";
+const LOCAL_STORAGE_KEY = "tokyo_planner_data_v6";
 
 // ─── State ───
 let planData = null;
@@ -129,80 +129,7 @@ const defaultTokyoData = {
       selected: true
     }
   ],
-  tours: [
-    {
-      id: "t_tokyo_1",
-      name: "도쿄 디즈니랜드 / 디즈니씨 1일 입장권",
-      platform: "마이리얼트립",
-      cat: "액티비티",
-      price: 88000,
-      dur: "종일",
-      desc: "세계 최고의 테마파크, 모바일 e-티켓 즉시 입장 (미녀와 야수/소어링 추천)",
-      link: "https://www.myrealtrip.com",
-      memo: "오픈런 필수, 디즈니 공식 앱에 티켓 등록 후 DPA/스탠바이패스 예약",
-      selected: true
-    },
-    {
-      id: "t_tokyo_2",
-      name: "시부야 스카이 (SHIBUYA SKY) 전망대 입장권",
-      platform: "KKday",
-      cat: "관광",
-      price: 21000,
-      dur: "1시간 30분",
-      desc: "360도 도쿄 파노라마 & 후지산 조망, 루프탑 야경 명소",
-      link: "https://www.kkday.com",
-      memo: "일몰 30분 전 입장 추천 (매진이 매우 빠르니 4주 전 예약 필수!)",
-      selected: true
-    },
-    {
-      id: "t_tokyo_3",
-      name: "팀랩 플래닛 도쿄 (teamLab Planets)",
-      platform: "트리플",
-      cat: "액티비티",
-      price: 38000,
-      dur: "2시간",
-      desc: "물속을 걷는 환상적인 몰입형 미디어아트 전시",
-      link: "https://triple.guide",
-      memo: "맨발 입장 진행, 무릎까지 걷어 올릴 수 있는 바지 착용 권장",
-      selected: false
-    },
-    {
-      id: "t_tokyo_4",
-      name: "도쿄 메트로 & 도에이 지하철 72시간 패스",
-      platform: "KKday",
-      cat: "교통/패스",
-      price: 14000,
-      dur: "72시간",
-      desc: "도쿄 시내 지하철 13개 노선 무제한 탑승권 (최고의 가성비 교통 패스)",
-      link: "https://www.kkday.com",
-      memo: "도쿄 주요 지하철역 발권기에서 QR코드 스캔 후 실물 승차권 교환",
-      selected: true
-    },
-    {
-      id: "t_tokyo_5",
-      name: "후지산 & 하코네 1일 버스 투어",
-      platform: "마이리얼트립",
-      cat: "관광",
-      price: 79000,
-      dur: "10시간",
-      desc: "한국인 가이드 동행 · 후지산 5합목 · 오시노 핫카이 · 아울렛 코스",
-      link: "https://www.myrealtrip.com",
-      memo: "신주쿠 모드학원 코쿤타워 앞 08:00 출발",
-      selected: false
-    },
-    {
-      id: "t_tokyo_6",
-      name: "롯폰기 힐즈 도쿄 시티뷰 전망대",
-      platform: "클룩",
-      cat: "관광",
-      price: 19000,
-      dur: "2시간",
-      desc: "도쿄타워가 가장 정면에서 선명하게 보이는 도쿄 최고의 클래식 야경",
-      link: "https://www.klook.com",
-      memo: "모리미술관 전시 포함 여부 확인",
-      selected: false
-    }
-  ],
+  tours: [],
   days: {
     1: [
       { id:1001, time:"17:30", name:"도쿄 나리타 공항 (T3) 도착 & 입국 수속", lat:35.7720, lng:140.3929, memo:"제주항공 7C1107편 도착, 입국 심사 및 게이세이 액세스특급/스카이라이너 탑승 🚊" },
@@ -397,40 +324,25 @@ async function loadData() {
       const dbData = snap.data();
       planData = dbData;
       planData.departDate = "2026-10-07T00:00:00";
-      
-      // 누락 필드 방어
+      // 누락 필드 방어 (사용자가 삭제한 빈 배열은 그대로 유지)
       if (!planData.checklistGroups) planData.checklistGroups = JSON.parse(JSON.stringify(defaultChecklistGroups));
-      if (!planData.flights || planData.flights.length === 0) {
+      if (!Array.isArray(planData.flights)) {
         planData.flights = JSON.parse(JSON.stringify(defaultTokyoData.flights));
-      } else {
-        planData.flights.forEach((f, idx) => {
-          const def = defaultTokyoData.flights[idx] || defaultTokyoData.flights[0];
-          if (!f.outDepTime) f.outDepTime = def.outDepTime || "15:00";
-          if (!f.outArrTime) f.outArrTime = def.outArrTime || "17:30";
-          if (!f.outDepAirport) f.outDepAirport = def.outDepAirport || "서울(인천) (ICN) 1 터미널";
-          if (!f.outArrAirport) f.outArrAirport = def.outArrAirport || "도쿄(나리타) (NRT) 3 터미널";
-          if (!f.outFlightNo) f.outFlightNo = def.outFlightNo || "7C1107";
-          if (!f.inDepTime) f.inDepTime = def.inDepTime || "16:50";
-          if (!f.inArrTime) f.inArrTime = def.inArrTime || "19:40";
-          if (!f.inDepAirport) f.inDepAirport = def.inDepAirport || "도쿄(나리타) (NRT) 3 터미널";
-          if (!f.inArrAirport) f.inArrAirport = def.inArrAirport || "서울(인천) (ICN) 1 터미널";
-          if (!f.inFlightNo) f.inFlightNo = def.inFlightNo || "7C1106";
-          if (!f.bookingRef) f.bookingRef = def.bookingRef || "7C1107";
-          if (f.memo && f.memo.includes("주혐이")) {
-            f.memo = f.memo.replace("주혐이", "주발놈");
-          }
-        });
       }
-      if (!planData.hotels || planData.hotels.length === 0) {
+      if (!Array.isArray(planData.hotels)) {
         planData.hotels = JSON.parse(JSON.stringify(defaultTokyoData.hotels));
       }
-      if (!planData.memos)   planData.memos   = [];
-      if (!planData.expenses) planData.expenses = [];
-      if (!planData.days)    planData.days = JSON.parse(JSON.stringify(defaultTokyoData.days));
-
-      // 투어 스마트 병합
-      if (!planData.tours) {
-        planData.tours = JSON.parse(JSON.stringify(defaultTokyoData.tours));
+      if (!Array.isArray(planData.tours)) {
+        planData.tours = [];
+      }
+      if (!Array.isArray(planData.memos)) {
+        planData.memos = [];
+      }
+      if (!Array.isArray(planData.expenses)) {
+        planData.expenses = [];
+      }
+      if (!planData.days) {
+        planData.days = JSON.parse(JSON.stringify(defaultTokyoData.days));
       }
 
       isDataLoaded = true;
