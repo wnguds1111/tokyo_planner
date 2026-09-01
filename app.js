@@ -2344,6 +2344,15 @@ function closeImageViewer() {
   document.getElementById("imageViewerModal")?.classList.remove("active");
 }
 
+// ESC 키로 이미지 뷰어 닫기
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    closeImageViewer();
+    closeMemoModal();
+    closeModal();
+  }
+});
+
 // 전역 복붙(Ctrl+V) 이미지 감지 리스너
 document.addEventListener("paste", async (e) => {
   const items = (e.clipboardData || window.clipboardData)?.items;

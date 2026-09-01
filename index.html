@@ -6,7 +6,7 @@
   <title>🗼 도쿄 여행 플래너 · Tokyo Travel Planner</title>
   <meta name="description" content="도쿄 여행을 위한 항공권 비교, 호텔 리스트업, 비짓재팬웹 체크리스트, 일정표 및 엔화 지출 올인원 플래너">
   <meta name="theme-color" content="#fffaf0">
-  <link rel="stylesheet" href="styles.css?v=43">
+  <link rel="stylesheet" href="styles.css?v=44">
 </head>
 <body>
 
@@ -603,10 +603,18 @@
 </div>
 
 <!-- ================================================================ MODAL: 이미지 크게 보기 ================================================================ -->
-<div class="modal-overlay" id="imageViewerModal" onclick="closeImageViewer()" style="background: rgba(0,0,0,0.85); z-index: 100000; padding:20px;">
-  <div style="position:relative; max-width: 92vw; max-height: 92vh; display: flex; align-items: center; justify-content: center;" onclick="event.stopPropagation()">
-    <img id="imageViewerImg" src="" style="max-width:100%; max-height:85vh; border-radius:12px; box-shadow: 0 10px 40px rgba(0,0,0,0.6); object-fit:contain;">
-    <button class="btn-close-modal" style="position:absolute; top:-36px; right:0; color:#fff; font-size:22px; background:rgba(255,255,255,0.2); border:none; border-radius:50%; width:32px; height:32px; cursor:pointer;" onclick="closeImageViewer()">✕</button>
+<div class="modal-overlay" id="imageViewerModal" onclick="closeImageViewer()" style="background: rgba(0,0,0,0.88); z-index: 100000; padding:16px;">
+  <!-- 화면 우측 상단 고정 닫기 버튼 -->
+  <button class="image-viewer-close-btn" onclick="closeImageViewer()" title="닫기 (ESC)">
+    ✕
+  </button>
+  <div class="image-viewer-container" onclick="event.stopPropagation()">
+    <img id="imageViewerImg" src="" alt="확대 이미지">
+    <div style="margin-top:14px; display:flex; justify-content:center;">
+      <button class="image-viewer-bottom-btn" onclick="closeImageViewer()">
+        <span>✕</span> 닫기
+      </button>
+    </div>
   </div>
 </div>
 
@@ -642,6 +650,6 @@
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-<script src="app.js?v=43"></script>
+<script src="app.js?v=44"></script>
 </body>
 </html>
