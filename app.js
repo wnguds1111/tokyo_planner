@@ -2255,6 +2255,7 @@ function renderMemos() {
               <button class="wememo-action-btn delete" onclick="deleteMemo(${rawIdx})" title="메모 삭제">🗑️</button>
             </div>
           </div>
+          ${m.image ? `<div class="wememo-card-img-wrap" onclick="openImageViewer('${m.image}')" title="사진 크게 보기"><img class="wememo-card-img" src="${m.image}" alt="메모 사진"></div>` : ''}
           ${highlightedBody ? `<div class="wememo-card-body">${highlightedBody}</div>` : ''}
           <div class="wememo-card-footer">
             <span class="wememo-card-time">🕒 ${m.time || ""}</span>
@@ -2279,6 +2280,102 @@ function renderMemos() {
   }
 }
 
+function processImageData(fileOrBlob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const MAX_WIDTH = 720;
+        let width = img.width;
+        let height = img.height;
+        if (width > MAX_WIDTH) {
+          height = Math.round((height * MAX_WIDTH) / width);
+          width = MAX_WIDTH;
+        }
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL("image/jpeg", 0.75));
+      };
+      img.onerror = reject;
+      img.src = e.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(fileOrBlob);
+  });
+}
+
+async function handleMemoImageUpload(e) {
+  const file = e.target.files?.[0];
+  if (!file) return;
+  try {
+    const compressed = await processImageData(file);
+    document.getElementById("modalMemoImage").value = compressed;
+    document.getElementById("memoImagePreview").src = compressed;
+    document.getElementById("memoImagePreviewWrap").style.display = "block";
+    document.getElementById("btnMemoImageClear").style.display = "inline-flex";
+  } catch (err) {
+    console.error("Image process error:", err);
+    alert("이미지를 처리하는 중 오류가 발생했습니다.");
+  }
+}
+
+function clearMemoImage() {
+  document.getElementById("modalMemoImage").value = "";
+  const fileInput = document.getElementById("modalMemoImageInput");
+  if (fileInput) fileInput.value = "";
+  document.getElementById("memoImagePreview").src = "";
+  document.getElementById("memoImagePreviewWrap").style.display = "none";
+  document.getElementById("btnMemoImageClear").style.display = "none";
+}
+
+function openImageViewer(src) {
+  const modal = document.getElementById("imageViewerModal");
+  const img = document.getElementById("imageViewerImg");
+  if (!modal || !img) return;
+  img.src = src;
+  modal.classList.add("active");
+}
+
+function closeImageViewer() {
+  document.getElementById("imageViewerModal")?.classList.remove("active");
+}
+
+// 전역 복붙(Ctrl+V) 이미지 감지 리스너
+document.addEventListener("paste", async (e) => {
+  const items = (e.clipboardData || window.clipboardData)?.items;
+  if (!items) return;
+
+  for (const item of items) {
+    if (item.type && item.type.indexOf("image") !== -1) {
+      const file = item.getAsFile();
+      if (!file) continue;
+
+      try {
+        const compressed = await processImageData(file);
+        
+        // 메모 모달이 닫혀있다면 자동 열기
+        const modal = document.getElementById("memoModal");
+        if (!modal.classList.contains("active")) {
+          openMemoModal();
+        }
+
+        document.getElementById("modalMemoImage").value = compressed;
+        document.getElementById("memoImagePreview").src = compressed;
+        document.getElementById("memoImagePreviewWrap").style.display = "block";
+        document.getElementById("btnMemoImageClear").style.display = "inline-flex";
+        e.preventDefault();
+      } catch (err) {
+        console.error("Paste image error:", err);
+      }
+      break;
+    }
+  }
+});
+
 function selectMemoColor(color, el) {
   selectedMemoColor = color;
   document.querySelectorAll(".wememo-color-opt").forEach(opt => opt.classList.remove("selected"));
@@ -2297,10 +2394,21 @@ function openMemoModal(idx) {
     document.getElementById("modalMemoTitle").value = memo.title || "";
     document.getElementById("modalMemoContent").value = memo.text || "";
     selectedMemoColor = memo.color || "pink";
+
+    // 이미지 세팅
+    if (memo.image) {
+      document.getElementById("modalMemoImage").value = memo.image;
+      document.getElementById("memoImagePreview").src = memo.image;
+      document.getElementById("memoImagePreviewWrap").style.display = "block";
+      document.getElementById("btnMemoImageClear").style.display = "inline-flex";
+    } else {
+      clearMemoImage();
+    }
   } else {
     document.getElementById("modalMemoTitle").value = "";
     document.getElementById("modalMemoContent").value = "";
     selectedMemoColor = "pink";
+    clearMemoImage();
   }
 
   // 컬러 라디오 갱신
@@ -2326,10 +2434,11 @@ function closeMemoModal() {
 function saveMemoFromModal() {
   const title = document.getElementById("modalMemoTitle").value.trim();
   const text = document.getElementById("modalMemoContent").value.trim();
+  const image = document.getElementById("modalMemoImage").value || "";
   const editIdx = document.getElementById("editMemoIndex").value;
 
-  if (!title && !text) {
-    alert("메모 제목이나 내용을 입력해 주세요.");
+  if (!title && !text && !image) {
+    alert("메모 제목, 내용 또는 사진을 첨부해 주세요.");
     return;
   }
 
@@ -2341,10 +2450,10 @@ function saveMemoFromModal() {
   if (editIdx !== "" && !isNaN(parseInt(editIdx))) {
     const idx = parseInt(editIdx);
     if (planData.memos[idx]) {
-      planData.memos[idx] = { ...planData.memos[idx], title, text, color: selectedMemoColor, time };
+      planData.memos[idx] = { ...planData.memos[idx], title, text, image, color: selectedMemoColor, time };
     }
   } else {
-    planData.memos.unshift({ title, text, color: selectedMemoColor, time });
+    planData.memos.unshift({ title, text, image, color: selectedMemoColor, time });
   }
 
   closeMemoModal();
