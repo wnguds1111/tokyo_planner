@@ -2294,7 +2294,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const tabInput = document.getElementById("tabMemoInput");
   if (tabInput) {
     tabInput.addEventListener("keydown", (e) => {
-      if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+      if (e.key === "Enter" && !e.shiftKey && !e.isComposing) {
         e.preventDefault();
         postTabMemo();
       }

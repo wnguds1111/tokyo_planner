@@ -2883,8 +2883,160 @@ footer {
 }
 
 /* ================================================================
-   MEMO TAB (여행 메모장 탭 그리드 & 카드)
+   MEMO TAB REDESIGN (세련된 컴팩트 감성 메모장 UI)
    ================================================================ */
+.memo-compose-card {
+  max-width: 680px;
+  margin: 0 auto 20px auto;
+  background: var(--surface-card);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-xl);
+  padding: 16px 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.memo-compose-card:focus-within {
+  border-color: rgba(255, 117, 143, 0.45);
+  box-shadow: 0 8px 30px rgba(255, 117, 143, 0.12);
+  transform: translateY(-2px);
+}
+.memo-compose-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.memo-compose-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.memo-compose-tip {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+.memo-compose-body {
+  width: 100%;
+}
+.memo-compose-textarea {
+  width: 100%;
+  border: 1px solid var(--hairline);
+  background: var(--on-primary);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  font-family: inherit;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--ink);
+  resize: vertical;
+  min-height: 52px;
+  max-height: 180px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+.memo-compose-textarea:focus {
+  outline: none;
+  border-color: var(--brand-pink);
+  background: #ffffff;
+}
+.memo-compose-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.memo-char-hint {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+.btn-memo-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: linear-gradient(135deg, var(--brand-pink), #ff477e);
+  color: #ffffff;
+  border: none;
+  padding: 7px 18px;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(255, 117, 143, 0.3);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  margin-left: auto;
+}
+.btn-memo-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255, 117, 143, 0.45);
+  filter: brightness(1.05);
+}
+.btn-memo-submit:active {
+  transform: translateY(0);
+}
+
+/* 툴바 */
+.memo-toolbar {
+  max-width: 680px;
+  margin: 0 auto 20px auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.memo-search-box {
+  position: relative;
+  flex: 1;
+  max-width: 280px;
+}
+.memo-search-box .search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 13px;
+  opacity: 0.5;
+  pointer-events: none;
+}
+.memo-search-input-pill {
+  width: 100%;
+  height: 36px;
+  border: 1px solid var(--hairline);
+  background: var(--surface-card);
+  border-radius: var(--radius-pill);
+  padding: 0 14px 0 34px;
+  font-size: 12.5px;
+  font-family: inherit;
+  color: var(--ink);
+  transition: all 0.2s;
+  box-sizing: border-box;
+}
+.memo-search-input-pill:focus {
+  outline: none;
+  border-color: var(--brand-pink);
+  background: #ffffff;
+  box-shadow: 0 2px 10px rgba(255, 117, 143, 0.15);
+}
+.memo-stats-pill {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  background: var(--surface-soft);
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--hairline);
+}
+
+/* 그리드 & 카드 */
 .memo-grid-layout {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -2896,7 +3048,7 @@ footer {
   background: var(--on-primary);
   border: 1px solid var(--hairline);
   border-radius: var(--radius-lg);
-  padding: 18px;
+  padding: 16px 18px;
   box-shadow: var(--shadow-card);
   display: flex;
   flex-direction: column;
@@ -2916,7 +3068,7 @@ footer {
 .tab-memo-card:nth-child(4n+4) { border-top-color: var(--brand-ochre); }
 
 .tab-memo-text {
-  font-size: 14px;
+  font-size: 13.5px;
   color: var(--ink);
   line-height: 1.6;
   white-space: pre-wrap !important;
