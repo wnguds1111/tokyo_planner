@@ -6,7 +6,7 @@
   <title>🗼 도쿄 여행 플래너 · Tokyo Travel Planner</title>
   <meta name="description" content="도쿄 여행을 위한 항공권 비교, 호텔 리스트업, 비짓재팬웹 체크리스트, 일정표 및 엔화 지출 올인원 플래너">
   <meta name="theme-color" content="#fffaf0">
-  <link rel="stylesheet" href="styles.css?v=37">
+  <link rel="stylesheet" href="styles.css?v=38">
 </head>
 <body>
 
@@ -68,6 +68,7 @@
   <button class="tab-btn" onclick="switchTab('tour', this)"><span class="tab-icon">🎢</span> 투어 / 티켓</button>
   <button class="tab-btn" onclick="switchTab('checklist', this)"><span class="tab-icon">📋</span> 체크리스트</button>
   <button class="tab-btn" onclick="switchTab('itinerary', this)"><span class="tab-icon">🗺️</span> 여행 일정표</button>
+  <button class="tab-btn" onclick="switchTab('memo', this)"><span class="tab-icon">📝</span> 여행 메모장</button>
 </div>
 
 <!-- ================================================================ MAIN ================================================================ -->
@@ -178,7 +179,37 @@
     </div>
   </div>
 
+  <!-- ═══ TAB 5: 여행 메모장 ═══ -->
+  <div class="tab-panel" id="panel-memo">
+    <div class="section-heading">
+      <div>
+        <div class="section-title"><span class="section-title-icon">📝</span> 도쿄 여행 메모장</div>
+        <div class="section-sub">환전 팁, 맛집 주소, 길찾기 가이드 등 중요한 여행 정보를 자유롭게 메모하세요 📌</div>
+      </div>
+    </div>
 
+    <!-- 메모 작성 & 검색 상단 바 -->
+    <div class="glass-card" style="padding: 20px; margin-bottom: 24px;">
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <textarea class="form-input" id="tabMemoInput" rows="2" style="flex:1; min-width:240px; resize:vertical; min-height:54px; font-family:inherit; font-size:14px; line-height:1.5;" placeholder="메모할 내용을 입력하세요... (줄바꿈 가능, Ctrl+Enter 또는 버튼으로 등록)"></textarea>
+          <button class="btn-primary" onclick="postTabMemo()" style="flex-shrink:0; padding:0 24px; font-weight:800; font-size:14px; display:flex; align-items:center; justify-content:center; gap:6px; height:54px;">
+            <span>✏️</span> 남기기
+          </button>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
+          <div style="position:relative; flex:1; max-width:320px;">
+            <input class="form-input" id="tabMemoSearchInput" type="text" placeholder="🔍 메모 검색..." oninput="renderMemos()" style="padding-left:34px; font-size:13px; height:38px;">
+            <span style="position:absolute; left:12px; top:50%; transform:translateY(-50%); font-size:13px; pointer-events:none; opacity:0.6;">🔍</span>
+          </div>
+          <div id="memoCountBadge" style="font-size:12px; font-weight:700; color:var(--text-muted);">총 0개의 메모</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 메모 목록 그리드 -->
+    <div id="tabMemoGrid" class="memo-grid-layout"></div>
+  </div>
 
 </div><!-- /main-container -->
 
@@ -548,6 +579,6 @@
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-<script src="app.js?v=37"></script>
+<script src="app.js?v=38"></script>
 </body>
 </html>
