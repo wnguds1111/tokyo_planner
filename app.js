@@ -132,26 +132,37 @@ const defaultTokyoData = {
   tours: [],
   days: {
     1: [
-      { id:1001, time:"17:30", name:"도쿄 나리타 공항 (T3) 도착 & 입국 수속", lat:35.7720, lng:140.3929, memo:"제주항공 7C1107편 도착, 입국 심사 및 게이세이 액세스특급/스카이라이너 탑승 🚊" },
-      { id:1002, time:"19:30", name:"밀레니엄 미츠이 가든 호텔 긴자 체크인", lat:35.6698, lng:139.7656, memo:"체크인 및 짐 정리 후 가벼운 옷차림으로 긴자 번화가 산책 🏨" },
-      { id:1003, time:"20:30", name:"긴자 / 신바시 이자카야 & 저녁 식사", lat:35.6668, lng:139.7583, memo:"야키토리 꼬치구이와 시원한 나마비루(생맥주)로 1일차 축하 🍻" }
+      { id:1001, time:"17:30", name:"도쿄 나리타 공항 (T3) 도착 & 입국 수속", lat:35.7720, lng:140.3929, memo:"제주항공 7C1107편 도착, 입국 심사 및 게이세이 액세스특급/스카이라이너 탑승 🚊", link:"https://www.google.com/maps/search/?api=1&query=Narita+Airport+Terminal+3" },
+      { id:1002, time:"19:30", name:"밀레니엄 미츠이 가든 호텔 긴자 체크인", lat:35.6698, lng:139.7656, memo:"체크인 및 짐 정리 후 가벼운 옷차림으로 긴자 번화가 산책 🏨", link:"https://www.google.com/maps/search/?api=1&query=Millennium+Mitsui+Garden+Hotel+Tokyo" },
+      { id:1003, time:"20:30", name:"야키니쿠 우시고로 긴자점 (USHIGORO)", lat:35.6728, lng:139.7675, memo:"500일 기념 극상 A5 흑모와규 코스 디너 (입에서 살살 녹는 와규 만찬 🥩)", link:"https://www.google.com/maps/search/?api=1&query=Yakiniku+Ushigoro+Ginza+Tokyo" },
+      { id:1004, time:"22:15", name:"긴자식스 (GINZA SIX) 13F 루프탑 가든", lat:35.6696, lng:139.7640, memo:"긴자 밤거리가 한눈에 내려다보이는 낭만적인 옥상정원 야경 산책 🌃", link:"https://www.google.com/maps/search/?api=1&query=GINZA+SIX+Tokyo" },
+      { id:1005, time:"22:45", name:"돈키호테 긴자 본관 (24시간 쇼핑)", lat:35.6678, lng:139.7602, memo:"야식 & 일본 간식 & 기념품 쇼핑 후 호텔 복귀 🐧🛍️", link:"https://www.google.com/maps/search/?api=1&query=Don+Quijote+Ginza+Honkan+Tokyo" }
     ],
     2: [
-      { id:2001, time:"09:30", name:"아사쿠사 센소지 & 나카미세도리", lat:35.7148, lng:139.7967, memo:"도쿄에서 가장 오래된 사찰 산책과 메론빵·녹차 당고 🍵" },
-      { id:2002, time:"12:30", name:"도쿄 스카이트리 & 소라마치", lat:35.7101, lng:139.8107, memo:"일본 최고 높이 타워 전망 및 소라마치 쇼핑몰 점심 식사 🗼" },
-      { id:2003, time:"15:30", name:"아키하바라 전자상가 거리", lat:35.6984, lng:139.7731, memo:"피규어, 게임, 전자제품 및 애니메이션 굿즈 구경 🎮" },
-      { id:2004, time:"18:30", name:"긴자 명품 거리 & 식당가", lat:35.6719, lng:139.7640, memo:"긴자 식스 및 백화점 쇼핑 후 고급 돈카츠/스시 저녁 식사 🍣" }
+      { id:2001, time:"11:00", name:"긴자 호텔 출발 (디즈니랜드 이동)", lat:35.6698, lng:139.7656, memo:"히가시긴자역 ➔ 핫초보리 환승 ➔ 마이하마역 (11:45 도착) 🚆", link:"https://www.google.com/maps/search/?api=1&query=Maihama+Station+Tokyo" },
+      { id:2002, time:"12:00", name:"도쿄 디즈니랜드 입장 & 신데렐라 성", lat:35.6329, lng:139.8804, memo:"🏰 12:00 입장 즉시 앱 세팅!\n1. 미녀와 야수 DPA(유료 패스 2,000엔) 구매\n2. 푸의 허니헌트 무료 패스(Priority Pass) 예약\n3. 신데렐라 성 앞 500일 커플 인생샷 📸", link:"https://www.google.com/maps/search/?api=1&query=Tokyo+Disneyland" },
+      { id:2003, time:"18:45", name:"디즈니 야간 퍼레이드 '드림라이츠'", lat:35.6329, lng:139.8804, memo:"환상적인 일렉트리컬 퍼레이드 감상 후 20:00 퇴장 ➔ 긴자역 복귀 🌟", link:"https://www.google.com/maps/search/?api=1&query=Tokyo+Disneyland" },
+      { id:2004, time:"20:40", name:"네무로하나마루 긴자점 (1차 스시)", lat:35.6722, lng:139.7628, memo:"도큐 플라자 긴자 10층 (긴자역 C2 직결) · 홋카이도 직송 신선함 1등 회전초밥 🍣🍺", link:"https://www.google.com/maps/search/?api=1&query=Nemuro+Hanamaru+Ginza+Tokyo" },
+      { id:2005, time:"21:50", name:"야키토리 토리요시 긴자 코리도점 (2차)", lat:35.6705, lng:139.7598, memo:"도보 2분 코리도 거리 중심 · 숯불 모듬 야키토리 & 테바사키 & 시원한 하이볼 짠! 🍢🍻", link:"https://www.google.com/maps/search/?api=1&query=Toriyoshi+Ginza+Corridor+Tokyo" },
+      { id:2006, time:"22:55", name:"돈키호테 긴자 본관 (도보 3분)", lat:35.6678, lng:139.7602, memo:"디즈니 피로를 풀어줄 휴족시간 & 푸딩 쇼핑 후 호텔 복귀 (23:35) 😴💖", link:"https://www.google.com/maps/search/?api=1&query=Don+Quijote+Ginza+Honkan+Tokyo" }
     ],
     3: [
-      { id:3001, time:"09:00", name:"메이지 신궁 & 하라주쿠 다케시타도리", lat:35.6764, lng:139.6993, memo:"울창한 도심 숲길 산책 및 하라주쿠 트렌디 카페/크레페 ☕" },
-      { id:3002, time:"14:00", name:"시부야 스크램블 교차로 & 시부야 스카이", lat:35.6585, lng:139.7022, memo:"하치코 동상 인증샷 & 환상적인 360도 도쿄 파노라마 일몰 감상 🌇" },
-      { id:3003, time:"19:30", name:"롯폰기 힐즈 도쿄 시티뷰 (도쿄타워)", lat:35.6605, lng:139.7292, memo:"붉게 빛나는 도쿄타워를 가장 아름답게 조망하는 로맨틱 야경 🗼💖" }
+      { id:3001, time:"11:00", name:"긴자 호텔 출발 ➔ 오모테산도 이동", lat:35.6698, lng:139.7656, memo:"긴자선 탑승 후 오모테산도역 11:20 도착 🚆", link:"https://www.google.com/maps/search/?api=1&query=Omotesando+Station+Tokyo" },
+      { id:3002, time:"11:30", name:"하라주쿠 규카츠 모토무라 (점심 식사)", lat:35.6695, lng:139.7042, memo:"미니 개인 화로에 직접 구워 먹는 겉바속촉 1등 소고기 규카츠 정식 🥩", link:"https://www.google.com/maps/search/?api=1&query=Gyukatsu+Motomura+Harajuku+Tokyo" },
+      { id:3003, time:"12:30", name:"차베티 오모테산도 (CHAVATY 스콘 카페)", lat:35.6672, lng:139.7118, memo:"따끈따끈 갓 구운 수제 스콘 & 고급 말차/우롱 티라떼 감성 디저트 🥐🍵", link:"https://www.google.com/maps/search/?api=1&query=CHAVATY+Omotesando+Tokyo" },
+      { id:3004, time:"13:30", name:"오모테산도 & 캣스트리트 감성 쇼핑", lat:35.6675, lng:139.7080, memo:"자이레(GYRE 꼼데가르송, MoMA), 키디랜드, 휴먼메이드, 넘버슈가 수제 카라멜 본점 🛍️", link:"https://www.google.com/maps/search/?api=1&query=GYRE+Omotesando+Tokyo" },
+      { id:3005, time:"15:15", name:"닌텐도 도쿄 (시부야 PARCO 6층)", lat:35.6620, lng:139.6987, memo:"🌱 피크민 굿즈 성지! 피크민 인형, 화분, 키링 싹쓸이 (포켓몬 센터 & 점프샵 함께 구경) 🎮", link:"https://www.google.com/maps/search/?api=1&query=Nintendo+TOKYO+Shibuya+PARCO" },
+      { id:3006, time:"16:30", name:"미야시타 파크 & 시부야 스크램블 교차로", lat:35.6595, lng:139.7018, memo:"도심 속 루프탑 공원 산책 & 하치코 동상 & 스크램블 교차로 타임랩스 영상 촬영 🎬", link:"https://www.google.com/maps/search/?api=1&query=Miyashita+Park+Shibuya+Tokyo" },
+      { id:3007, time:"17:15", name:"시부야 스카이 (SHIBUYA SKY) 일몰 야경", lat:35.6585, lng:139.7022, memo:"💖 500일 하이라이트! 지상 229m 루프탑에서 핑크빛 일몰(17:30) & 360도 도쿄 야경 커플 인생샷 📸", link:"https://www.google.com/maps/search/?api=1&query=SHIBUYA+SKY+Tokyo" },
+      { id:3008, time:"19:00", name:"히키니쿠토 코메 시부야점 (저녁 식사)", lat:35.6578, lng:139.6965, memo:"숯불에서 갓 구워주는 육즙 폭발 100% 소고기 함바그 & 가마솥밥 만찬 🥩🍚", link:"https://www.google.com/maps/search/?api=1&query=Hikiniku+to+Come+Shibuya+Tokyo" },
+      { id:3009, time:"21:00", name:"키테 가든 (KITTE 6F 도쿄역 야경)", lat:35.6798, lng:139.7648, memo:"조명이 켜진 유럽풍 붉은 벽돌 도쿄역이 눈앞에 펼쳐지는 로맨틱 옥상정원 야경 🏛️✨", link:"https://www.google.com/maps/search/?api=1&query=KITTE+Garden+Tokyo+Station" }
     ],
     4: [
-      { id:4001, time:"10:00", name:"호텔 체크아웃 & 긴자 식스 산책", lat:35.6698, lng:139.7656, memo:"호텔 프론트에 짐 보관 후 긴자 주변 여유로운 모닝 커피 ☕" },
-      { id:4002, time:"11:30", name:"도쿄역 캐릭터 스트리트 & 기념품 쇼핑", lat:35.6812, lng:139.7671, memo:"도쿄 바나나, 시로이코이비토, 라멘 스트리트 점심 식사 🍜🛍️" },
-      { id:4003, time:"14:00", name:"나리타 공항 제3터미널 이동", lat:35.7720, lng:140.3929, memo:"공항 도착, 출국 수속 및 면세점 선물 구매 🛍️" },
-      { id:4004, time:"16:50", name:"제주항공 7C1106편 탑승 & 귀국", lat:35.7720, lng:140.3929, memo:"16:50 도쿄(나리타 T3) 출발 ➔ 19:40 서울(인천 T1) 도착 ✈️" }
+      { id:4001, time:"09:30", name:"쓰키지 장외시장 아침 먹방", lat:35.6655, lng:139.7708, memo:"호텔 도보 7분 · 갓 구운 100엔 계란말이, 신선한 참치 카이센동, 딸기 찹쌀떡 🍓🍣", link:"https://www.google.com/maps/search/?api=1&query=Tsukiji+Outer+Market+Tokyo" },
+      { id:4002, time:"11:00", name:"호텔 체크아웃 & 긴자 라스트 쇼핑", lat:35.6698, lng:139.7656, memo:"체크아웃 완료 후 긴자식스 & 유라쿠초 거리 산책, 면세 과자 쇼핑 & 모닝 커피 ☕", link:"https://www.google.com/maps/search/?api=1&query=GINZA+SIX+Tokyo" },
+      { id:4003, time:"13:10", name:"나리타 공항 이동 (액세스특급 직통)", lat:35.6698, lng:139.7656, memo:"호텔 앞 히가시긴자역에서 게이세이 액세스특급 직통 탑승 (환승 0번!) ➔ 14:30 나리타 T3 도착 🚊", link:"https://www.google.com/maps/search/?api=1&query=Higashi-ginza+Station+Tokyo" },
+      { id:4004, time:"14:30", name:"나리타 공항 제3터미널 출국 수속", lat:35.7720, lng:140.3929, memo:"위탁 수하물 부치기 & 출국 심사 후 면세점 쇼핑 (로이스 초콜릿, 시로이코이비토 🍫)", link:"https://www.google.com/maps/search/?api=1&query=Narita+Airport+Terminal+3" },
+      { id:4005, time:"16:50", name:"제주항공 7C1106편 탑승 & 귀국", lat:35.7720, lng:140.3929, memo:"16:50 나리타 T3 출발 ➔ 19:40 인천공항 T1 도착 · 500일 도쿄 여행 행복한 마무리 ✈️💖", link:"https://www.google.com/maps/search/?api=1&query=Incheon+International+Airport" }
     ]
   },
   memos: [
@@ -355,7 +366,8 @@ function ensureDefaultReservations(data) {
   if (!Array.isArray(data.checklistGroups) || data.checklistGroups.length === 0) {
     data.checklistGroups = JSON.parse(JSON.stringify(defaultChecklistGroups));
   }
-  if (!data.days || Object.keys(data.days).length === 0) {
+  if (!data.days || Object.keys(data.days).length === 0 || !data.days[1]?.some(item => item.name?.includes("우시고로")) || !data.days[3]?.some(item => item.name?.includes("모토무라"))) {
+    // 최신 확정 1~4일차 풀 일정으로 자동 업그레이드
     data.days = JSON.parse(JSON.stringify(defaultTokyoData.days));
   }
 }
