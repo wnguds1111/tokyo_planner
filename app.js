@@ -2141,10 +2141,11 @@ function renderBookingSummary() {
 }
 
 // ================================================================
-//  MEMO
+//  MEMO (we,memo pastel wide card system)
 // ================================================================
-//  MEMO
-// ================================================================
+const MEMO_COLORS = ["pink", "purple", "mint", "yellow", "peach"];
+let selectedMemoColor = "pink";
+
 function renderMemos() {
   if (!planData) return;
   const board = document.getElementById("memoBoard");
@@ -2156,22 +2157,28 @@ function renderMemos() {
   
   const allMemos = planData.memos || [];
   if (countBadge) {
-    countBadge.textContent = `총 ${allMemos.length}개의 메모`;
+    countBadge.textContent = `총 ${allMemos.length}개`;
   }
 
   // 1. 플로팅 메모 보드 렌더링
   if (board) {
     let filteredFloating = allMemos;
     if (floatingSearch) {
-      filteredFloating = filteredFloating.filter(m => (m.text || "").toLowerCase().includes(floatingSearch));
+      filteredFloating = filteredFloating.filter(m => {
+        const full = `${m.title || ''} ${m.text || ''}`.toLowerCase();
+        return full.includes(floatingSearch);
+      });
     }
     if (!filteredFloating.length) {
       board.innerHTML = `<div style="text-align:center;padding:40px 20px;color:#a16207;font-size:14px;font-weight:500;font-family:'Noto Sans KR',sans-serif;">${floatingSearch ? '검색 결과가 없어요 🔍' : '도쿄 여행 꿀팁이나 메모를 남겨보세요 ✏️'}</div>`;
     } else {
       board.innerHTML = filteredFloating.map(m => {
+        const titleText = m.title ? `<strong>${m.title}</strong><br>` : '';
+        const bodyText = m.text || '';
+        const full = `${titleText}${bodyText}`;
         const highlighted = floatingSearch
-          ? (m.text || "").replace(new RegExp(`(${floatingSearch.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi'), '<mark style="background:#fde047;color:#451a03;border-radius:2px;padding:0 1px;">$1</mark>')
-          : (m.text || "");
+          ? full.replace(new RegExp(`(${floatingSearch.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi'), '<mark style="background:#fde047;color:#451a03;border-radius:2px;padding:0 1px;">$1</mark>')
+          : full;
         return `
         <div class="memo-note-item">
           <div class="memo-note-dot"></div>
@@ -2184,41 +2191,70 @@ function renderMemos() {
     }
   }
 
-  // 2. 탭 패널 메모 그리드 렌더링
+  // 2. 탭 패널 we,memo 파스텔 와이드 그리드 렌더링
   if (tabGrid) {
     let filteredTab = allMemos;
     if (tabSearch) {
-      filteredTab = filteredTab.filter(m => (m.text || "").toLowerCase().includes(tabSearch));
+      filteredTab = filteredTab.filter(m => {
+        const full = `${m.title || ''} ${m.text || ''}`.toLowerCase();
+        return full.includes(tabSearch);
+      });
     }
     if (!filteredTab.length) {
       tabGrid.innerHTML = `
-        <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: var(--text-muted); background: var(--surface-card); border-radius: var(--radius-xl); border: 1px dashed var(--hairline);">
-          <div style="font-size: 40px; margin-bottom: 12px;">📝</div>
-          <div style="font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 6px;">${tabSearch ? '검색된 메모가 없습니다' : '아직 작성된 메모가 없어요'}</div>
-          <div style="font-size: 13px;">${tabSearch ? '다른 검색어로 찾아보세요 🔍' : '상단 입력창에 비짓재팬웹 정보, 추천 맛집, 교통 팁 등을 메모해 보세요! ✨'}</div>
+        <div style="grid-column: 1 / -1; text-align: center; padding: 70px 20px; color: var(--text-muted); background: var(--surface-card); border-radius: var(--radius-xl); border: 1px dashed var(--hairline);">
+          <div style="font-size: 44px; margin-bottom: 12px;">📝</div>
+          <div style="font-size: 17px; font-weight: 800; color: var(--ink); margin-bottom: 6px;">${tabSearch ? '검색된 메모가 없습니다' : '첫 메모를 남겨보세요'}</div>
+          <div style="font-size: 13px; margin-bottom: 18px;">${tabSearch ? '다른 키워드로 검색해 보세요 🔍' : '우측 상단의 [+] 버튼을 눌러 비짓재팬웹, 맛집 리스트, 교통 패스 등을 작성해 보세요! ✨'}</div>
+          ${!tabSearch ? `<button class="wememo-btn-add" onclick="openMemoModal()" style="margin: 0 auto; width: auto; height: auto; border-radius: 20px; padding: 8px 20px; font-size: 13px; font-weight: 700;">+ 새 메모 작성</button>` : ''}
         </div>
       `;
     } else {
       tabGrid.innerHTML = filteredTab.map(m => {
         const rawIdx = allMemos.indexOf(m);
-        const safeText = (m.text || "")
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;");
+        const cardColor = m.color || MEMO_COLORS[rawIdx % MEMO_COLORS.length];
 
-        const highlighted = tabSearch
-          ? safeText.replace(new RegExp(`(${tabSearch.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi'), '<mark style="background:#fde047;color:#451a03;border-radius:2px;padding:0 1px;">$1</mark>')
-          : safeText;
+        // 제목 및 본문 분리
+        let displayTitle = m.title || "";
+        let displayBody = m.text || "";
+
+        if (!displayTitle && displayBody) {
+          const lines = displayBody.split("\n");
+          if (lines.length > 1) {
+            displayTitle = lines[0];
+            displayBody = lines.slice(1).join("\n");
+          } else {
+            displayTitle = lines[0];
+            displayBody = "";
+          }
+        }
+
+        const safeTitle = (displayTitle || "메모")
+          .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        const safeBody = (displayBody || "")
+          .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+        const highlightedTitle = tabSearch
+          ? safeTitle.replace(new RegExp(`(${tabSearch.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi'), '<mark style="background:#fde047;color:#451a03;border-radius:2px;padding:0 1px;">$1</mark>')
+          : safeTitle;
+
+        const highlightedBody = tabSearch
+          ? safeBody.replace(new RegExp(`(${tabSearch.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi'), '<mark style="background:#fde047;color:#451a03;border-radius:2px;padding:0 1px;">$1</mark>')
+          : safeBody;
 
         return `
-        <div class="tab-memo-card">
-          <div class="tab-memo-text">${highlighted}</div>
-          <div class="tab-memo-footer">
-            <span class="tab-memo-time">⏰ ${m.time || ""}</span>
-            <div class="tab-memo-actions">
-              <button class="tab-memo-btn" onclick="copyMemoText(${rawIdx})" title="메모 복사">📋 복사</button>
-              <button class="tab-memo-btn delete" onclick="deleteMemo(${rawIdx})" title="메모 삭제">🗑️ 삭제</button>
+        <div class="wememo-card ${cardColor}">
+          <div class="wememo-card-header">
+            <div class="wememo-card-title">${highlightedTitle}</div>
+            <div class="wememo-card-actions">
+              <button class="wememo-action-btn" onclick="copyMemoText(${rawIdx})" title="메모 복사">📋 복사</button>
+              <button class="wememo-action-btn" onclick="openMemoModal(${rawIdx})" title="메모 수정">✏️ 수정</button>
+              <button class="wememo-action-btn delete" onclick="deleteMemo(${rawIdx})" title="메모 삭제">🗑️</button>
             </div>
+          </div>
+          ${highlightedBody ? `<div class="wememo-card-body">${highlightedBody}</div>` : ''}
+          <div class="wememo-card-footer">
+            <span class="wememo-card-time">🕒 ${m.time || ""}</span>
           </div>
         </div>
         `;
@@ -2227,27 +2263,87 @@ function renderMemos() {
   }
 }
 
+function selectMemoColor(color, el) {
+  selectedMemoColor = color;
+  document.querySelectorAll(".wememo-color-opt").forEach(opt => opt.classList.remove("selected"));
+  if (el) el.classList.add("selected");
+}
+
+function openMemoModal(idx) {
+  const modal = document.getElementById("memoModal");
+  if (!modal) return;
+  
+  document.getElementById("editMemoIndex").value = (idx !== undefined && idx !== null) ? idx : "";
+  document.getElementById("memoModalTitleText").textContent = (idx !== undefined && idx !== null) ? "✏️ 메모 수정" : "📝 새 메모 작성";
+
+  if (idx !== undefined && idx !== null && planData?.memos?.[idx]) {
+    const memo = planData.memos[idx];
+    document.getElementById("modalMemoTitle").value = memo.title || "";
+    document.getElementById("modalMemoContent").value = memo.text || "";
+    selectedMemoColor = memo.color || "pink";
+  } else {
+    document.getElementById("modalMemoTitle").value = "";
+    document.getElementById("modalMemoContent").value = "";
+    selectedMemoColor = "pink";
+  }
+
+  // 컬러 라디오 갱신
+  document.querySelectorAll(".wememo-color-opt").forEach(opt => {
+    const radio = opt.querySelector("input");
+    if (radio && radio.value === selectedMemoColor) {
+      opt.classList.add("selected");
+    } else {
+      opt.classList.remove("selected");
+    }
+  });
+
+  modal.classList.add("active");
+  setTimeout(() => {
+    document.getElementById("modalMemoTitle")?.focus();
+  }, 100);
+}
+
+function closeMemoModal() {
+  document.getElementById("memoModal")?.classList.remove("active");
+}
+
+function saveMemoFromModal() {
+  const title = document.getElementById("modalMemoTitle").value.trim();
+  const text = document.getElementById("modalMemoContent").value.trim();
+  const editIdx = document.getElementById("editMemoIndex").value;
+
+  if (!title && !text) {
+    alert("메모 제목이나 내용을 입력해 주세요.");
+    return;
+  }
+
+  const now = new Date();
+  const time = `${String(now.getMonth()+1).padStart(2,"0")}.${String(now.getDate()).padStart(2,"0")} ${String(now.getHours()).padStart(2,"0")}:${String(now.getMinutes()).padStart(2,"0")}`;
+
+  planData.memos = planData.memos || [];
+
+  if (editIdx !== "" && !isNaN(parseInt(editIdx))) {
+    const idx = parseInt(editIdx);
+    if (planData.memos[idx]) {
+      planData.memos[idx] = { ...planData.memos[idx], title, text, color: selectedMemoColor, time };
+    }
+  } else {
+    planData.memos.unshift({ title, text, color: selectedMemoColor, time });
+  }
+
+  closeMemoModal();
+  renderMemos();
+  scheduleSave();
+}
+
 function postMemo() {
   const input = document.getElementById("memoInput");
   const text  = input.value.trim();
   if (!text || !planData) return;
   const now = new Date();
-  const t   = `${String(now.getMonth()+1).padStart(2,"0")}.${String(now.getDate()).padStart(2,"0")} ${String(now.getHours()).padStart(2,"0")}:${String(now.getMinutes()).padStart(2,"0")}`;
+  const time = `${String(now.getMonth()+1).padStart(2,"0")}.${String(now.getDate()).padStart(2,"0")} ${String(now.getHours()).padStart(2,"0")}:${String(now.getMinutes()).padStart(2,"0")}`;
   planData.memos = planData.memos || [];
-  planData.memos.unshift({ text, time:t });
-  input.value = "";
-  renderMemos();
-  scheduleSave();
-}
-
-function postTabMemo() {
-  const input = document.getElementById("tabMemoInput");
-  const text  = input.value.trim();
-  if (!text || !planData) return;
-  const now = new Date();
-  const t   = `${String(now.getMonth()+1).padStart(2,"0")}.${String(now.getDate()).padStart(2,"0")} ${String(now.getHours()).padStart(2,"0")}:${String(now.getMinutes()).padStart(2,"0")}`;
-  planData.memos = planData.memos || [];
-  planData.memos.unshift({ text, time:t });
+  planData.memos.unshift({ text, color: selectedMemoColor, time });
   input.value = "";
   renderMemos();
   scheduleSave();
@@ -2263,7 +2359,8 @@ function deleteMemo(idx) {
 
 function copyMemoText(idx) {
   if (!planData?.memos?.[idx]) return;
-  const text = planData.memos[idx].text;
+  const m = planData.memos[idx];
+  const text = m.title ? `${m.title}\n\n${m.text || ''}` : (m.text || '');
   navigator.clipboard.writeText(text).then(() => {
     alert("메모 내용이 클립보드에 복사되었습니다! 📋");
   }).catch(() => {
@@ -2289,15 +2386,3 @@ function toggleMemoWidget() {
     if (board) board.scrollTop = board.scrollHeight;
   }
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-  const tabInput = document.getElementById("tabMemoInput");
-  if (tabInput) {
-    tabInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" && !e.shiftKey && !e.isComposing) {
-        e.preventDefault();
-        postTabMemo();
-      }
-    });
-  }
-});

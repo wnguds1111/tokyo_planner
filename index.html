@@ -6,7 +6,7 @@
   <title>🗼 도쿄 여행 플래너 · Tokyo Travel Planner</title>
   <meta name="description" content="도쿄 여행을 위한 항공권 비교, 호텔 리스트업, 비짓재팬웹 체크리스트, 일정표 및 엔화 지출 올인원 플래너">
   <meta name="theme-color" content="#fffaf0">
-  <link rel="stylesheet" href="styles.css?v=39">
+  <link rel="stylesheet" href="styles.css?v=40">
 </head>
 <body>
 
@@ -181,41 +181,30 @@
 
   <!-- ═══ TAB 5: 여행 메모장 ═══ -->
   <div class="tab-panel" id="panel-memo">
-    <div class="section-heading" style="margin-bottom: 20px;">
-      <div>
-        <div class="section-title"><span class="section-title-icon">📝</span> 도쿄 여행 메모장</div>
-        <div class="section-sub">환전 팁, 맛집 주소, 길찾기 가이드 등 중요한 여행 정보를 자유롭게 메모하세요 📌</div>
+    <!-- we,memo 스타일 상단 헤더 & 컨트롤 바 -->
+    <div class="wememo-header-container">
+      <div class="wememo-header-left">
+        <div class="wememo-brand">tokyo,memo</div>
+        <div class="wememo-title">Memo</div>
       </div>
-    </div>
-
-    <!-- 컴팩트 & 감성 메모 작성 카드 -->
-    <div class="memo-compose-card">
-      <div class="memo-compose-header">
-        <span class="memo-compose-title">✏️ 새 메모 남기기</span>
-        <span class="memo-compose-tip">Enter로 바로 등록 / Shift+Enter로 줄바꿈</span>
-      </div>
-      <div class="memo-compose-body">
-        <textarea class="memo-compose-textarea" id="tabMemoInput" placeholder="비짓재팬웹 QR 캡처, 맛집 링크, 쇼핑 리스트 등 기억할 내용을 적어보세요..." rows="2"></textarea>
-      </div>
-      <div class="memo-compose-footer">
-        <span class="memo-char-hint">💡 꿀팁: 등록된 메모는 '복사' 버튼으로 일정표에 바로 붙여넣을 수 있어요!</span>
-        <button class="btn-memo-submit" onclick="postTabMemo()">
-          <span>📌</span> 남기기
+      <div class="wememo-header-right">
+        <div class="wememo-search-wrap">
+          <span class="wememo-search-icon">🔍</span>
+          <input class="wememo-search-input" id="tabMemoSearchInput" type="text" placeholder="Search..." oninput="renderMemos()">
+        </div>
+        <button class="wememo-btn-add" onclick="openMemoModal()" title="새 메모 작성">
+          <span>+</span>
         </button>
       </div>
     </div>
 
-    <!-- 상단 툴바: 검색창 & 메모 카운트 -->
-    <div class="memo-toolbar">
-      <div class="memo-search-box">
-        <span class="search-icon">🔍</span>
-        <input class="memo-search-input-pill" id="tabMemoSearchInput" type="text" placeholder="메모 검색..." oninput="renderMemos()">
-      </div>
-      <div class="memo-stats-pill" id="memoCountBadge">총 0개의 메모</div>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 16px; padding: 0 4px;">
+      <div class="wememo-subtitle">도쿄 여행에 필요한 팁, 예약 정보, 맛집 리스트를 기록하세요 ✨</div>
+      <div class="wememo-count" id="memoCountBadge">총 0개</div>
     </div>
 
-    <!-- 메모 목록 그리드 -->
-    <div id="tabMemoGrid" class="memo-grid-layout"></div>
+    <!-- 와이드 파스텔 메모 목록 그리드 -->
+    <div id="tabMemoGrid" class="wememo-grid-layout"></div>
   </div>
 
 </div><!-- /main-container -->
@@ -554,6 +543,48 @@
   </div>
 </div>
 
+<!-- ================================================================ MODAL: 메모 작성 / 수정 ================================================================ -->
+<div class="modal-overlay" id="memoModal">
+  <div class="modal-box" style="max-width: 480px;">
+    <div class="modal-header">
+      <div class="modal-title" id="memoModalTitleText">📝 새 메모 작성</div>
+      <button class="btn-close-modal" onclick="closeMemoModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="editMemoIndex">
+      <div class="form-group">
+        <label class="form-label">메모 제목 (선택)</label>
+        <input class="form-input" type="text" id="modalMemoTitle" placeholder="예: 비짓재팬웹 체크, 긴자 맛집 리스트, 쇼핑 목록">
+      </div>
+      <div class="form-group">
+        <label class="form-label">메모 내용</label>
+        <textarea class="form-input" id="modalMemoContent" rows="6" style="min-height:130px; resize:vertical; line-height:1.6; font-family:inherit;" placeholder="줄바꿈(Enter)이나 기호를 자유롭게 사용하여 작성하세요..."></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">카드 색상 테마</label>
+        <div class="wememo-color-picker" id="memoColorPicker">
+          <label class="wememo-color-opt pink selected" onclick="selectMemoColor('pink', this)" title="핑크">
+            <input type="radio" name="memoColor" value="pink" checked hidden>
+          </label>
+          <label class="wememo-color-opt purple" onclick="selectMemoColor('purple', this)" title="라벤더">
+            <input type="radio" name="memoColor" value="purple" hidden>
+          </label>
+          <label class="wememo-color-opt mint" onclick="selectMemoColor('mint', this)" title="민트">
+            <input type="radio" name="memoColor" value="mint" hidden>
+          </label>
+          <label class="wememo-color-opt yellow" onclick="selectMemoColor('yellow', this)" title="레몬">
+            <input type="radio" name="memoColor" value="yellow" hidden>
+          </label>
+          <label class="wememo-color-opt peach" onclick="selectMemoColor('peach', this)" title="피치">
+            <input type="radio" name="memoColor" value="peach" hidden>
+          </label>
+        </div>
+      </div>
+      <button class="btn-primary" onclick="saveMemoFromModal()">💾 메모 저장</button>
+    </div>
+  </div>
+</div>
+
 <!-- ═══ FLOATING MEMO WIDGET ═══ -->
 <div class="floating-memo-widget" id="floatingMemoWidget">
   <button class="memo-trigger-btn" id="memoTriggerBtn" onclick="toggleMemoWidget()" title="메모 열기">
@@ -586,6 +617,6 @@
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-<script src="app.js?v=39"></script>
+<script src="app.js?v=40"></script>
 </body>
 </html>
