@@ -2988,33 +2988,43 @@ footer {
   border: 1px solid var(--hairline);
 }
 
-/* 와이드 파스텔 메모 그리드 (가로가 시원한 와이드 카드) */
+/* 와이드 파스텔 메모 피드 (Masonry 메이슨리 피드: 길이가 달라도 빈틈없이 맞물림) */
 .wememo-grid-layout {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-  gap: 16px;
+  column-count: 2;
+  column-gap: 16px;
   width: 100%;
 }
 
-@media (max-width: 600px) {
+@media (min-width: 1200px) {
   .wememo-grid-layout {
-    grid-template-columns: 1fr;
+    column-count: 3;
+    column-gap: 18px;
+  }
+}
+
+@media (max-width: 680px) {
+  .wememo-grid-layout {
+    column-count: 1;
   }
 }
 
 /* we,memo 파스텔 카드 */
 .wememo-card {
+  break-inside: avoid;
+  page-break-inside: avoid;
+  margin-bottom: 16px;
+  width: 100%;
+  box-sizing: border-box;
   border-radius: 18px;
-  padding: 20px 22px;
-  display: flex;
+  padding: 18px 20px;
+  display: inline-flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 14px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
+  gap: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
   border: 1px solid transparent;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   position: relative;
-  min-height: 120px;
 }
 .wememo-card:hover {
   transform: translateY(-3px);
