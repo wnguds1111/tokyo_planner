@@ -2202,7 +2202,7 @@ function renderMemos() {
     }
     if (!filteredTab.length) {
       tabGrid.innerHTML = `
-        <div style="grid-column: 1 / -1; text-align: center; padding: 70px 20px; color: var(--text-muted); background: var(--surface-card); border-radius: var(--radius-xl); border: 1px dashed var(--hairline);">
+        <div style="width: 100%; text-align: center; padding: 70px 20px; color: var(--text-muted); background: var(--surface-card); border-radius: var(--radius-xl); border: 1px dashed var(--hairline);">
           <div style="font-size: 44px; margin-bottom: 12px;">📝</div>
           <div style="font-size: 17px; font-weight: 800; color: var(--ink); margin-bottom: 6px;">${tabSearch ? '검색된 메모가 없습니다' : '첫 메모를 남겨보세요'}</div>
           <div style="font-size: 13px; margin-bottom: 18px;">${tabSearch ? '다른 키워드로 검색해 보세요 🔍' : '우측 상단의 [+] 버튼을 눌러 비짓재팬웹, 맛집 리스트, 교통 패스 등을 작성해 보세요! ✨'}</div>
@@ -2210,7 +2210,10 @@ function renderMemos() {
         </div>
       `;
     } else {
-      tabGrid.innerHTML = filteredTab.map(m => {
+      const col0 = [];
+      const col1 = [];
+
+      filteredTab.forEach((m, fIdx) => {
         const rawIdx = allMemos.indexOf(m);
         const cardColor = m.color || MEMO_COLORS[rawIdx % MEMO_COLORS.length];
 
@@ -2242,7 +2245,7 @@ function renderMemos() {
           ? safeBody.replace(new RegExp(`(${tabSearch.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi'), '<mark style="background:#fde047;color:#451a03;border-radius:2px;padding:0 1px;">$1</mark>')
           : safeBody;
 
-        return `
+        const cardHtml = `
         <div class="wememo-card ${cardColor}">
           <div class="wememo-card-header">
             <div class="wememo-card-title">${highlightedTitle}</div>
@@ -2258,7 +2261,20 @@ function renderMemos() {
           </div>
         </div>
         `;
-      }).join("");
+
+        if (fIdx % 2 === 0) {
+          col0.push(cardHtml);
+        } else {
+          col1.push(cardHtml);
+        }
+      });
+
+      tabGrid.innerHTML = `
+        <div class="wememo-masonry-container">
+          <div class="wememo-masonry-col">${col0.join("")}</div>
+          <div class="wememo-masonry-col">${col1.join("")}</div>
+        </div>
+      `;
     }
   }
 }

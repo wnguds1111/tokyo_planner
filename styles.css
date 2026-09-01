@@ -2883,7 +2883,7 @@ footer {
 }
 
 /* ================================================================
-   WE,MEMO STYLE PASTEL WIDE CARDS (와이드 파스텔 감성 메모장 UI)
+   WE,MEMO STYLE PASTEL WIDE CARDS (완벽한 Pinterest/Google Keep형 Masonry 피드)
    ================================================================ */
 .wememo-header-container {
   display: flex;
@@ -2988,36 +2988,33 @@ footer {
   border: 1px solid var(--hairline);
 }
 
-/* 와이드 파스텔 메모 피드 (Masonry 메이슨리 피드: 길이가 달라도 빈틈없이 맞물림) */
-.wememo-grid-layout {
-  column-count: 2;
-  column-gap: 16px;
+/* 🧱 진정한 Masonry 피드 컨테이너 (각 열이 독립적으로 아래로 착착 쌓임) */
+.wememo-masonry-container {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
   width: 100%;
 }
-
-@media (min-width: 1200px) {
-  .wememo-grid-layout {
-    column-count: 3;
-    column-gap: 18px;
-  }
+.wememo-masonry-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
 }
-
 @media (max-width: 680px) {
-  .wememo-grid-layout {
-    column-count: 1;
+  .wememo-masonry-container {
+    flex-direction: column;
   }
 }
 
 /* we,memo 파스텔 카드 */
 .wememo-card {
-  break-inside: avoid;
-  page-break-inside: avoid;
-  margin-bottom: 16px;
   width: 100%;
   box-sizing: border-box;
   border-radius: 18px;
   padding: 18px 20px;
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
   justify-content: space-between;
   gap: 12px;
@@ -3025,6 +3022,7 @@ footer {
   border: 1px solid transparent;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   position: relative;
+  height: auto !important; /* 강제 높이 방지 */
 }
 .wememo-card:hover {
   transform: translateY(-3px);
