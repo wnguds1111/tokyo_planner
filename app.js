@@ -132,7 +132,25 @@ const defaultTokyoData = {
   tours: [],
   days: {
     1: [
-      { id:1001, time:"17:30", name:"도쿄 나리타 공항 (T3) 도착 & 입국 수속", lat:35.7720, lng:140.3929, memo:"제주항공 7C1107편 도착, 입국 심사 및 게이세이 액세스특급/스카이라이너 탑승 🚊", link:"https://www.google.com/maps/search/?api=1&query=Narita+Airport+Terminal+3" },
+      { 
+        id:1001, 
+        time:"17:30", 
+        name:"도쿄 나리타 공항 (T3) 도착 & 입국 수속", 
+        lat:35.7720, 
+        lng:140.3929, 
+        memo:`🛬 나리타 T3 ➔ 히가시긴자 숙소 (환승 0회 직통)
+① [T3 탈출] 입국장 밖 🟦 파란색 보행트랙/셔틀정류장 이동 ➔ 🚌 "Terminal Shuttle Bus(제2터미널행)" 탑승 (3분 소요)
+② [T2 이동] 제2터미널 진입 ➔ 🟡 「철도 / Trains / 鉄道」 표지판 ➔ 에스컬레이터 타고 ⬇️ 지하 1층(B1F) 게이세이선 로비 이동
+③ [개찰구] 🟦/🟧 "Keisei Line(京成線)" 개찰구 ➔ 📱 아이폰 Apple Pay(Suica) 태그 (약 1,350엔)
+④ [승강장] 🟧 주황색 「1번 승강장 (Sky Access Line)」으로 내려감
+⑤ [열차 확인] 전광판 🟧 주황색 글씨 확인 필수!
+   ✅ 🟧 「액세스 특급 / ACCESS EXP / アクセス特急」
+   ✅ ✈️ 「하네다공항행 (For Haneda Airport)」 or 「니시마고메행」
+   ❌ 🟦 파란색 「스카이라이너(좌석지정)」 탑승 금지
+   ❌ 🟥 빨간색 「게이세이본선 / 우에노행」 탑승 금지
+⑥ [도착] 약 70분 직통 ➔ 🔴 「히가시긴자역(A-11)」 하차 ➔ A1/A2 출구(도보 1분)`, 
+        link:"https://www.google.com/maps/search/?api=1&query=Narita+Airport+Terminal+3" 
+      },
       { id:1002, time:"19:30", name:"밀레니엄 미츠이 가든 호텔 긴자 체크인", lat:35.6698, lng:139.7656, memo:"체크인 및 짐 정리 후 가벼운 옷차림으로 긴자 번화가 산책 🏨", link:"https://www.google.com/maps/search/?api=1&query=Millennium+Mitsui+Garden+Hotel+Tokyo" },
       { id:1003, time:"20:30", name:"야키니쿠 우시고로 긴자점 (USHIGORO)", lat:35.6728, lng:139.7675, memo:"500일 기념 극상 A5 흑모와규 코스 디너 (입에서 살살 녹는 와규 만찬 🥩)", link:"https://www.google.com/maps/search/?api=1&query=Yakiniku+Ushigoro+Ginza+Tokyo" },
       { id:1004, time:"22:15", name:"긴자식스 (GINZA SIX) 13F 루프탑 가든", lat:35.6696, lng:139.7640, memo:"긴자 밤거리가 한눈에 내려다보이는 낭만적인 옥상정원 야경 산책 🌃", link:"https://www.google.com/maps/search/?api=1&query=GINZA+SIX+Tokyo" },
@@ -147,15 +165,15 @@ const defaultTokyoData = {
       { id:2006, time:"22:55", name:"돈키호테 긴자 본관 (도보 3분)", lat:35.6678, lng:139.7602, memo:"디즈니 피로를 풀어줄 휴족시간 & 푸딩 쇼핑 후 호텔 복귀 (23:35) 😴💖", link:"https://www.google.com/maps/search/?api=1&query=Don+Quijote+Ginza+Honkan+Tokyo" }
     ],
     3: [
-      { id:3001, time:"11:00", name:"긴자 호텔 출발 ➔ 오모테산도 이동", lat:35.6698, lng:139.7656, memo:"긴자선 탑승 후 오모테산도역 11:20 도착 🚆", link:"https://www.google.com/maps/search/?api=1&query=Omotesando+Station+Tokyo" },
-      { id:3002, time:"11:30", name:"하라주쿠 규카츠 모토무라 (점심 식사)", lat:35.6695, lng:139.7042, memo:"미니 개인 화로에 직접 구워 먹는 겉바속촉 1등 소고기 규카츠 정식 🥩", link:"https://www.google.com/maps/search/?api=1&query=Gyukatsu+Motomura+Harajuku+Tokyo" },
-      { id:3003, time:"12:30", name:"차베티 오모테산도 (CHAVATY 스콘 카페)", lat:35.6672, lng:139.7118, memo:"따끈따끈 갓 구운 수제 스콘 & 고급 말차/우롱 티라떼 감성 디저트 🥐🍵", link:"https://www.google.com/maps/search/?api=1&query=CHAVATY+Omotesando+Tokyo" },
-      { id:3004, time:"13:30", name:"오모테산도 & 캣스트리트 감성 쇼핑", lat:35.6675, lng:139.7080, memo:"자이레(GYRE 꼼데가르송, MoMA), 키디랜드, 휴먼메이드, 넘버슈가 수제 카라멜 본점 🛍️", link:"https://www.google.com/maps/search/?api=1&query=GYRE+Omotesando+Tokyo" },
-      { id:3005, time:"15:15", name:"닌텐도 도쿄 (시부야 PARCO 6층)", lat:35.6620, lng:139.6987, memo:"🌱 피크민 굿즈 성지! 피크민 인형, 화분, 키링 싹쓸이 (포켓몬 센터 & 점프샵 함께 구경) 🎮", link:"https://www.google.com/maps/search/?api=1&query=Nintendo+TOKYO+Shibuya+PARCO" },
-      { id:3006, time:"16:30", name:"미야시타 파크 & 시부야 스크램블 교차로", lat:35.6595, lng:139.7018, memo:"도심 속 루프탑 공원 산책 & 하치코 동상 & 스크램블 교차로 타임랩스 영상 촬영 🎬", link:"https://www.google.com/maps/search/?api=1&query=Miyashita+Park+Shibuya+Tokyo" },
-      { id:3007, time:"17:15", name:"시부야 스카이 (SHIBUYA SKY) 일몰 야경", lat:35.6585, lng:139.7022, memo:"💖 500일 하이라이트! 지상 229m 루프탑에서 핑크빛 일몰(17:30) & 360도 도쿄 야경 커플 인생샷 📸", link:"https://www.google.com/maps/search/?api=1&query=SHIBUYA+SKY+Tokyo" },
-      { id:3008, time:"19:00", name:"히키니쿠토 코메 시부야점 (저녁 식사)", lat:35.6578, lng:139.6965, memo:"숯불에서 갓 구워주는 육즙 폭발 100% 소고기 함바그 & 가마솥밥 만찬 🥩🍚", link:"https://www.google.com/maps/search/?api=1&query=Hikiniku+to+Come+Shibuya+Tokyo" },
-      { id:3009, time:"21:00", name:"키테 가든 (KITTE 6F 도쿄역 야경)", lat:35.6798, lng:139.7648, memo:"조명이 켜진 유럽풍 붉은 벽돌 도쿄역이 눈앞에 펼쳐지는 로맨틱 옥상정원 야경 🏛️✨", link:"https://www.google.com/maps/search/?api=1&query=KITTE+Garden+Tokyo+Station" }
+      { id:3001, time:"11:00", name:"밀레니엄 미쓰이 가든 호텔 도쿄 (출발)", lat:35.6698, lng:139.7656, memo:"긴자선 탑승 후 오모테산도역 이동 (15분 소요) 🚆", link:"https://www.google.com/maps/search/?api=1&query=Millennium+Mitsui+Garden+Hotel+Tokyo" },
+      { id:3002, time:"12:00", name:"규카츠 모토무라 하라주쿠점", lat:35.6695, lng:139.7042, memo:"미니 개인 화로에 원하는 굽기로 살짝 구워 먹는 겉바속촉 1등 소고기 규카츠! 🥩", link:"https://www.google.com/maps/search/?api=1&query=Gyukatsu+Motomura+Harajuku+Tokyo" },
+      { id:3003, time:"13:00", name:"오모테산도 힐즈 & 자이레", lat:35.6675, lng:139.7080, memo:"자이레(꼼데가르송, MoMA 디자인스토어), 키디랜드(캐릭터 굿즈), 휴먼메이드, 넘버슈가 수제 카라멜 - 쇼핑 거리 🛍️", link:"https://www.google.com/maps/search/?api=1&query=GYRE+Omotesando+Tokyo" },
+      { id:3004, time:"14:00", name:"차베티 (CHAVATY)", lat:35.6672, lng:139.7118, memo:"갓 구운 따끈따끈 수제 스콘 & 부드러운 말차/우롱 티라떼 🥐🍵", link:"https://www.google.com/maps/search/?api=1&query=CHAVATY+Omotesando+Tokyo" },
+      { id:3005, time:"15:00", name:"시부야 캣 스트리트", lat:35.6635, lng:139.7045, memo:"캣스트리트 옷가게 골목 따라 시부야로 도보 이동 (15분) 🚶", link:"https://www.google.com/maps/search/?api=1&query=Cat+Street+Shibuya+Tokyo" },
+      { id:3006, time:"15:30", name:"닌텐도 도쿄 (파르코 6층)", lat:35.6620, lng:139.6987, memo:"피크민 성지 / 파르코 6층 (포켓몬 센터 & 점프샵 함께 구경) 🎮🌱", link:"https://www.google.com/maps/search/?api=1&query=Nintendo+TOKYO+Shibuya+PARCO" },
+      { id:3007, time:"16:00", name:"미야시타 파크 & 스크램블 교차로", lat:35.6595, lng:139.7018, memo:"미야시타 파크(Miyashita Park) 루프탑 공원 산책 & 하치코 동상 타임랩스 촬영 🎬", link:"https://www.google.com/maps/search/?api=1&query=Miyashita+Park+Shibuya+Tokyo" },
+      { id:3008, time:"18:00", name:"MO-MO-PARADISE 시부야 공원도리점", lat:35.6618, lng:139.6998, memo:"파르코 맞은편 · 입에서 살살 녹는 정통 소고기 스키야키 & 신선한 날달걀 듬뿍 디너 만찬 🥩🍲", link:"https://www.google.com/maps/search/?api=1&query=Mo-Mo-Paradise+Shibuya+Koen-dori+Tokyo" },
+      { id:3009, time:"21:00", name:"키테 가든 (KITTE 6F 도쿄역 야경)", lat:35.6798, lng:139.7648, memo:"조명이 켜진 유럽풍 붉은 벽돌 도쿄역 무료 루프탑 야경 감상 & 츠케멘 야식 🏛️✨", link:"https://www.google.com/maps/search/?api=1&query=KITTE+Garden+Tokyo+Station" }
     ],
     4: [
       { id:4001, time:"09:30", name:"쓰키지 장외시장 아침 먹방", lat:35.6655, lng:139.7708, memo:"호텔 도보 7분 · 갓 구운 100엔 계란말이, 신선한 참치 카이센동, 딸기 찹쌀떡 🍓🍣", link:"https://www.google.com/maps/search/?api=1&query=Tsukiji+Outer+Market+Tokyo" },
@@ -366,9 +384,13 @@ function ensureDefaultReservations(data) {
   if (!Array.isArray(data.checklistGroups) || data.checklistGroups.length === 0) {
     data.checklistGroups = JSON.parse(JSON.stringify(defaultChecklistGroups));
   }
-  if (!data.days || Object.keys(data.days).length === 0 || !data.days[1]?.some(item => item.name?.includes("우시고로")) || !data.days[3]?.some(item => item.name?.includes("모토무라"))) {
-    // 최신 확정 1~4일차 풀 일정으로 자동 업그레이드
+  if (!data.days || Object.keys(data.days).length === 0) {
     data.days = JSON.parse(JSON.stringify(defaultTokyoData.days));
+  } else {
+    // 1일차 1번 항목에 상세 공항 이동 가이드 복원
+    if (data.days[1] && data.days[1][0] && (!data.days[1][0].memo || !data.days[1][0].memo.includes("T3 탈출"))) {
+      data.days[1][0].memo = defaultTokyoData.days[1][0].memo;
+    }
   }
 }
 
